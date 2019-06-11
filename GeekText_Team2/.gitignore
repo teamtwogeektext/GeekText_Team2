@@ -1,8 +1,0 @@
-/bin/
-/include/
-/lib/
-*.Python
-*.sqlite
-/.vscode/
-/__pycache__/
-*.json
