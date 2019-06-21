@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, session
-from wtforms import Form, BooleanField, StringField, validators
+from wtforms import Form, BooleanField, StringField, PasswordField, validators
 from flask_sqlalchemy import SQLAlchemy
 
 ## Saves the file as the name of the main file ##
@@ -55,7 +55,7 @@ class Publisher(db.Model):
         self.address = address
 
 class Author(db.Model):
-    
+
     author_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     books = db.relationship('Book', backref='author', lazy=True)
@@ -71,4 +71,3 @@ def homepage():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
