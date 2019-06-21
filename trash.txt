@@ -1,0 +1,18 @@
+#NOTE!!!!!
+!!!THIS FILE IS TO PASTE CODE THAT MAY BE USEFUL LATER!!!
+!!!SOME COMMENTED CODE SECTIONS DO COMMENT OUT PROPERLY!!
+!!!SO I PASTE THEM HERE IN CASE I NEED TO RE-COPY/PASTE!!
+
+<!-- {% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">Welcome To Geek Text</h1>
+  <p class="lead">The website for rad geeks and book freaks</p>
+  <hr class="my-4">
+  <p>Search for any book you'd like to read or look for people to talk to about it.</p>
+  <div class="">
+    <a class="btn btn-primary btn-lg" href="signup" role="button">Sign Up</a>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Login</a>
+  </div>
+</div>
+{% endblock %} -->
