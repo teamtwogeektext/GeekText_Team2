@@ -1,4 +1,3 @@
-
 # from geek_text import db, User, Book, Publisher, Author
 #
 # db.create_all()
@@ -56,4 +55,3 @@
 #         </div>
 #       </div>
 #     </main>
-=======
