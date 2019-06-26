@@ -12,7 +12,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="{{url_for('core.home')}}">
     <img src="C:\Users\guill\Documents\GeekText\images\logo.png" class="img-responsive" width="30" height="30" alt="">
     Geek Text
   </a>
@@ -23,7 +23,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ url_for('core.home') }}">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link active" href="#">About</a>
@@ -31,6 +31,7 @@
       <li class="nav-item">
         <a class="nav-link active" href="#" tabindex="-1" aria-disabled="false">Popular</a>
       </li>
+      {% if current_user.is_authenticated %}
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Account
@@ -39,9 +40,18 @@
           <a class="dropdown-item" href="#">Wishlist</a>
           <a class="dropdown-item" href="#">Shopping Cart</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Settings</a>
+          <a class="dropdown-item" href="{{url_for('users.account')}}">Settings</a>
+          <a class="dropdown-item" href="{{url_for('users.logout')}}">Logout</a>
         </div>
       </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link active" href="{{url_for('users.login')}}" tabindex="-1" aria-disabled="false">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{{url_for('users.register')}}" tabindex="-1" aria-disabled="false">Register</a>
+      </li>
+      {% endif %}
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -53,6 +63,7 @@
 
 <!-- CLASS EXTENDERS CODE GOES HERE -->
 {% block content %}
+
 {% endblock %}
 
 

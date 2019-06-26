@@ -1,6 +1,7 @@
 # models.py under GeekText_Team2 folder
 # IMPORT THE DATABASE
 from GeekText_Team2 import db, login_manager
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
@@ -17,6 +18,7 @@ class User(db.Model, UserMixin):
 
     __tablename__ = 'users' #override tablename
     id = db.Column(db.Integer, primary_key=True)
+    profile_image = db.Column(db.String(25), nullable=False,default='default_profile.png')
     name = db.Column(db.Text)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
