@@ -23,8 +23,6 @@ login_manager.login_view = "login"
 
 from GeekText_Team2 import models
 
-# Tell users what view to go to when they need to login.
-
 
 
 ###########################
@@ -35,6 +33,7 @@ from GeekText_Team2 import models
 # We've imported them here for easy reference
 from GeekText_Team2.core.views import core
 from GeekText_Team2.users.views import users
+from GeekText_Team2.books.views import books_blueprint
 #from GeekText_Team2.blog_posts.views import blog_posts
 #from GeekText_Team2.error_pages.handlers import error_pages
 
@@ -43,6 +42,8 @@ app.register_blueprint(users)
 #app.register_blueprint(blog_posts)
 app.register_blueprint(core)
 #app.register_blueprint(error_pages)
+
+app.register_blueprint(books_blueprint)
 
 
 # from myproject.puppies.views import puppies_blueprint

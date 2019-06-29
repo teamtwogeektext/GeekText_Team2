@@ -1,7 +1,12 @@
-# from geek_text import db, User, Book, Publisher, Author
-#
+# from GeekText_Team2 import db, models
 # db.create_all()
-#
+
+# foundation = Book(ISBN='9780553293357', title='Foundation', genre='Sci-Fi', pubYear='1952', price=7.59, stock=64)
+# animal_farm = Book(ISBN='9780679420392', title='Animal Farm', genre='Satire', pubYear='1945', price=18.00, stock=24)
+# learning_python = Book(ISBN='1449355730', title='Learning Python', genre='Educational', pubYear='2013', price=44.58, stock=36)
+
+# db.session.add_all(foundation, animal_farm, learning_python)
+
 # ######## DUMMY USERS #########
 #
 # test_user1 = User('Lui', 'lui@woof.com', 'treat123')
@@ -30,6 +35,8 @@
 #      pub_id=1, auth_id=1)
 # db.session.add(book1)
 # db.session.add(book2)
+
+
 #
 # db.session.commit()
 
