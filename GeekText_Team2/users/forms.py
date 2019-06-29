@@ -34,17 +34,17 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Sorry, that username is taken!')
 
 class UpdateUserForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(),Email()])
-    username = StringField('Username', validators=[DataRequired()])
-    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
-    submit = SubmitField('Update')
 
-    def validate_email(self, field):
-        # Check if not None for that user email!
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('UserName', validators=[DataRequired()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg','png'])])
+    submit = SubmitField("Update")
+
+### CHECK TO SEE IF USERNAME AND EMAIL ARE ALREADY TAKEN ###
+    def check_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Your email has been registered already!')
 
-    def validate_username(self, field):
-        # Check if not None for that username!
-        if User.query.filter_by(username=field.data).first():
-            raise ValidationError('Sorry, that username is taken!')
+    def check_username(self, field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('Your username has been registered already!')
