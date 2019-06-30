@@ -173,11 +173,14 @@
     <div class="login">
       <form method="POST" action="/login">
         {{ form.hidden_tag() }}
-        {{ form.email() }}
+        {{ form.email(placeholder="Email", type="text", required="Required") }}
         <br />
-        {{ form.password() }}
+        {{ form.password(placeholder="password", type="password", required="Required") }}
         <br />
-        {{form.submit()}}
+        <div class="py-2">
+          {{form.submit(class='btn btn-success')}}
+        </div>
+
     </input>
       </form>
     </div>
