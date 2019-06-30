@@ -14,10 +14,14 @@
     <link rel="stylesheet" href="static/css/style.css" />
     <title>GeekText</title>
   </head>
+
   <body>
     <!-- START HERE -->
 
-    <nav class="navbar navbar-expand-md nav-light bg-dark fixed-top py-4">
+    <nav
+      class="navbar navbar-expand-md nav-light bg-dark fixed-top py-4"
+      id="main-nav"
+    >
       <div class="container">
         <a href="{{ url_for('core.home') }}" class="navbar-brand">
           <img src="static/images/logo.png" width="50" height="50" alt="" />
@@ -109,6 +113,25 @@
     <script>
       // Get the current year for the copyright
       $("#year").text(new Date().getFullYear());
+
+      $("body").scrollspy({ target: "#main-nav" });
+
+      $("#main-nav a").on("click", function(event) {
+        if (this.hash !== "") {
+          event.preventDefault();
+          const hash = this.hash;
+
+          $("html, body").animate(
+            {
+              scrollTop: $(hash).offset().top
+            },
+            800,
+            function() {
+              window.location.hash = hash;
+            }
+          );
+        }
+      });
     </script>
   </body>
 </html>
