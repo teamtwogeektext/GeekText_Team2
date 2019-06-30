@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Browse Books</h1>
+  {% for book in books  %}
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-1">
+        <a href="#">
+          <img  src="{{book.image_url}}" class="card-img-overlay" width=auto height=auto alt="...">
+        </a>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <a style="font-size:32px" href="#">{{book.title}}</a>
+          <p style="font-size:14px">by {{book.author}}</p>
+          <p class="text-left">{{ book.description }}</p>
+          <p class="card-text"><small class="text-muted">Published in {{ book.publication_year }}</small></p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

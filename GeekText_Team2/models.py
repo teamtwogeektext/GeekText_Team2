@@ -57,17 +57,29 @@ class User(db.Model, UserMixin):
 class Book(db.Model):
 
     __tablename__ = 'books'
+<<<<<<< HEAD
     ISBN = db.Column(db.String(13), primary_key=True,
                      unique=True, nullable=True)
+=======
+    ISBN = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
+>>>>>>> origin/elias
     title = db.Column(db.Text, nullable=False)
     author = db.Column(db.Text)
     genre = db.Column(db.Text)
     publication_year = db.Column(db.String(4))
+<<<<<<< HEAD
     price = db.Column(db.Numeric(10, 2))
     stock = db.Column(db.Integer)
     description = db.Column(db.String(500))
     average_rating = db.Column(db.Float, nullable=False)
     ratings_count = db.Column(db.Integer, nullable=False)
+=======
+    price = db.Column(db.Numeric(10,2))
+    stock = db.Column(db.Integer)
+    description = db.Column(db.Text)
+    average_rating = db.Column(db.Numeric(5,2))
+    ratings_count = db.Column(db.Integer)
+>>>>>>> origin/elias
     ratings_1 = db.Column(db.Integer)
     ratings_2 = db.Column(db.Integer)
     ratings_3 = db.Column(db.Integer)
@@ -75,8 +87,18 @@ class Book(db.Model):
     ratings_5 = db.Column(db.Integer)
     image_url = db.Column(db.Text)
     small_image_url = db.Column(db.Text)
+<<<<<<< HEAD
 
     def __init__(self, title, author, genre, publication_year, price, stock, description, average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
+=======
+    # publisher_id = db.Column(db.Integer, db.ForeignKey('publisher.publisher_id'))
+    # # author_id = db.relationship(db.Integer,'Author', backref='Book', lazy=True)
+    # author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'))
+
+    def __init__(self,ISBN,title,author,genre,publication_year,price,stock,description,
+                average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
+        self.ISBN = ISBN
+>>>>>>> origin/elias
         self.title = title
         self.author = author
         self.genre = genre
@@ -93,18 +115,22 @@ class Book(db.Model):
         self.ratings_5 = ratings_5
         self.image_url = image_url
         self.small_image_url = small_image_url
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/elias
 
 
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):
-#
+
 #     __tablename__ = 'publisher'
-#
+
 #     publisher_id = db.Column(db.Integer, primary_key=True)
 #     name = db.Column(db.Text, nullable=False)
 #     address = db.Column(db.Text)
 #     books = db.relationship('Book', backref='publisher', lazy=True)
-#
+
 #     def __init__(self, name, address):
 #         self.name = name
 #         self.address = address
@@ -115,6 +141,7 @@ class Book(db.Model):
 ############### AUTHOR MODEL #############################
 # class Author(db.Model):
 
+<<<<<<< HEAD
  #   __tablename__ = 'author'
 
   #  author_id = db.Column(db.Integer, primary_key=True)
@@ -123,4 +150,14 @@ class Book(db.Model):
 
     # def __init__(self, name):
      #   self.name = name
+=======
+#     __tablename__ = 'author'
+
+#     author_id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.Text, nullable=False)
+#     books = db.relationship('Book', backref='author', lazy=True)
+
+#     def __init__(self, name):
+#         self.name = name
+>>>>>>> origin/elias
 ############################################################
