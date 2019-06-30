@@ -1,12 +1,15 @@
 from flask import render_template,request,Blueprint
 from flask_login import login_required
+from GeekText_Team2.models import Book
+from sqlalchemy import func
 
 
 core = Blueprint('core',__name__)
 
 @core.route('/')
 def home():
-    return render_template('home.html')
+    bestsellers =  Book.query.filter(Book.average_rating >= 4.7).limit(3).all() #User.query.filter_by(email=form.email.data).first()
+    return render_template('home.html', bestsellers=bestsellers)
 
 @core.route('/welcome')
 @login_required
