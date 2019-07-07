@@ -95,6 +95,32 @@ class Book(db.Model):
         self.small_image_url = small_image_url
 
 
+
+class BlogPost(db.Model):
+    # Setup the relationship to the User table
+    users = db.relationship(User)                   # Notice the same .relationship was used in the users table.
+
+###################################################################
+# [DATABASE(index), user_id(shared with user), date, title, text]
+##################################################################
+    # Model for the Blog Posts on Website
+    id = db.Column(db.Integer, primary_key=True)            # Individual ID for each post
+    # Notice how we connect the BlogPost to a particular author
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)      # ID of the user'users.id'
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)          # Date of the post, uses Date API
+    title = db.Column(db.String(140), nullable=False)                           # Title of the post
+    text = db.Column(db.Text, nullable=False)                                   # Text of the post
+    rating = db.Column(db.String(140), nullable=False)
+# Creating an instance of a blog post
+    def __init__(self, title, text, user_id, rating):
+        self.title = title                          # Always done in python
+        self.text = text
+        self.user_id =user_id
+        self.rating = rating
+
+    def __repr__(self):                             # representation of each blog post
+        return f"Post Id: {self.id} --- Date: {self.date} --- Title: {self.title} --- Rating: {self.rating}"
+
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):
 #

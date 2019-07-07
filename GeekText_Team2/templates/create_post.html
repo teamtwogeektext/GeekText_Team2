@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}           <!-- .html page used for creating a blog post -->
+<div class="container">
+  <form class="form-group" method="POST">
+     {{ form.hidden_tag() }}
+
+     <div class="form-group">
+     {{ form.title.label(class="form-control-label") }}
+     {{ form.title(class="form-control form-control-lg ") }}
+     </div>
+     <div class="form-group">
+     {{ form.text.label(class="form-control-label") }}
+     {{ form.text(class="form-control form-control-lg") }}
+     </div>
+     <div class="form-group">
+
+       <select class="custom-select" name ="rating">
+         <option selected>How would you rate this book</option>
+         <option value="1">One</option>
+         <option value="2">Two</option>
+         <option value="3">Three</option>
+         <option value="4">Four</option>
+         <option value="5">Five</option>
+       </select>
+     </div>
+
+     <div class="form-group">
+         {{ form.submit(class="btn btn-outline-info") }}
+     </div>
+  </form>
+
+</div>
+
+<p>When you select a new car, a function is triggered which outputs the value of the selected car.</p>
+<div id="result">
+  {% if rating is defined %}
+      You have selected: {{ rating }}
+  {% endif %}
+</div>
+
+
+{% endblock content %}
