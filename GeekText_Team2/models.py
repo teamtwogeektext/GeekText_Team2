@@ -54,8 +54,10 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f"This is {self.name} with email -> {self.email}"
+        return f'{self.username}'
 
+
+# Eliminated from here return f"This is {self.name} with email -> {self.email}"
 ########################################################
 
 ############### BOOK MODEL #############################

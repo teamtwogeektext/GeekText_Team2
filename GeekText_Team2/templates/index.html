@@ -10,20 +10,24 @@
     {# Go through each blog post #}
     {% for post in blog_posts.items %}
 
-    <div class="card" >
-
-      <div class="card-body">
-
-
-        <h2><a class="card-title" href="  {{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></h2>
-        <a href="{{ url_for('users.user_posts', username=post.author.username) }}">Written By: {{ post.author.username }}</a>
-        <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
-        <p class="card-text">{{ post.text[:100] }}...</p>
-        <p class="card-text">{{ post.rating }}...</p>
-        <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read Blog Post</a>
-      </div>
-    </div>
-
+         {% if post.author.username == current_user.username  %} <!--This conditional allows the index to populate if the current_user is the same as the post's author'username -->
+            <div class="card" >
+            <div class="card-body">
+            <!-- <h1> inside testing conditional</h1>
+            <p class="card-text">{{ blog_posts.user_id }} trying to find another username</p>
+            <p class="card-text">{{ post.author.username }} Using post.author.username ...</p>
+            <p class="card-text">{{ current_user }} is the current_user</p>
+            <p class="card-text">{{ current_user.id }} is the current_user using .id</p>
+            <p class="card-text">{{ current_user.username }} is the current_user using .username</p> -->
+            <h2><a class="card-title" href="  {{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></h2>
+            <a href="{{ url_for('users.user_posts', username=post.author.username) }}">Written By: {{ post.author.username }}</a>
+            <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
+            <p class="card-text">{{ post.text[:100] }}...</p>
+            <p class="card-text">{{ post.rating }}...</p>
+            <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
+            </div>
+            </div>
+        {% endif %}
    {% endfor %}
 
    <nav aria-label="Page navigation example">

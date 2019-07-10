@@ -3,6 +3,9 @@ from flask_login import login_required
 from GeekText_Team2.models import Book
 from sqlalchemy import func
 from GeekText_Team2.models import BlogPost
+from GeekText_Team2.blog_posts.forms import BlogPostForm
+from GeekText_Team2 import db
+from GeekText_Team2.models import User
 
 core = Blueprint('core', __name__)
 
