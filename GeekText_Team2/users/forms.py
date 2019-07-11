@@ -29,6 +29,8 @@ class RegistrationForm(FlaskForm):
         'pass_confirm', message='Passwords Must Match!')])
     pass_confirm = PasswordField(
         'Confirm password', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    #city =
     submit = SubmitField('Register!')
 
     def check_email(self, field):

@@ -6,7 +6,7 @@ from GeekText_Team2.models import User
 from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm
 from GeekText_Team2.users.picture_handler import add_profile_pic
 
-users = Blueprint('users', __name__)
+users = Blueprint('users', __name__, template_folder='templates/')
 
 @users.route('/logout')
 @login_required
