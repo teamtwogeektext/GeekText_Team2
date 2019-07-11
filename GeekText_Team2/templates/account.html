@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html" %}					<!-- This is accesed by click account then click on the name  -->
 {% block content %}
 
 <div class="container py-5">
@@ -10,7 +10,7 @@
               <a href="#" class="list-group-item list-group-item-action">Shopping Cart</a>
               <a href="#" class="list-group-item list-group-item-action">Settings</a>
               <a href="#" class="list-group-item list-group-item-action">Appearance</a>
-              <a href="#" class="list-group-item list-group-item-action">Book Review</a>
+              <a href="{{ url_for('core.index') }}"" class="list-group-item list-group-item-action">Book Review</a>	<
               <a href="#" class="list-group-item list-group-item-action">Settings</a>
 
 
