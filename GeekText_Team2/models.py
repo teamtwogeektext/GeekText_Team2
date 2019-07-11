@@ -8,10 +8,10 @@ from flask_login import UserMixin
 from numpy import genfromtxt
 from time import time
 from datetime import datetime
-from sqlalchemy import Column, Integer, Float, Date
+from sqlalchemy import Column, Integer, Float, Date, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 #############################################
 ############ DATABASE MODELS ################
@@ -32,13 +32,16 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     profile_image = db.Column(
         db.String(25), nullable=False, default='level_one_geeker.png')
-    name = db.Column(db.Text)
+    first_name = db.Column(db.Text)
+    last_name = db.Column(db.Text)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    addresses = db.relationship('Address', uselist=True)
 
-    def __init__(self, name, email, username, password):
-        self.name = name
+    def __init__(self, first_name,last_name, email, username, password):
+        self.first_name = first_name
+        self.last_name = last_name
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
@@ -47,9 +50,20 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f"This is {self.name} with email -> {self.email}"
+        return f"This is {self.first_name} {self.lastname} with email -> {self.email}"
 
 ########################################################
+
+############### ADDRESS MODEL #############################
+class Address(db.Model):
+    __tablename__ = 'address'
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'))
+    address = db.Column(db.Text)
+    city = db.Column(db.String(2))
+    state = db.Column(db.String(2))
+    postal_code = db.Column(db.Integer)
+    phone_num = db.Column(db.Integer)
 
 ############### BOOK MODEL #############################
 
