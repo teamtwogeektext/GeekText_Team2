@@ -34,7 +34,15 @@
   color: #1cb9a4 !important;
 }
 
-.h1 {
+.h1 span {
+  color: #1cb9a4 !important;
+}
+
+.span{
+  color: #1cb9a4 !important;
+}
+
+.div .col-md-4{
   color: #1cb9a4 !important;
 }
 

@@ -1,3 +1,4 @@
+from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
@@ -20,7 +21,8 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo(
@@ -38,11 +40,15 @@ class RegistrationForm(FlaskForm):
         # Check if not None for that username!
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Sorry, that username is taken!')
+            return False
+        return True
 
 
 class UpdateUserForm(FlaskForm):
 
     email = StringField('Email', validators=[DataRequired(), Email()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('First Name', validators=[DataRequired()])
     username = StringField('UserName', validators=[DataRequired()])
     picture = FileField('Update Profile Picture', validators=[
                         FileAllowed(['jpg', 'png'])])
@@ -50,9 +56,9 @@ class UpdateUserForm(FlaskForm):
 
 ### CHECK TO SEE IF USERNAME AND EMAIL ARE ALREADY TAKEN ###
     def check_email(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your email has been registered already!')
 
     def check_username(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
