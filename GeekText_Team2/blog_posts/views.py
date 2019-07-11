@@ -13,14 +13,32 @@ def create_post():
 
     if form.validate_on_submit():
         rating = request.form.get("rating", None)
+        true_private = request.form.get('true_private')
         blog_post = BlogPost(title=form.title.data,# must add here
                              text=form.text.data,
                              user_id=current_user.id,        # Must use the ID of the currently logged in user
-                             rating = form.rating.data
+                             rating = form.rating.data,
+                             true_private = form.true_private.data
                              )
         db.session.add(blog_post)                           # Add changes to the database by creating a blog post
         db.session.commit()                                 # Confirming these changes
         flash("Blog Post Created")
+
+        if true_private == 'true_private':
+            blog_post = BlogPost(title=form.title.data,# must add here
+                                 text=form.text.data,
+                                 user_id= 'annonymous',        # Must use the ID of the currently logged in user
+                                 rating = form.rating.data,
+                                 true_private = form.true_private.data
+                                 )
+        db.session.add(blog_post)                           # Add changes to the database by creating a blog post
+        db.session.commit()
+
+
+        #db.session.add(blog_post)                           # Add changes to the database by creating a blog post
+        #db.session.commit()
+
+
         return redirect(url_for('core.index'))
 
     return render_template('create_post.html',form=form)

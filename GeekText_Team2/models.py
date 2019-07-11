@@ -120,12 +120,14 @@ class BlogPost(db.Model):
     title = db.Column(db.String(140), nullable=False)                           # Title of the post
     text = db.Column(db.Text, nullable=False)                                   # Text of the post
     rating = db.Column(db.String(140))
+    true_private =db.Column(db.String(140))
 # Creating an instance of a blog post
-    def __init__(self, title, text, user_id, rating):
+    def __init__(self, title, text, user_id, rating, true_private):
         self.title = title                          # Always done in python
         self.text = text
         self.user_id =user_id
         self.rating = rating
+        self.true_private = true_private
 
     def __repr__(self):                             # representation of each blog post
         return f"Post Id: {self.id} --- Date: {self.date} --- Title: {self.title} --- Rating: {self.rating}"

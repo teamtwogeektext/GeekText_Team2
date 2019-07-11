@@ -9,4 +9,5 @@ class BlogPostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])                   # Title of post
     text = TextAreaField('Text', validators=[DataRequired()])                   # Tesxt of post
     rating = StringField('rating', validators=[DataRequired()])
-    submit = SubmitField('BlogPost')                                            # Button to submit
+    true_private = StringField('true_private')
+    submit = SubmitField('Submit')                                            # Button to submit
