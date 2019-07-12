@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from GeekText_Team2 import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from GeekText_Team2.models import User
+from GeekText_Team2.models import User, Address
 from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm
 from GeekText_Team2.users.picture_handler import add_profile_pic
 
@@ -44,20 +44,28 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
+
         user = User(first_name=form.first_name.data,
                     last_name=form.last_name.data,
                     email=form.email.data,
                     username=form.username.data,
                     password=form.password.data)
 
-        exis_email = User.query.filter_by(email=form.email.data).first()
-        exis_usern = User.query.filter_by(username = form.username.data).first()
-
-        if User is not None and exis_email and exis_usern:
-
-            return redirect('register')
-
         db.session.add(user)
+        db.session.commit()
+
+        u_address = Address(user_id=user.id,
+                          address=form.address.data,
+                          city=form.city.data,
+                          state=form.state.data,
+                          postal_code=form.zip_code.data,
+                          phone_num=form.phone_num.data)
+
+
+        print(u_address)
+        print(user)
+
+        db.session.add(u_address)
         db.session.commit()
         flash('Thanks for registering! Now you can login!')
         return redirect(url_for('users.login'))

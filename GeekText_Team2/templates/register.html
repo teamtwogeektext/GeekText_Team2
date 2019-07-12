@@ -10,6 +10,13 @@
     --input-padding-y: .75rem;
   }
 
+	@media (min-width: 768px) {
+    #card-container{
+        width:600px;
+    }
+}
+
+
   #reg-nav {
     margin: 0;
     padding: 0;
@@ -18,7 +25,7 @@
     color: #fff;
     font-family: Arial;
     font-size: 12px;
-    background-image: url(static/images/hd_library_login_background.jpg);
+    background-image: url('static/images/hd_library_login_background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
   }
@@ -73,8 +80,8 @@
     margin-bottom: 1rem;
   }
 
-  .form-label-group input {
-    height: auto;
+  .form-label input {
+    height: 40px;
     border-radius: 2rem;
   }
 
@@ -130,16 +137,20 @@
     color: #777;
   }
 
+	#reg-btn{
+		background-color: #1cb9a4;
+	}
+
   .btn-google {
     color: white;
-    background-color: #ea4335;
+    background-color: #1cb9a4;
   }
 
 
 </style>
 
 <body id="reg-nav">
-<div class="container">
+<div id="card-container" class="container-fluid">
   <div id='card_row' class="row">
     <div class="col-lg-10 col-xl-9 mx-auto">
       <div class="card card-signin flex-row my-5">
@@ -148,107 +159,96 @@
         </div>
         <div class="card-body">
           <h5 class="card-title text-center text-dark">Register</h5>
-          <form class="form-signin">
+          <form class="form-signin" method="POST">
             {{ form.hidden_tag() }}
-            <div class="row justify-content-md-center"">
+            <div class="row justify-content-md-center">
               <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  {{form.first_name(type="text", id="inputUserame", class="form-control", placeholder="First Name")}}
-                  <label for="inputUserame">First Name</label>
+                <div class="form-label">
+                  {{form.first_name( id="inputUserame", class="form-control", placeholder="First Name")}}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  {{form.last_name(type="text", id="inputUserame", class="form-control", placeholder="Last Name")}}
-                  <label for="inputUserame">Last Name</label>
-                </div>
-              </div>
-            </div>
-
-            <hr>
-
-            <div class="row justify-content-md-center"">
-              <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  {{form.username(type="text", id="inputUserame", class="form-control", placeholder="Username")}}
-                  <label for="inputUserame">Uername</label>
-                </div>
-              </div>
-
-              <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  {{form.email(type="text", id="inputUserame", class="form-control", placeholder="Email")}}
-                  <label for="inputUserame">Email</label>
+                <div class="form-label">
+                  {{form.last_name( id="inputUserame", class="form-control", placeholder="Last Name")}}
                 </div>
               </div>
             </div>
 
             <hr>
 
-            <div class="row justify-content-md-center"">
+            <div class="row justify-content-md-center">
               <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  {{form.password(type="text", id="inputUserame", class="form-control", placeholder="password")}}
-                  <label for="inputUserame">Password</label>
+                <div class="form-label">
+                  {{form.username( id="inputUserame", class="form-control", placeholder="Username")}}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  {{form.pass_confirm(type="text", id="inputUserame", class="form-control", placeholder="confirm password")}}
-                  <label for="inputUserame">Confirm Password</label>
+                <div class="form-label">
+                  {{form.email( id="inputUserame", class="form-control", placeholder="Email")}}
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row justify-content-md-center">
+              <div class="col-md-5 form-group">
+                <div class="form-label">
+                  {{form.password( id="inputUserame", class="form-control", placeholder="password")}}
+                </div>
+              </div>
+
+              <div class="col-md-5 form-group">
+                <div class="form-label">
+                  {{form.pass_confirm( id="inputUserame", class="form-control", placeholder="confirm password")}}
                 </div>
               </div>
             </div>
             <h5 class="card-title text-center text-dark">Address</h5>
-            <div class="row justify-content-md-center"">
+            <div class="row justify-content-md-center">
               <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  {{form.last_name(type="text", id="inputUserame", class="form-control", placeholder="address")}}
-                  <label for="inputUserame">Address</label>
+                <div class="form-label">
+                  {{form.address( id="inputUserame", class="form-control", placeholder="address")}}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  <input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
-                  <label for="inputUserame">City</label>
-                </div>
-              </div>
-            </div>
-
-            <hr>
-
-            <div class="row justify-content-md-center"">
-              <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  <input type="text" id="inputUserame" class="form-control" placeholder="City" required autofocus>
-                  <label for="inputUserame">State</label>
-                </div>
-              </div>
-
-              <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  <input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
-                  <label for="inputUserame">ZIP</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="row justify-content-md-center"">
-              <div class="col-md-5 form-group">
-                <div class="form-label-group">
-                  <input type="text" id="inputUserame" class="form-control" placeholder="City" required autofocus>
-                  <label for="inputUserame">Phone</label>
+                <div class="form-label">
+                  {{form.city( id="inputUserame", class="form-control", placeholder="City")}}
                 </div>
               </div>
             </div>
 
             <hr>
 
-            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
-            <a class="d-block text-center mt-2 medium" href="#">Sign In</a>
+            <div class="row justify-content-md-center">
+              <div class="col-md-5 form-group">
+                <div class="form-label">
+                  {{form.state( id="inputUserame", class="form-control", placeholder="State")}}
+                </div>
+              </div>
+
+              <div class="col-md-5 form-group">
+                <div class="form-label">
+                  {{form.zip_code( id="inputUserame", class="form-control", placeholder="ZIP")}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row justify-content-md-center">
+              <div class="col-md-6 form-group">
+                <div class="form-label">
+                  {{form.phone_num( id="inputUserame", class="form-control", placeholder="Phone")}}
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+						{{form.submit( class="btn btn-lg btn-secondary bg-dark btn-block text-uppercase")}}
+            <a class="d-block text-center mt-2 medium" href="{{url_for("users.login")}}">Sign In</a>
             <hr class="my-4">
             <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign up with Google</button>
           </form>

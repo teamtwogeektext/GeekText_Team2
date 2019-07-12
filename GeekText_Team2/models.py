@@ -8,7 +8,7 @@ from flask_login import UserMixin
 from numpy import genfromtxt
 from time import time
 from datetime import datetime
-from sqlalchemy import Column, Integer, Float, Date, ForeignKey
+from sqlalchemy import Column, Integer, Float, Date, ForeignKey, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
@@ -29,15 +29,15 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
 
     __tablename__ = 'users'  # override tablename
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     profile_image = db.Column(
         db.String(25), nullable=False, default='level_one_geeker.png')
     first_name = db.Column(db.Text)
     last_name = db.Column(db.Text)
-    email = db.Column(db.String(64), unique=True, index=True)
+    email = db.Column(db.String(64), unique=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
-    addresses = db.relationship('Address', uselist=True)
+    address = db.relationship('Address', backref='user')
 
     def __init__(self, first_name,last_name, email, username, password):
         self.first_name = first_name
@@ -50,7 +50,12 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f"This is {self.first_name} {self.lastname} with email -> {self.email}"
+        return f"This is {self.first_name} {self.last_name} with email -> {self.email}"
+
+    def report_address(self):
+        print("Addresses for user:")
+        for a in self.addresses:
+            print(a.address)
 
 ########################################################
 
@@ -60,10 +65,18 @@ class Address(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True)
     user_id = db.Column(db.Integer, ForeignKey('users.id'))
     address = db.Column(db.Text)
-    city = db.Column(db.String(2))
+    city = db.Column(db.String(30))
     state = db.Column(db.String(2))
     postal_code = db.Column(db.Integer)
-    phone_num = db.Column(db.Integer)
+    phone_num = db.Column(db.Text)
+
+    def __init__(self, user_id, address, city, state, postal_code, phone_num):
+        self.user_id = user_id
+        self.address = address
+        self.city = city
+        self.state = state
+        self.postal_code = postal_code
+        self.phone_num = phone_num
 
 ############### BOOK MODEL #############################
 
@@ -80,8 +93,8 @@ class Book(db.Model):
     price = db.Column(db.Numeric(10, 2))
     stock = db.Column(db.Integer)
     description = db.Column(db.String(500))
-    average_rating = db.Column(db.Float, nullable=False)
-    ratings_count = db.Column(db.Integer, nullable=False)
+    average_rating = db.Column(db.Numeric(5,2))
+    ratings_count = db.Column(db.Integer)
     ratings_1 = db.Column(db.Integer)
     ratings_2 = db.Column(db.Integer)
     ratings_3 = db.Column(db.Integer)

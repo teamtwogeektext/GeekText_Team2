@@ -1,6 +1,6 @@
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from wtforms import ValidationError
 # FOR IMAGE VALIDATION
@@ -17,7 +17,7 @@ class LoginForm(FlaskForm):
                         DataRequired(), Email(message="Must input a valid email")])
     password = PasswordField('Password', validators=[
                              DataRequired(), Length(min=6, max=15)])
-    submit = SubmitField('Log In')
+    submit = SubmitField('LogIn')
 
 
 class RegistrationForm(FlaskForm):
@@ -29,6 +29,11 @@ class RegistrationForm(FlaskForm):
         'pass_confirm', message='Passwords Must Match!')])
     pass_confirm = PasswordField(
         'Confirm password', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = IntegerField('ZIP', validators=[DataRequired()])
+    phone_num = IntegerField('Phone', validators=[DataRequired()])
     submit = SubmitField('Register!')
 
     def check_email(self, field):
@@ -62,5 +67,3 @@ class UpdateUserForm(FlaskForm):
     def check_username(self, field):
         if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
-
-class UpdateShippmentForm(FlaskForm):

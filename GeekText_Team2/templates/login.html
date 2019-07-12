@@ -73,7 +73,7 @@
       margin-bottom: 1rem;
     }
 
-    .form-label-group input {
+    .form-label input {
       height: auto;
       border-radius: 2rem;
     }
@@ -152,33 +152,20 @@
           </div>
           <div class="card-body">
             <h5 class="card-title text-center text-dark">Login</h5>
-            <form class="form-signin">
-              <div class="form-label-group">
-                <input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
-                <label for="inputUserame">First Name</label>
+            <form class="form-signin" method="POST">
+              {{ form.hidden_tag()}}
+              <div class="form-label">
+                {{form.email( id="inputUserame", class="form-control", placeholder="Email")}}
+                <label for="inputUserame">Email</label>
               </div>
 
-              <div class="form-label-group">
-                <input type="text" id="inputUserame" class="form-control" placeholder="Username" required autofocus>
-                <label for="inputUserame">Last Name</label>
-              </div>
-
-              <hr>
-
-              <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+              <div class="form-label">
+                {{form.password( id="inputUserame", class="form-control", placeholder="Password")}}
                 <label for="inputPassword">Password</label>
               </div>
-
-              <div class="form-label-group">
-                <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required>
-                <label for="inputConfirmPassword">Confirm password</label>
-              </div>
-
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Register</button>
-
               <hr class="my-4">
-              <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Sign up with Google</button>
+              {{form.submit( class="btn btn-lg btn-secondary bg-dark btn-block text-uppercase")}}
+              <a class="d-block text-center mt-2 medium" href="{{url_for("users.register")}}">Register</a>
             </form>
           </div>
         </div>
