@@ -29,8 +29,6 @@ class RegistrationForm(FlaskForm):
         'pass_confirm', message='Passwords Must Match!')])
     pass_confirm = PasswordField(
         'Confirm password', validators=[DataRequired()])
-    address = StringField('Address', validators=[DataRequired()])
-    #city =
     submit = SubmitField('Register!')
 
     def check_email(self, field):
@@ -64,3 +62,5 @@ class UpdateUserForm(FlaskForm):
     def check_username(self, field):
         if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
+
+class UpdateShippmentForm(FlaskForm):
