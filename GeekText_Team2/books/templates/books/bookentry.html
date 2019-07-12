@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<div class="jumbotron">
+  <h1>Browse Books</h1>
+    {% for book in books  %}
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-1">
+        <a data-fancybox="gallery" href="{{book.image_url}}">
+          <img  src="{{book.small_image_url}}" class="card-img-overlay" width=auto height=auto alt="...">
+        </a>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <p style="font-size:32px">{{book.title}}</p>
+          <p style="font-size:32px">{{book.price}}</p>
+          <p style="font-size:14px">{{book.genre}}</p>
+          <a style="font-size:14px" href="/browse/authors/{{book.author}}">by {{book.author}}</a>
+          <p class="text-left">{{ book.description }}</p>
+          <p class="card-text"><small class="text-muted">Published in {{ book.publication_year }}</small></p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

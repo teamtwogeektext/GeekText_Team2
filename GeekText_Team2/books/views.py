@@ -9,3 +9,15 @@ def list():
     #grab list of books from db
     books = Book.query.all()
     return render_template('list.html', books=books)
+
+@books_blueprint.route('/browse/<ISBN>')
+def details(ISBN):
+    #grab book details
+    books = Book.query.filter_by(ISBN=ISBN)
+    return render_template('bookentry.html', ISBN=ISBN, books=books)
+
+@books_blueprint.route('/browse/authors/<author>')
+def author(author):
+    #grab list of books based on author from db
+    books = Book.query.filter_by(author=author)
+    return render_template('list.html', author=author, books=books)
