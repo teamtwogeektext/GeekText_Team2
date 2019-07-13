@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
@@ -68,7 +68,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item text-light" href="#">Wishlist</a>
-                <a class="dropdown-item text-light" href="#">Shopping Cart</a>
+                <a class="dropdown-item" href="{{ url_for('cart.cart') }}">Shopping Cart</a>
                 <div class="dropdown-divider"></div>
                 <a
                   class="dropdown-item"
