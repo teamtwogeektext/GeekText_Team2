@@ -55,6 +55,7 @@ class UpdateUserForm(FlaskForm):
     firstname = StringField('FirstName', validators=[DataRequired()])
     lastname = StringField('FirstName', validators=[DataRequired()])
     username = StringField('UserName', validators=[DataRequired()])
+    #new_password = StringField('NewPassword', validators=[DataRequired()])
     picture = FileField('Update Profile Picture', validators=[
                         FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Update")

@@ -78,7 +78,6 @@ def register():
 def shipping_info():
     form = UpdateShippingForm()
     addresses = current_user.address
-    #print(addresses[0].address)
     if form.validate_on_submit():
         new_address = Address(user_id=current_user.id,
                               address=form.address.data,
@@ -86,12 +85,16 @@ def shipping_info():
                               state=form.state.data,
                               postal_code=form.zip_code.data,
                               phone_num=form.phone_num.data)
-        print(new_address.address)
-        #db.session.add(new_address)
-        #db.session.commit()
-        redirect(url_for('users.shipping_info', form=form))
 
-    return render_template('shipping.html', form=form)
+        user = User.query.filter_by(address=form.email.data).first()
+
+        print(new_address.address)
+        db.session.add(new_address)
+        db.session.commit()
+        addresses = current_user.address
+        redirect(url_for('users.shipping_info', form=form, addresses=addresses))
+
+    return render_template('shipping.html', form=form,addresses=addresses)
 
 @users.route('/account', methods=['GET','POST'])
 @login_required

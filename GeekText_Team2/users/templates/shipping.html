@@ -38,13 +38,16 @@
   .modal-header,
   h4,
   .close {
-    background-color: #5cb85c;
     color: white !important;
     text-align: center;
     font-size: 30px;
   }
   .modal-footer {
     background-color: #f9f9f9;
+  }
+
+  #ad-card{
+    color: #343a40;
   }
 
   /*#ad_card {display:inline-block;}*/
@@ -212,90 +215,34 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="card-columns">
+                    {% for ad in addresses %}
                     <div id="ad_card" class="card" style="max-width: 319px;">
                       <div class="card-body">
-                        <h5 class="card-title">Address</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                          Card subtitle
-                        </h6>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
+                        <a id='ad-card' class="label label-default">
+                          Address
+                          <h5 class="card-title">{{ad.address}}</h5>
+                        </a>
+                        <a id='ad-card' class="label label-default">
+                          City
+                          <h5 class="card-title">{{ad.city}}</h5>
+                        </a>
+                        <a id='ad-card' class="label label-default">
+                          State
+                          <h5 class="card-title">{{ad.state}}</h5>
+                        </a>
+                        <a id='ad-card' class="label label-default">
+                          ZIP
+                          <h5 class="card-title">{{ad.postal_code}}</h5>
+                        </a>
+                        <a id='ad-card' class="label label-default">
+                          Phone
+                          <h5 class="card-title">{{ad.phone_num}}</h5>
+                        </a>
+                        <a href="#" class="card-link">Main Address</a>
+                        <a href="#" class="card-link">Edit</a>
                       </div>
                     </div>
-                    <div id="ad_card" class="card" style="max-width: 319px;">
-                      <div class="card-body">
-                        <h5 class="card-title">Address</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                          Card subtitle
-                        </h6>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                      </div>
-                    </div>
-                    <div id="ad_card" class="card" style="max-width: 319px;">
-                      <div class="card-body">
-                        <h5 class="card-title">Address</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                          Card subtitle
-                        </h6>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                      </div>
-                    </div>
-                    <div id="ad_card" class="card" style="max-width: 319px;">
-                      <div class="card-body">
-                        <h5 class="card-title">Address</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                          Card subtitle
-                        </h6>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                      </div>
-                    </div>
-                    <div id="ad_card" class="card" style="max-width: 319px;">
-                      <div class="card-body">
-                        <h5 class="card-title">Address</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                          Card subtitle
-                        </h6>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                      </div>
-                    </div>
-                    <div id="ad_card" class="card" style="max-width: 319px;">
-                      <div class="card-body">
-                        <h5 class="card-title">Address</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                          Card subtitle
-                        </h6>
-                        <p class="card-text">
-                          Some quick example text to build on the card title and
-                          make up the bulk of the card's content.
-                        </p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                      </div>
-                    </div>
+                    {% endfor %}
                   </div>
                 </div>
               </div>
@@ -315,7 +262,7 @@
             <button type="button" class="close" data-dismiss="modal">
               &times;
             </button>
-            <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+            <h4><span class="glyphicon glyphicon"></span>Add Address</h4>
           </div>
           <div class="modal-body" style="padding:40px 50px;">
             <form role="form" method="POST">
