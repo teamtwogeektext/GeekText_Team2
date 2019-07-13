@@ -23,16 +23,17 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         # Check that the user was supplied and the password is right
         # The verify_password method comes from the User object
-        if user.check_password(form.password.data) and user is not None:
+        if user is not None:
+            if user.check_password(form.password.data) and user is not None:
             # log in the user
-            login_user(user)
+                login_user(user)
             # If a user was trying to visit a page that requires a login
             # flask saves that URL as 'next'.
-            next = request.args.get('next')
+                next = request.args.get('next')
             # if that next exists we go to it, otherwise we'll go to
             # the welcome page.
-            if next == None or not next[0]=='/':
-                next = url_for('books.list')
+                if next == None or not next[0]=='/':
+                    next = url_for('books.list')
 
             return redirect(next)
     return render_template('login.html', form=form)

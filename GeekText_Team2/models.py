@@ -32,12 +32,12 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     profile_image = db.Column(
         db.String(25), nullable=False, default='level_one_geeker.png')
-    first_name = db.Column(db.Text)
-    last_name = db.Column(db.Text)
-    email = db.Column(db.String(64), unique=True)
-    username = db.Column(db.String(64), unique=True, index=True)
-    password_hash = db.Column(db.String(128))
-    address = db.relationship('Address', backref='user')
+    first_name = db.Column(db.String(30), nullable=False)
+    last_name = db.Column(db.String(30), nullable=False)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    username = db.Column(db.String(64), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    address = db.relationship('Address', backref='users')
 
     def __init__(self, first_name,last_name, email, username, password):
         self.first_name = first_name
@@ -63,12 +63,12 @@ class User(db.Model, UserMixin):
 class Address(db.Model):
     __tablename__ = 'address'
     id = db.Column(db.Integer, primary_key=True, unique=True)
-    user_id = db.Column(db.Integer, ForeignKey('users.id'))
-    address = db.Column(db.Text)
-    city = db.Column(db.String(30))
-    state = db.Column(db.String(2))
-    postal_code = db.Column(db.Integer)
-    phone_num = db.Column(db.Text)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    address = db.Column(db.Text,nullable=False)
+    city = db.Column(db.String(30),nullable=False)
+    state = db.Column(db.String(2),nullable=False)
+    postal_code = db.Column(db.Integer,nullable=False)
+    phone_num = db.Column(db.Text,nullable=False)
 
     def __init__(self, user_id, address, city, state, postal_code, phone_num):
         self.user_id = user_id
@@ -87,12 +87,12 @@ class Book(db.Model):
     ISBN = db.Column(db.String(13), primary_key=True,
                      unique=True, nullable=True)
     title = db.Column(db.Text, nullable=False)
-    author = db.Column(db.Text)
-    genre = db.Column(db.Text)
+    author = db.Column(db.Text, nullable=False)
+    genre = db.Column(db.Text,nullable=False)
     publication_year = db.Column(db.String(4))
-    price = db.Column(db.Numeric(10, 2))
-    stock = db.Column(db.Integer)
-    description = db.Column(db.String(500))
+    price = db.Column(db.Numeric(10, 2),nullable=False)
+    stock = db.Column(db.Integer,nullable=False)
+    description = db.Column(db.String(800),nullable=False)
     average_rating = db.Column(db.Numeric(5,2))
     ratings_count = db.Column(db.Integer)
     ratings_1 = db.Column(db.Integer)
@@ -100,8 +100,8 @@ class Book(db.Model):
     ratings_3 = db.Column(db.Integer)
     ratings_4 = db.Column(db.Integer)
     ratings_5 = db.Column(db.Integer)
-    image_url = db.Column(db.Text)
-    small_image_url = db.Column(db.Text)
+    image_url = db.Column(db.Text,nullable=False)
+    small_image_url = db.Column(db.Text,nullable=False)
 
     def __init__(self, title, author, genre, publication_year, price, stock, description, average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
         self.title = title
