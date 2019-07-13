@@ -10,15 +10,8 @@
       integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="static/css/bootstrap.css" />
-    <link rel="stylesheet" href="static/css/style.css" />
-
-    <style>
-      .container span {
-        color: #1cb9a4 !important;
-      }
-    </style>
-
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
     <title>GeekText</title>
   </head>
 
@@ -32,9 +25,7 @@
       <div class="container">
         <a href="{{ url_for('core.home') }}" class="navbar-brand">
           <img src="static/images/logo.png" width="50" height="50" alt="" />
-          <h3 class="d-inline align-middle text-light">
-            Geek<span>Text</span>
-          </h3>
+          <h3 class="d-inline align-middle">GeekText</h3>
         </a>
         <button
           class="navbar-toggler"
@@ -46,12 +37,10 @@
         <div class="Collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a href="{{ url_for('core.home') }}" class="nav-link text-light"
-                >Home</a
-              >
+              <a href="{{ url_for('core.home') }}" class="nav-link">Home</a>
             </li>
             <li class="nav-item">
-              <a href="#about" class="nav-link text-light">About</a>
+              <a href="#about" class="nav-link">About</a>
             </li>
             {% if current_user.is_authenticated %}
             <li class="nav-item dropdown">
@@ -67,13 +56,11 @@
                 Account
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item text-light" href="#">Wishlist</a>
-                <a class="dropdown-item text-light" href="#">Shopping Cart</a>
+                <a class="dropdown-item" href="#">Wishlist</a>
+                <a class="dropdown-item" href="#">Shopping Cart</a>
                 <div class="dropdown-divider"></div>
-                <a
-                  class="dropdown-item"
-                  href="{{ url_for('users.account') }}"
-                  >{{ current_user.username }}</a
+                <a class="dropdown-item" href="{{ url_for('users.account') }}"
+                  >Settings</a
                 >
                 <a class="dropdown-item" href="{{ url_for('users.logout') }}"
                   >Logout</a
@@ -83,7 +70,7 @@
             {% else %}
             <li class="nav-item">
               <a
-                class="nav-link active text-light"
+                class="nav-link active"
                 href="{{ url_for('users.login') }}"
                 tabindex="-1"
                 aria-disabled="false"
@@ -92,7 +79,7 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link active text-light"
+                class="nav-link active"
                 href="{{ url_for('users.register') }}"
                 tabindex="-1"
                 aria-disabled="false"

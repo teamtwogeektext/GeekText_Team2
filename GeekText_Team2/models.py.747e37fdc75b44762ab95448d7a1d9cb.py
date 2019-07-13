@@ -95,7 +95,6 @@ class Book(db.Model):
         self.small_image_url = small_image_url
 
 
-
 class BlogPost(db.Model):
     # Setup the relationship to the User table
     users = db.relationship(User)                   # Notice the same .relationship was used in the users table.
@@ -110,16 +109,21 @@ class BlogPost(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)          # Date of the post, uses Date API
     title = db.Column(db.String(140), nullable=False)                           # Title of the post
     text = db.Column(db.Text, nullable=False)                                   # Text of the post
-    rating = db.Column(db.String(140), nullable=False)
+    rating = db.Column(db.String(140))
+    true_private =db.Column(db.String(140))
 # Creating an instance of a blog post
-    def __init__(self, title, text, user_id, rating):
+    def __init__(self, title, text, user_id, rating, true_private):
         self.title = title                          # Always done in python
         self.text = text
         self.user_id =user_id
         self.rating = rating
+        self.true_private = true_private
 
     def __repr__(self):                             # representation of each blog post
         return f"Post Id: {self.id} --- Date: {self.date} --- Title: {self.title} --- Rating: {self.rating}"
+
+
+
 
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):

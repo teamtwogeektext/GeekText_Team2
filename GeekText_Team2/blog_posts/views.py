@@ -22,7 +22,7 @@ def create_post():
                              )
         db.session.add(blog_post)                           # Add changes to the database by creating a blog post
         db.session.commit()                                 # Confirming these changes
-        flash("Blog Post Created")
+
 
         if true_private == 'true_private':
             blog_post = BlogPost(title=form.title.data,# must add here
@@ -39,7 +39,7 @@ def create_post():
         #db.session.commit()
 
 
-        return redirect(url_for('core.index'))
+        return redirect(url_for('core.index',form=form))
 
     return render_template('create_post.html',form=form)
 
@@ -69,7 +69,7 @@ def update(blog_post_id):
         blog_post.title = form.title.data
         blog_post.text = form.text.data
         db.session.commit()
-        flash('Post Updated')
+
         return redirect(url_for('blog_posts.blog_post', blog_post_id=blog_post.id))
     # Pass back the old blog post information so they can start again with
     # the old text and title.
@@ -88,5 +88,5 @@ def delete_post(blog_post_id):
         abort(403)
     db.session.delete(blog_post)
     db.session.commit()
-    flash('Post has been deleted')
+
     return redirect(url_for('core.index'))

@@ -91,6 +91,8 @@ def account():
     return render_template('account.html', profile_image=profile_image, form=form)
 
 
+
+
     #This returns a list of all the post done by the same author
 @users.route("/<username>")
 def user_posts(username):

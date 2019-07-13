@@ -12,10 +12,6 @@ body {
   padding-right: 1.4rem;
 }
 
-.container span {
-  color: #1cb9a4 !important;
-}
-
 #showcase {
   position: relative;
   min-height: 600px;
