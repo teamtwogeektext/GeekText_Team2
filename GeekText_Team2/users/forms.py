@@ -1,6 +1,6 @@
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField,TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from wtforms import ValidationError
 # FOR IMAGE VALIDATION

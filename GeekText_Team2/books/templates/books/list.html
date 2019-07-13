@@ -1,11 +1,11 @@
-{% extends "base.html" %} 
+{% extends "base.html" %}
 {% block content %}
 
 <div class="container-full" style="margin: 0% auto; width: 100%; background-image: url(../../../static/images/bookshelf.jpg); background-size: 50%">
 <!-- SORT BY DROPDOWN LIST -->
 <div class="container h-100" style="background: #37C0AD">
     <h1 style="color: rgb(71, 67, 67); text-align: center; font-size: 68px">Browse Books</h1>
-  
+
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Sort By:
@@ -16,12 +16,12 @@
         <a class="dropdown-item" href="http://127.0.0.1:5000/browse/title">Book Title</a>
       </div>
     </div>
-  
+
     <!-- BROSE LIST -->
     <div class="row h-100">
-  
+
       {% for book in books|sort(attribute=sort_by) %}
-  
+
       <!--BOOK ITEM COLUMN-->
       <div class="col-md-6">
         <!-- ITEM CARD -->
@@ -43,15 +43,15 @@
             <!-- ITEM TEXT COLUMN -->
             <div class="col-sm-8">
               <div class="card-body">
-  
+
                 <p class="text-right">
                     <a style="font-size:32px" href="#">{{ book.title }}</a>
                 </p>
-  
+
                 <p class="text-right">
                     <a style="font-size:14px" href="#">by {{ book.author }}</a>
                 </p>
-  
+
                 <p class="text-right">
                   <small class="text-muted"
                     >Published in {{ book.publication_year }}
@@ -62,14 +62,14 @@
           </div>
         </div>
       </div>
-  
+
       <!--PRICE COLUMN-->
       <div class="col-md-3" style="font-size:32px">
-  
+
         <div class="col-md-8 text-center">
             <p style="color: rgb(71, 67, 67)"><strong>${{ book.price }}</strong></p>
         </div>
-  
+
         <div class="col-md-8 text-center">
           <a href="#" class="btn btn-primary">Add to Cart</a>
         </div>

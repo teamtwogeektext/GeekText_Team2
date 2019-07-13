@@ -1,8 +1,12 @@
 from flask import render_template, request, Blueprint
 from flask_login import login_required
 from GeekText_Team2.models import Book
+from GeekText_Team2.models import User
+from GeekText_Team2.models import BlogPost
+from GeekText_Team2.blog_posts.forms import BlogPostForm
+from GeekText_Team2 import db
 from sqlalchemy import func
-
+from GeekText_Team2.models import User
 
 core = Blueprint('core', __name__)
 
@@ -30,3 +34,16 @@ def info():
     contact page. Any page that doesn't really sync with one of the models.
     '''
     return render_template('info.html')
+
+
+
+@core.route('/index')                            # Main page
+def index():
+    '''
+    This is the home page view. Notice how it uses pagination to show a limited
+    number of posts by limiting its query size and then calling paginate.
+    '''
+    page = request.args.get('page', 1, type=int)
+    blog_posts = BlogPost.query.order_by(BlogPost.date.desc()).paginate(page=page, per_page=10)
+    # Returns an instance of the main page
+    return render_template('index.html',blog_posts=blog_posts)      # Links to the index template
