@@ -8,15 +8,14 @@ from flask_login import UserMixin
 from numpy import genfromtxt
 from time import time
 from datetime import datetime
-from sqlalchemy import Column, Integer, Float, Date, ForeignKey, Numeric
+from sqlalchemy import Column, Integer, Float, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import sessionmaker
 
 #############################################
 ############ DATABASE MODELS ################
 #############################################
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -24,75 +23,42 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 ############### USER MODEL #############################
-
-
 class User(db.Model, UserMixin):
 
-    __tablename__ = 'users'  # override tablename
-    id = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
-    profile_image = db.Column(
-        db.String(25), nullable=False, default='level_one_geeker.png')
-    first_name = db.Column(db.String(30), nullable=False)
-    last_name = db.Column(db.String(30), nullable=False)
-    email = db.Column(db.String(64), unique=True, nullable=False)
-    username = db.Column(db.String(64), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
-    address = db.relationship('Address', backref='users')
+    __tablename__ = 'users' #override tablename
+    id = db.Column(db.Integer, primary_key=True)
+    profile_image = db.Column(db.String(25), nullable=False,default='default_profile.png')
+    name = db.Column(db.Text)
+    email = db.Column(db.String(64), unique=True, index=True)
+    username = db.Column(db.String(64), unique=True, index=True)
+    password_hash = db.Column(db.String(128))
 
-    def __init__(self, first_name,last_name, email, username, password):
-        self.first_name = first_name
-        self.last_name = last_name
+    def __init__(self,name,email,username,password):
+        self.name = name
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    def check_password(self,password):
+        return check_password_hash(self.password_hash,password)
 
     def __repr__(self):
-        return f"This is {self.first_name} {self.last_name} with email -> {self.email}"
-
-    def report_address(self):
-        print("Addresses for user:")
-        for a in self.addresses:
-            print(a.address)
+        return f"This is {self.name} with email -> {self.email}"
 
 ########################################################
 
-############### ADDRESS MODEL #############################
-class Address(db.Model):
-    __tablename__ = 'address'
-    id = db.Column(db.Integer, primary_key=True, unique=True)
-    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    address = db.Column(db.Text,nullable=False)
-    city = db.Column(db.String(30),nullable=False)
-    state = db.Column(db.String(2),nullable=False)
-    postal_code = db.Column(db.Integer,nullable=False)
-    phone_num = db.Column(db.Text,nullable=False)
-
-    def __init__(self, user_id, address, city, state, postal_code, phone_num):
-        self.user_id = user_id
-        self.address = address
-        self.city = city
-        self.state = state
-        self.postal_code = postal_code
-        self.phone_num = phone_num
-
 ############### BOOK MODEL #############################
-
-
 class Book(db.Model):
 
     __tablename__ = 'books'
-    ISBN = db.Column(db.String(13), primary_key=True,
-                     unique=True, nullable=True)
+    ISBN = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
     title = db.Column(db.Text, nullable=False)
-    author = db.Column(db.Text, nullable=False)
-    genre = db.Column(db.Text,nullable=False)
+    author = db.Column(db.Text)
+    genre = db.Column(db.Text)
     publication_year = db.Column(db.String(4))
-    price = db.Column(db.Numeric(10, 2),nullable=False)
-    stock = db.Column(db.Integer,nullable=False)
-    description = db.Column(db.String(800),nullable=False)
+    price = db.Column(db.Numeric(10,2))
+    stock = db.Column(db.Integer)
+    description = db.Column(db.Text)
     average_rating = db.Column(db.Numeric(5,2))
     ratings_count = db.Column(db.Integer)
     ratings_1 = db.Column(db.Integer)
@@ -100,10 +66,15 @@ class Book(db.Model):
     ratings_3 = db.Column(db.Integer)
     ratings_4 = db.Column(db.Integer)
     ratings_5 = db.Column(db.Integer)
-    image_url = db.Column(db.Text,nullable=False)
-    small_image_url = db.Column(db.Text,nullable=False)
+    image_url = db.Column(db.Text)
+    small_image_url = db.Column(db.Text)
+    # publisher_id = db.Column(db.Integer, db.ForeignKey('publisher.publisher_id'))
+    # # author_id = db.relationship(db.Integer,'Author', backref='Book', lazy=True)
+    # author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'))
 
-    def __init__(self, title, author, genre, publication_year, price, stock, description, average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
+    def __init__(self,ISBN,title,author,genre,publication_year,price,stock,description,
+                average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
+        self.ISBN = ISBN
         self.title = title
         self.author = author
         self.genre = genre
@@ -122,16 +93,17 @@ class Book(db.Model):
         self.small_image_url = small_image_url
 
 
+
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):
-#
+
 #     __tablename__ = 'publisher'
-#
+
 #     publisher_id = db.Column(db.Integer, primary_key=True)
 #     name = db.Column(db.Text, nullable=False)
 #     address = db.Column(db.Text)
 #     books = db.relationship('Book', backref='publisher', lazy=True)
-#
+
 #     def __init__(self, name, address):
 #         self.name = name
 #         self.address = address
@@ -142,12 +114,12 @@ class Book(db.Model):
 ############### AUTHOR MODEL #############################
 # class Author(db.Model):
 
- #   __tablename__ = 'author'
+#     __tablename__ = 'author'
 
-  #  author_id = db.Column(db.Integer, primary_key=True)
-   # name = db.Column(db.Text, nullable=False)
-    #books = db.relationship('Book', backref='author', lazy=True)
+#     author_id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.Text, nullable=False)
+#     books = db.relationship('Book', backref='author', lazy=True)
 
-    # def __init__(self, name):
-     #   self.name = name
+#     def __init__(self, name):
+#         self.name = name
 ############################################################
