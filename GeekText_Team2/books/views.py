@@ -11,16 +11,17 @@ books_blueprint = Blueprint('books', __name__, template_folder='templates/books'
 
 @books_blueprint.route('/browse')
 def list():
-    #grab list of books from db
     books = Book.query.all()
 
     return render_template('list.html', books=books)
 
 
-@books_blueprint.route('/browse/<sort_by>')
-def sort(sort_by):
-    books = Book.query.all()
-    return render_template('list.html', books=books, sort_by=sort_by)
+@books_blueprint.route('/browse/<string:sort_by>')
+def book_sort(sort_by):
+    books = Book.query.order_by(sort_by)
+
+    return render_template('list.html', books=books)
+
 
 @books_blueprint.route('/browse/<ISBN>', methods=['GET','POST'])
 @login_required
