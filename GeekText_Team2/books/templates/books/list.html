@@ -6,21 +6,41 @@
 <div class="container h-100" style="background: #37C0AD">
     <h1 style="color: rgb(71, 67, 67); text-align: center; font-size: 68px">Browse Books</h1>
   
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sort By:
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="http://127.0.0.1:5000/browse/price">Price</a>
-        <a class="dropdown-item" href="http://127.0.0.1:5000/browse/author">Author Name</a>
-        <a class="dropdown-item" href="http://127.0.0.1:5000/browse/title">Book Title</a>
-      </div>
-    </div>
-  
+
+    <div class="row 50%">
+        <div class="col-4">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Sort By:
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="{{url_for(sort, )}}">Price</a>
+                  <a class="dropdown-item" href="http://127.0.0.1:5000/browse/author">Author Name</a>
+                  <a class="dropdown-item" href="http://127.0.0.1:5000/browse/title">Book Title</a>
+                </div>
+              </div>
+        </div>
+    
+        <div class="col-4">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Genre:
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Fantasy</a>
+                  <a class="dropdown-item" href="#">History</a>
+                  <a class="dropdown-item" href="#">Non-Fiction</a>
+                  <a class="dropdown-item" href="#">Sci-Fi</a>
+                  <a class="dropdown-item" href="#">Science</a>
+
+                </div>
+              </div>
+        </div>
+
     <!-- BROSE LIST -->
     <div class="row h-100">
   
-      {% for book in books|sort(attribute=sort_by) %}
+      {% for book in books | sort(attribute=sort_by) | selectattr("genre", "equalto", "Sci-Fi") %}
   
       <!--BOOK ITEM COLUMN-->
       <div class="col-md-6">
@@ -78,10 +98,10 @@
           <a href="#" class="btn btn-secondary">Add to Wishlist</a>
         </div>
       </div>
-        {% endfor %}
+
+      {% endfor %}
     </div>
   </div>
 </div>
-
 
 {% endblock %}

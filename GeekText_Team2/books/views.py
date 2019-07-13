@@ -8,7 +8,7 @@ books_blueprint = Blueprint('books', __name__, template_folder='templates/books'
 def list():
     #grab list of books from db
     books = Book.query.all()
-    sort_by='title'
+    sort_by='author'
     return render_template('list.html', books=books, sort_by=sort_by)
 
     
