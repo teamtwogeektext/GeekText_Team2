@@ -1,10 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from GeekText_Team2 import db
-from werkzeug.security import generate_password_hash, check_password_hash
 from GeekText_Team2.models import Cart, User, Book
-from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm
-from GeekText_Team2.users.picture_handler import add_profile_pic
+
 
 cart_blueprint = Blueprint('cart', __name__)
 
@@ -32,7 +30,7 @@ def addToCart():
 @cart_blueprint.route('/removeFromCart')
 @login_required
 def removeFromCart():
-    item = Cart.query.filter_by(ISBN=request.args.get('ISBN')).first()
+    item = Cart.query.filter_by(userId=current_user.id, ISBN=request.args.get('ISBN')).first()
     db.session.delete(item)
     db.session.commit()
     flash('Book removed from your shopping cart')

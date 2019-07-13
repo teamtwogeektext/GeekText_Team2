@@ -100,7 +100,8 @@ class Cart(db.Model):
 
     __tablename__ = 'cart'
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
-    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), unique=True, nullable=True, primary_key=True)
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
     
 
 ############### PUBLISHER MODEL #############################
