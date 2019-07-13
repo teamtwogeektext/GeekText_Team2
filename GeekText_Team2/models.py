@@ -126,7 +126,6 @@ class Book(db.Model):
 class BlogPost(db.Model):
     # Setup the relationship to the User table
     users = db.relationship(User)                   # Notice the same .relationship was used in the users table.
-
 ###################################################################
 # [DATABASE(index), user_id(shared with user), date, title, text]
 ##################################################################

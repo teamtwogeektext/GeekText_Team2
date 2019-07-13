@@ -52,8 +52,8 @@ class RegistrationForm(FlaskForm):
 class UpdateUserForm(FlaskForm):
 
     email = StringField('Email', validators=[DataRequired(), Email()])
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('First Name', validators=[DataRequired()])
+    firstname = StringField('FirstName', validators=[DataRequired()])
+    lastname = StringField('FirstName', validators=[DataRequired()])
     username = StringField('UserName', validators=[DataRequired()])
     picture = FileField('Update Profile Picture', validators=[
                         FileAllowed(['jpg', 'png'])])
@@ -67,3 +67,11 @@ class UpdateUserForm(FlaskForm):
     def check_username(self, field):
         if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
+
+class UpdateShippingForm(FlaskForm):
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = IntegerField('ZIP', validators=[DataRequired()])
+    phone_num = IntegerField('Phone', validators=[DataRequired()])
+    submit = SubmitField('Update')

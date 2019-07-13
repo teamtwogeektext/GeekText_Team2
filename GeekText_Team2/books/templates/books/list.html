@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+  #book-list{
+    box-shadow: 4px 6px 5px #1cb9a4;
+    opacity: 0.9;
+    background: #fff;
+  }
+</style>
+
 <div class="container-full" style="margin: 0% auto; width: 100%; background-image: url(../../../static/images/bookshelf.jpg); background-size: 50%">
 <!-- SORT BY DROPDOWN LIST -->
-<div class="container h-100" style="background: #37C0AD">
+<div id='book-list' class="container h-100" style="background: #37C0AD">
     <h1 style="color: rgb(71, 67, 67); text-align: center; font-size: 68px">Browse Books</h1>
 
     <div class="dropdown">
@@ -20,7 +28,7 @@
     <!-- BROSE LIST -->
     <div class="row h-100">
 
-      {% for book in books|sort(attribute=sort_by) %}
+      {% for book in books %}
 
       <!--BOOK ITEM COLUMN-->
       <div class="col-md-6">
@@ -45,7 +53,7 @@
               <div class="card-body">
 
                 <p class="text-right">
-                    <a style="font-size:32px" href="#">{{ book.title }}</a>
+                    <a style="font-size:32px" href="/browse/{{book.ISBN}}">{{book.title}}</a>
                 </p>
 
                 <p class="text-right">
@@ -73,7 +81,7 @@
         <div class="col-md-8 text-center">
           <a href="#" class="btn btn-primary">Add to Cart</a>
         </div>
-  
+
         <div class="col-md-8 text-center">
           <a href="#" class="btn btn-secondary">Add to Wishlist</a>
         </div>

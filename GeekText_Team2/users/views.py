@@ -3,7 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from GeekText_Team2 import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from GeekText_Team2.models import User, Address
-from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm
+from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm, UpdateShippingForm
 from GeekText_Team2.users.picture_handler import add_profile_pic
 
 users = Blueprint('users', __name__, template_folder='templates/')
@@ -76,7 +76,21 @@ def register():
 @users.route('/shipping_info', methods=['GET','POST'])
 @login_required
 def shipping_info():
-    form = UpdateUserForm()
+    form = UpdateShippingForm()
+    addresses = current_user.address
+    #print(addresses[0].address)
+    if form.validate_on_submit():
+        new_address = Address(user_id=current_user.id,
+                              address=form.address.data,
+                              city=form.city.data,
+                              state=form.state.data,
+                              postal_code=form.zip_code.data,
+                              phone_num=form.phone_num.data)
+        print(new_address.address)
+        #db.session.add(new_address)
+        #db.session.commit()
+        redirect(url_for('users.shipping_info', form=form))
+
     return render_template('shipping.html', form=form)
 
 @users.route('/account', methods=['GET','POST'])
@@ -88,7 +102,8 @@ def account():
     c_username = current_user.username
     existing_email = None
     existing_username = None
-
+    f_name = current_user.first_name
+    l_name = current_user.last_name
 
     if form.validate_on_submit():
 
@@ -101,14 +116,14 @@ def account():
 
         u_name = form.username.data
         email = form.email.data
-        fname = form.first_name.data
-        lname = form.last_name.data
+        fname = form.firstname.data
+        lname = form.lastname.data
 
         existing_user_name = User.query.filter_by(username=u_name).first()
         existing_user_email = User.query.filter_by(email=email).first()
 
-        current_user.first_name = form.first_name.data
-        current_user.last_name = form.last_name.data
+        current_user.first_name = form.firstname.data
+        current_user.last_name = form.lastname.data
         db.session.commit()
 
         if(existing_user_name is not None):
@@ -145,7 +160,7 @@ def account():
         form.email.data = current_user.email
 
     profile_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
-    return render_template('account.html', profile_image=profile_image, form=form)
+    return render_template('account.html', profile_image=profile_image, form=form, f_name=f_name, l_name=l_name)
 
 
 

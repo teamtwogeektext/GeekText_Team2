@@ -13,8 +13,8 @@ books_blueprint = Blueprint('books', __name__, template_folder='templates/books'
 def list():
     #grab list of books from db
     books = Book.query.all()
-    sort_by='title'
-    return render_template('list.html', books=books,sort_by=sort_by)
+
+    return render_template('list.html', books=books)
 
 
 @books_blueprint.route('/browse/<sort_by>')
