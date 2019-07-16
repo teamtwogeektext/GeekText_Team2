@@ -38,6 +38,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     address = db.relationship('Address', backref='users')
+    wishlist = db.relationship('Wishlist', backref='users')
     posts = db.relationship('BlogPost', backref='author', lazy=True)
 
     def __init__(self, first_name,last_name, email, username, password):
@@ -57,6 +58,25 @@ class User(db.Model, UserMixin):
         print("Addresses for user:")
         for a in self.addresses:
             print(a.address)
+
+########################################################
+
+################## WISHLIST MODEL ######################
+
+class Wishlist(db.Model):
+
+    __tablename__ = 'wishlists'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=False)
+
+
+    def __init__(self, title, user_id,books):
+        self.title = title
+        self.user_id = user_id
+        self.title = title
+        self.books = books
 
 ########################################################
 

@@ -86,7 +86,7 @@ def shipping_info():
                               postal_code=form.zip_code.data,
                               phone_num=form.phone_num.data)
 
-        user = User.query.filter_by(address=form.email.data).first()
+        #user = User.query.filter_by(address=form.email.data).first()
 
         print(new_address.address)
         db.session.add(new_address)
@@ -164,6 +164,14 @@ def account():
 
     profile_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
     return render_template('account.html', profile_image=profile_image, form=form, f_name=f_name, l_name=l_name)
+
+
+'''@users.wishlist("account/<username>/wishlist")
+def wishlist():
+
+    #add logic here
+
+    render_template('Wishlist.html')'''
 
 
 

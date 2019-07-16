@@ -76,3 +76,8 @@ class UpdateShippingForm(FlaskForm):
     zip_code = IntegerField('ZIP', validators=[DataRequired()])
     phone_num = IntegerField('Phone', validators=[DataRequired()])
     submit = SubmitField('Update')
+
+
+class wishlistPostForm(FlaskForm):
+	title = StringField('title', validators=[DataRequired()])
+	submit = SubmitField('Wishlist')

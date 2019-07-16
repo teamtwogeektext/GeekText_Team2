@@ -16,7 +16,7 @@ def list():
     return render_template('list.html', books=books)
 
 
-@books_blueprint.route('/browse/<string:sort_by>')
+@books_blueprint.route('/browse/book/<string:sort_by>', methods=['GET','POST'])
 def book_sort(sort_by):
     books = Book.query.order_by(sort_by)
 
@@ -27,7 +27,8 @@ def book_sort(sort_by):
 @login_required
 def browse(ISBN):       #was named details
     #grab book details
-    books = Book.query.filter_by(ISBN=ISBN)
+    books = Book.query.filter_by(ISBN=ISBN).first()
+    print(books, '!!!!!!!!!!!!!!!!!!!!!')
     form = BlogPostForm()
 
     page = request.args.get('page', 1, type=int)
