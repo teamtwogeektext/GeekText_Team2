@@ -5,14 +5,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-
 login_manager = LoginManager()
 
 app=Flask(__name__)
 
 app.config['SECRET_KEY']='mysecretkey'
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'geektext.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:flaskteam2@localhost/geektext'
+# '''app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'geektext.sqlite')'''
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -25,7 +25,6 @@ login_manager.login_view = "login"
 from GeekText_Team2 import models
 
 
-
 ###########################
 #### BLUEPRINT CONFIGS #######
 #########################
@@ -35,6 +34,8 @@ from GeekText_Team2 import models
 from GeekText_Team2.core.views import core
 from GeekText_Team2.users.views import users
 from GeekText_Team2.books.views import books_blueprint
+from GeekText_Team2.blog_posts.views import blog_posts
+from GeekText_Team2.Wishlist.views import wishlist_posts
 #from GeekText_Team2.blog_posts.views import blog_posts
 #from GeekText_Team2.error_pages.handlers import error_pages
 
@@ -45,7 +46,8 @@ app.register_blueprint(core)
 #app.register_blueprint(error_pages)
 
 app.register_blueprint(books_blueprint)
-
+app.register_blueprint(blog_posts)
+app.register_blueprint(wishlist_posts)
 
 # from myproject.puppies.views import puppies_blueprint
 # from myproject.owners.views import owners_blueprint

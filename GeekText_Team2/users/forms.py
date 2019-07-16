@@ -1,5 +1,6 @@
+from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField,TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from wtforms import ValidationError
 # FOR IMAGE VALIDATION
@@ -16,17 +17,23 @@ class LoginForm(FlaskForm):
                         DataRequired(), Email(message="Must input a valid email")])
     password = PasswordField('Password', validators=[
                              DataRequired(), Length(min=6, max=15)])
-    submit = SubmitField('Log In')
+    submit = SubmitField('LogIn')
 
 
 class RegistrationForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo(
         'pass_confirm', message='Passwords Must Match!')])
     pass_confirm = PasswordField(
         'Confirm password', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = IntegerField('ZIP', validators=[DataRequired()])
+    phone_num = IntegerField('Phone', validators=[DataRequired()])
     submit = SubmitField('Register!')
 
     def check_email(self, field):
@@ -38,21 +45,39 @@ class RegistrationForm(FlaskForm):
         # Check if not None for that username!
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('Sorry, that username is taken!')
+            return False
+        return True
 
 
 class UpdateUserForm(FlaskForm):
 
     email = StringField('Email', validators=[DataRequired(), Email()])
+    firstname = StringField('FirstName', validators=[DataRequired()])
+    lastname = StringField('FirstName', validators=[DataRequired()])
     username = StringField('UserName', validators=[DataRequired()])
+    #new_password = StringField('NewPassword', validators=[DataRequired()])
     picture = FileField('Update Profile Picture', validators=[
                         FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Update")
 
 ### CHECK TO SEE IF USERNAME AND EMAIL ARE ALREADY TAKEN ###
     def check_email(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your email has been registered already!')
 
     def check_username(self, field):
-        if User.query.filter_by(email=field.data).first():
+        if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
+
+class UpdateShippingForm(FlaskForm):
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = IntegerField('ZIP', validators=[DataRequired()])
+    phone_num = IntegerField('Phone', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+
+class wishlistPostForm(FlaskForm):
+	title = StringField('title', validators=[DataRequired()])
+	submit = SubmitField('Wishlist')
