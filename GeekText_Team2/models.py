@@ -177,7 +177,24 @@ class Cart(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
     ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
     id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer)
+
+################## ORDERS MODEL ################################
+class Orders(db.Model):
     
+    __tablename__ = 'orders'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer)
+
+############### SAVEDITEMS MODEL ##################################
+class SavedItems(db.Model):
+
+    __tablename__ = 'saved_items'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
 
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):

@@ -35,7 +35,29 @@
     </div>
 </div>
 
-<a href="#" class="btn btn-primary">Proceed to checkout</a>
+<div id="buttons">
+    <a href="{{ url_for('cart.checkout')}}" class="btn btn-primary">Proceed to checkout</a>
+    <a href="{{ url_for('cart.orderErase')}}" class="btn btn-primary">Delete orders entries</a>
+    <hr id="seperator" />
+</div>
+
+<div id="savedItems">
+    <h2>Saved for later</h2>
+    <div id="tableItems">
+        {% for row in savedItems %}
+        <div>
+            <hr id="seperator">
+            <div id="itemImage">
+                <img src={{row.image_url}} id="image" />
+                <a style="font-size:24px" href="#">{{row.title}}</a>
+                <a href="/moveToCart?ISBN={{row.ISBN}}" class="btn btn-primary">Add to cart</a>
+                <a href="/removeFromSaved?ISBN={{row.ISBN}}" class="btn btn-primary">Remove</a>
+            </div>
+        </div>
+        {% endfor %}
+        <hr id="seperator">
+    </div>
+</div>
 
 {% endblock %}
 
