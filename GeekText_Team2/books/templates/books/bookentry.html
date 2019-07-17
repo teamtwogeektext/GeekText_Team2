@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<div class="jumbotron">
+  <h1>Browse Books</h1>
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-1">
+        <a data-fancybox="gallery" href="{{books.image_url}}">
+          <img  src="{{books.small_image_url}}" class="card-img-overlay" width=auto height=auto alt="...">
+        </a>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <<p>this is the bookentry.html</p>
+          <p style="font-size:32px">{{books.title}}</p>
+          <p style="font-size:32px">{{books.price}}</p>
+          <p style="font-size:14px">{{books.genre}}</p>
+          <a style="font-size:14px" href="/browse/authors/{{books.author}}">by {{books.author}}</a>
+          <p class="text-left">{{ books.description }}</p>
+          <p class="card-text"><small class="text-muted">Published in {{ books.publication_year }}</small></p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container">
+    <form class="form-group" method="POST">
+       {{ form.hidden_tag() }}
+
+       <div class="form-group">
+       {{ form.title.label(class="form-control-label") }}
+       {{ form.title(class="form-control form-control-lg ") }}
+       </div>
+       <div class="form-group">
+       {{ form.text.label(class="form-control-label") }}
+       {{ form.text(class="form-control form-control-lg") }}
+       </div>
+       <div class="form-group">
+
+         <select class="custom-select" name ="rating">
+           <option selected>How would you rate this book</option>
+           <option value="1">One Star</option>
+           <option value="2">Two Star</option>
+           <option value="3">Three Star</option>
+           <option value="4">Four Star</option>
+           <option value="5">Five Star</option>
+         </select>
+       </div>
+  <div class="form-group">
+    <input class="form-check-input" type="checkbox" value="true_private" name = "true_private" >
+    <label class="form-check-label" for="true_private">
+      Would you like to leave an anonymous review?
+    </label>
+  </div>
+
+       <div class="form-group">
+           {{ form.submit(class="btn btn-outline-info") }}
+       </div>
+    </form>
+
+  </div>
+
+
+
+
+</div>
+
+<div class="container1">
+
+    {# Go through each blog post #}
+    {% for post in blog_posts.items %}
+            <!-- Remove this conditional, and the page will be populated with all reviews, use this for the book details page -->
+      {% if post.author.username == current_user.username and post.true_private != "true_private":  %} <!--This conditional allows the index to populate if the current_user is the same as the post's author'username -->
+            <div class="card" >
+            <div class="card-body">
+
+            <!-- <p class="card-text">{{ post.true_private }}finding the annonymous checkbox</p>
+           <h1> inside testing conditional</h1>
+            <p class="card-text">{{ blog_posts.user_id }} trying to find another username</p>
+            <p class="card-text">{{ post.author.username }} Using post.author.username ...</p>
+            <p class="card-text">{{ current_user }} is the current_user</p>
+            <p class="card-text">{{ current_user.id }} is the current_user using .id</p>
+            <p class="card-text">{{ current_user.username }} is the current_user using .username</p> -->
+            <h2><a class="card-title" href="  {{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></h2>
+            <a href="{{ url_for('users.user_posts', username=post.author.username) }}">Written By: {{ post.author.username }}</a>
+            <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
+            <p class="card-text">{{ post.text[:100] }}...</p>
+            <p class="card-text">{{ post.rating }}...</p>
+            <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
+            </div>
+            </div>
+      {% elif post.true_private == "true_private": %}       <!-- The true_private flag was activated, so populate with no username -->
+              <div class="card" >
+              <div class="card-body">
+              <h2><a class="card-title" href="  {{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></h2>
+              <a href="{{ url_for('users.user_posts', username=post.author.username) }}">Written By: annonymous </a>
+              <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
+              <p class="card-text">{{ post.text[:100] }}...</p>
+              <p class="card-text">{{ post.rating }}...</p>
+              <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
+              </div>
+              </div>
+      {% endif %}
+   {% endfor %}
+
+   <nav aria-label="Page navigation example">
+     <ul class="pagination justify-content-center">
+       {% for page_num in blog_posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if blog_posts.page == page_num %}
+          <li class="page-item disabled">
+            <a class="page-link" href="{{ url_for('core.index', page=page_num) }}">{{ page_num }}</a>
+          </li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('core.index', page=page_num) }}">{{ page_num }}</a></li>
+          {% endif %}
+      {% endfor %}
+    </nav>
+
+
+
+
+{% endblock %}
