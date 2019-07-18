@@ -21,22 +21,23 @@
     </div>
     
     <div class="col-4">
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Genre:
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Fantasy</a>
-              <a class="dropdown-item" href="#">History</a>
-              <a class="dropdown-item" href="#">Non-Fiction</a>
-              <a class="dropdown-item" href="#">Sci-Fi</a>
-              <a class="dropdown-item" href="#">Science</a>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Genre:
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="{{ url_for('books.genre_filter', genre='all') }}">All</a>
+          <a class="dropdown-item" href="{{ url_for('books.genre_filter', genre='Fantasy') }}">Fantasy</a>
+          <a class="dropdown-item" href="{{ url_for('books.genre_filter', genre='History') }}">History</a>
+          <a class="dropdown-item" href="{{ url_for('books.genre_filter', genre='Non-Fiction') }}">Non-Fiction</a>
+          <a class="dropdown-item" href="{{ url_for('books.genre_filter', genre='Sci-Fi') }}">Sci-Fi</a>
+          <a class="dropdown-item" href="{{ url_for('books.genre_filter', genre='Science') }}">Science</a>
 
-            </div>
-          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- BROSE LIST -->
+    <!-- BROWSE LIST -->
     <div class="row h-100">
   
       {% for book in books %}
