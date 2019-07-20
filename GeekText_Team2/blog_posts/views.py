@@ -6,7 +6,7 @@ from GeekText_Team2.blog_posts.forms import BlogPostForm
 
 blog_posts = Blueprint('blog_posts',__name__)           # Creating object instance for a blog post
 
-@blog_posts.route('/create',methods=['GET','POST'])
+'''@blog_posts.route('/create',methods=['GET','POST'])
 @login_required                                         # User must be logged in
 def create_post():
     form = BlogPostForm()                               # Instance of the form
@@ -41,7 +41,7 @@ def create_post():
 
         return redirect(url_for('core.index',form=form))
 
-    return render_template('create_post.html',form=form)
+    return render_template('create_post.html',form=form)'''
 
 
 # int: makes sure that the blog_post_id gets passed as in integer

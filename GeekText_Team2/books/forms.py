@@ -10,4 +10,5 @@ class BlogPostForm(FlaskForm):
     text = TextAreaField('Text', validators=[DataRequired()])                   # Tesxt of post
     rating = StringField('rating', validators=[DataRequired()])
     true_private = StringField('true_private')
+    book_isbn = StringField()
     submit = SubmitField('Submit')                                            # Button to submit

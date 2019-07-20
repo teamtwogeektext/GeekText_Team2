@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
+    {% block head %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -11,7 +12,15 @@
       crossorigin="anonymous"
     />
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/stylez.css') }}">
+    {% endblock %}
+
+    <style>
+      .container span {
+        color: #1cb9a4 !important;
+      }
+    </style>
+
     <title>GeekText</title>
   </head>
 
@@ -19,13 +28,13 @@
     <!-- START HERE -->
 
     <nav
-      class="navbar navbar-expand-md nav-light bg-dark fixed-top py-4"
+      class="navbar navbar-expand-md nav-light bg-dark fixed-top py-2"
       id="main-nav"
     >
       <div class="container">
         <a href="{{ url_for('core.home') }}" class="navbar-brand">
-          <img src="static/images/logo.png" width="50" height="50" alt="" />
-          <h3 class="d-inline align-middle">GeekText</h3>
+          <img src="{{ url_for('static', filename='images/logo.png') }}" width="50" height="50" alt="" />
+          <h3 class="d-inline align-middle text-light">Geek<span>Text<span></h3>
         </a>
         <button
           class="navbar-toggler"
@@ -34,18 +43,23 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="Collapse navbar-collapse" id="navbarCollapse">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a href="{{ url_for('core.home') }}" class="nav-link">Home</a>
+              <a href="{{ url_for('core.home') }}" class="nav-link text-light"
+                >Home</a>
             </li>
             <li class="nav-item">
-              <a href="#about" class="nav-link">About</a>
+              <a href="{{ url_for('books.list') }}" class="nav-link text-light"
+                >Browse</a>
+            </li>
+            <li class="nav-item">
+              <a href="#about" class="nav-link text-light">About</a>
             </li>
             {% if current_user.is_authenticated %}
             <li class="nav-item dropdown">
               <a
-                class="nav-link dropdown-toggle active"
+                class="nav-link dropdown-toggle active text-light"
                 href="#"
                 id="navbarDropdown"
                 role="button"
@@ -56,11 +70,11 @@
                 Account
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Wishlist</a>
-                <a class="dropdown-item" href="#">Shopping Cart</a>
+                <a class="dropdown-item" href="{{ url_for('wishlist_posts.create_wish') }}">Wishlist</a>
+                <a class="dropdown-item" href="{{ url_for('cart.cart') }}">Shopping Cart</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ url_for('users.account') }}"
-                  >Settings</a
+                  >{{current_user.username}}</a
                 >
                 <a class="dropdown-item" href="{{ url_for('users.logout') }}"
                   >Logout</a
@@ -70,7 +84,7 @@
             {% else %}
             <li class="nav-item">
               <a
-                class="nav-link active"
+                class="nav-link active text-light"
                 href="{{ url_for('users.login') }}"
                 tabindex="-1"
                 aria-disabled="false"
@@ -79,7 +93,7 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link active"
+                class="nav-link active text-light"
                 href="{{ url_for('users.register') }}"
                 tabindex="-1"
                 aria-disabled="false"
@@ -87,10 +101,21 @@
               >
             </li>
             {% endif %}
+            <li class="nav-item">
+              <a
+                class="nav-link active text-light"
+                href="{{ url_for('users.register') }}"
+                tabindex="-1"
+                aria-disabled="false"
+                >Cart</a
+              >
+            </li>
           </ul>
         </div>
       </div>
     </nav>
+    {% block sidenav %}
+    {% endblock %}
 
     {% block content%} {% endblock %}
 
@@ -134,4 +159,6 @@
       });
     </script>
   </body>
+  {% block footer %}
+  {% endblock  %}
 </html>
