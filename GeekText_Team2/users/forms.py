@@ -51,10 +51,10 @@ class RegistrationForm(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
 
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    firstname = StringField('FirstName', validators=[DataRequired()])
-    lastname = StringField('FirstName', validators=[DataRequired()])
-    username = StringField('UserName', validators=[DataRequired()])
+    email = StringField('Email')
+    firstname = StringField('FirstName')
+    lastname = StringField('FirstName')
+    username = StringField('UserName')
     #new_password = StringField('NewPassword', validators=[DataRequired()])
     picture = FileField('Update Profile Picture', validators=[
                         FileAllowed(['jpg', 'png'])])
@@ -69,12 +69,24 @@ class UpdateUserForm(FlaskForm):
         if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
 
+class AddPaymentInfo(FlaskForm):
+    card_num = StringField('Card Number', validators=[DataRequired()])
+
+
 class UpdateShippingForm(FlaskForm):
     address = StringField('Address', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
     state = StringField('State', validators=[DataRequired()])
     zip_code = IntegerField('ZIP', validators=[DataRequired()])
     phone_num = IntegerField('Phone', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+class UpdateAddressForm(FlaskForm):
+    address = StringField('Address')
+    city = StringField('City')
+    state = StringField('State')
+    zip_code = IntegerField('ZIP')
+    phone_num = IntegerField('Phone')
     submit = SubmitField('Update')
 
 
