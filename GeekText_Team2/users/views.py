@@ -2,9 +2,10 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from GeekText_Team2 import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from GeekText_Team2.models import User, Address
-from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm, UpdateShippingForm, UpdateAddressForm
+from GeekText_Team2.models import User, Address, Payment_Info
+from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm, UpdateShippingForm, UpdateAddressForm, AddPaymentInfo
 from GeekText_Team2.users.picture_handler import add_profile_pic
+import datetime
 
 users = Blueprint('users', __name__, template_folder='templates/')
 
@@ -13,7 +14,6 @@ users = Blueprint('users', __name__, template_folder='templates/')
 @login_required
 def logout():
     logout_user()
-    flash('You have logged out')
     return redirect(url_for('core.home'))
 
 
@@ -73,7 +73,7 @@ def register():
         return redirect(url_for('users.login'))
     return render_template('register.html', form=form)
 
-
+########################## SHIPPING INFO METHODS ############################
 @users.route('/shipping_info', methods=['GET', 'POST'])
 @login_required
 def shipping_info():
@@ -133,35 +133,70 @@ def delete_address(address_id):
     db.session.commit()
     flash('Address deleted')
     return redirect(url_for('users.shipping_info'))
+#########################################################################
 
-
+###################### PAYMENT INFO METHODS ##################################
 @users.route('/payment_info', methods=['GET', 'POST'])
 @login_required
-def shipping_info():
-    form = UpdateShippingForm()
-    addresses = current_user.address
+def payment_info():
+    if current_user.payment_info is not None:
+        cards = current_user.payment_info
+        print("HERERERERERERERER")
+        print(cards[0].credit_number)
+        redirect(url_for('users.payment_info', cards=cards))
+
+    return render_template('payment_info.html', cards=cards)
+
+
+@users.route('/add_card', methods=['GET', 'POST'])
+@login_required
+def add_card():
+    form = AddPaymentInfo()
     if form.validate_on_submit():
-        new_address = Address(user_id=current_user.id,
-                              address=form.address.data,
-                              city=form.city.data,
-                              state=form.state.data,
-                              postal_code=form.zip_code.data,
-                              phone_num=form.phone_num.data)
+        m_y = form.exp_date.data
+        date_time = datetime.datetime.strptime(m_y, '%m/%y').date()
+        date = date_time.strftime("%m/%Y")
+        print(m_y)
+        print(date)
+        c_card = Payment_Info(credit_number=form.card_num.data,
+                              user_id= current_user.id,
+                              cardholder=form.name.data,
+                              expiration_date=date_time,
+                              csv=form.csv.data,
+                              ZIP=form.zip.data)
 
-        #user = User.query.filter_by(address=form.email.data).first()
+        ex_card = Payment_Info.query.filter_by(credit_number=form.card_num.data).first()
+        if ex_card is not None and ex_card.credit_number == c_card.credit_number and ex_card.user_id == c_card.user_id:
+            flash('That card alredy exists')
+            return redirect(url_for('users.add_card', form=form))
+        else:
+            db.session.add(c_card)
+            db.session.commit()
+            flash('Card Added')
+            return redirect(url_for('users.payment_info'))
 
-        print(new_address.address)
-        db.session.add(new_address)
-        db.session.commit()
-        addresses = current_user.address
-        redirect(url_for('users.payment_info', form=form, addresses=addresses))
+    return render_template("add_card.html", form=form)
 
-    return render_template('payment_info.html', form=form, addresses=addresses, addr=addr)
+@users.route('/payment_info/delete/<int:card_id>', methods=['GET', 'POST'])
+@login_required
+def delete_card(card_id):
+    card = Payment_Info.query.filter_by(id=card_id).first()
+    if card.user_id != current_user.id:
+        abort(403)
 
+    db.session.delete(card)
+    db.session.commit()
+    flash('Crecit card removed')
+    return redirect(url_for('users.payment_info'))
+
+##########################################################################
 
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+
+    if not current_user:
+        abort(403)
 
     form = UpdateUserForm()
     c_email = current_user.email

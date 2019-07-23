@@ -64,19 +64,19 @@ class User(db.Model, UserMixin):
 
 ################## PAYMENT_INFO MODEL ######################
 class Payment_Info(db.Model):
-    credit_number = db.Column(db.String(16), primary_key=True, auto_increment=False)
+    id = db.Column(db.Integer, primary_key=True)
+    credit_number = db.Column(db.String(16), nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    first_name = db.Column(db.String(30), nullable=False)
-    last_name = db.Column(db.String(30), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    cardholder = db.Column(db.String(30), nullable=False)
+    expiration_date = db.Column(db.DateTime, nullable=False)
     csv = db.Column(db.Integer, nullable=False)
     ZIP = db.Column(db.Integer,nullable=False)
 
-    def __init__(self,credit_number,user_id,first_name,last_name,date,csv,ZIP):
+    def __init__(self,credit_number,user_id,cardholder,expiration_date,csv,ZIP):
+        self.credit_number = credit_number
         self.user_id = user_id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.date = date
+        self.cardholder = cardholder
+        self.expiration_date = expiration_date
         self.csv = csv
         self.ZIP = ZIP
 

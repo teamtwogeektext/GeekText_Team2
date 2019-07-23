@@ -71,6 +71,11 @@ class UpdateUserForm(FlaskForm):
 
 class AddPaymentInfo(FlaskForm):
     card_num = StringField('Card Number', validators=[DataRequired()])
+    name = StringField('Card Holder', validators=[DataRequired()])
+    exp_date = StringField('Expiration', validators=[DataRequired()])
+    csv = IntegerField('CSV', validators=[DataRequired()])
+    zip = IntegerField('ZIP', validators=[DataRequired()])
+    submit = SubmitField('Add Card')
 
 
 class UpdateShippingForm(FlaskForm):
