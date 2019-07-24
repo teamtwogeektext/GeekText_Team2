@@ -69,14 +69,13 @@ class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
 
 
-    def __init__(self, title, user_id,books):
+    def __init__(self, title, user_id):
         self.title = title
         self.user_id = user_id
-        self.title = title
-        self.books = books
+        #self.books = books
 
 ########################################################
 
