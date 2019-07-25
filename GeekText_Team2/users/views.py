@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from GeekText_Team2.models import User, Address
 from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm, UpdateShippingForm
 from GeekText_Team2.users.picture_handler import add_profile_pic
+from GeekText_Team2.models import BlogPost
+from GeekText_Team2.blog_posts.forms import BlogPostForm
 
 users = Blueprint('users', __name__, template_folder='templates/')
 
