@@ -179,6 +179,11 @@ class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer)
 
+    def __init__(self, userId, ISBN, quantity):
+        self.userId = userId
+        self.ISBN = ISBN
+        self.quantity = quantity
+
 ################## ORDERS MODEL ################################
 class Orders(db.Model):
     
@@ -188,6 +193,11 @@ class Orders(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer)
 
+    def __init__(self, userId, ISBN, quantity):
+        self.userId = userId
+        self.ISBN = ISBN
+        self.quantity = quantity
+
 ############### SAVEDITEMS MODEL ##################################
 class SavedItems(db.Model):
 
@@ -195,6 +205,11 @@ class SavedItems(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
     ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
     id = db.Column(db.Integer, primary_key=True)
+
+    def __init__(self, userId, ISBN):
+        self.userId = userId
+        self.ISBN = ISBN
+        
 
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):
