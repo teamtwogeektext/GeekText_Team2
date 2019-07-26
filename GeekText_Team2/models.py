@@ -102,6 +102,8 @@ class Book(db.Model):
     ratings_5 = db.Column(db.Integer)
     image_url = db.Column(db.Text,nullable=False)
     small_image_url = db.Column(db.Text,nullable=False)
+    # sales = db.Column(db.Integer)
+    # release_date = db.Column(db.Date)
 
     def __init__(self, title, author, genre, publication_year, price, stock, description, average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
         self.title = title
