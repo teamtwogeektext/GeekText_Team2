@@ -80,6 +80,7 @@ def register():
 @login_required
 def shipping_info():
     form = UpdateShippingForm()
+    addr=0
     addresses = current_user.address
     if form.validate_on_submit():
         new_address = Address(user_id=current_user.id,
@@ -142,8 +143,6 @@ def delete_address(address_id):
 def payment_info():
     if current_user.payment_info is not None:
         cards = current_user.payment_info
-        print("HERERERERERERERER")
-        print(cards[0].credit_number)
         redirect(url_for('users.payment_info', cards=cards))
 
     return render_template('payment_info.html', cards=cards)
@@ -265,14 +264,14 @@ def account():
     return render_template('account.html', profile_image=profile_image, form=form, f_name=f_name, l_name=l_name)
 
 
-'''@users.wishlist("account/<username>/wishlist")
-def wishlist():
+#@users.wishlist("account/<username>/wishlist")
+#def wishlist():
 
     #add logic here
 
-    render_template('Wishlist.html')'''
+    #render_template('Wishlist.html')'''
 
-    render_template('Wishlist.html')'''
+    #render_template('Wishlist.html')'''
 
 # This returns a list of all the post done by the same author
 
