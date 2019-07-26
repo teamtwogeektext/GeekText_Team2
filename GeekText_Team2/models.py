@@ -167,17 +167,45 @@ class BlogPost(db.Model):
     text = db.Column(db.Text, nullable=False)                                   # Text of the post
     rating = db.Column(db.String(140))
     true_private =db.Column(db.String(140))
+    book_isbn = db.Column(db.String(140))
 # Creating an instance of a blog post
-    def __init__(self, title, text, user_id, rating, true_private):
+    def __init__(self, title, text, user_id, rating, true_private, book_isbn):
         self.title = title                          # Always done in python
         self.text = text
         self.user_id =user_id
         self.rating = rating
         self.true_private = true_private
+        self.book_isbn = book_isbn
 
     def __repr__(self):                             # representation of each blog post
         return f"Post Id: {self.id} --- Date: {self.date} --- Title: {self.title} --- Rating: {self.rating}"
 
+
+############### CART MODEL ##################################
+class Cart(db.Model):
+
+    __tablename__ = 'cart'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer)
+
+################## ORDERS MODEL ################################
+class Orders(db.Model):
+
+    __tablename__ = 'orders'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer)
+
+############### SAVEDITEMS MODEL ##################################
+class SavedItems(db.Model):
+
+    __tablename__ = 'saved_items'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
 
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):

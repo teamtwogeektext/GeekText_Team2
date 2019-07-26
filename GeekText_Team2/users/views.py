@@ -5,6 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from GeekText_Team2.models import User, Address, Payment_Info
 from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm, UpdateShippingForm, UpdateAddressForm, AddPaymentInfo
 from GeekText_Team2.users.picture_handler import add_profile_pic
+from GeekText_Team2.models import BlogPost
+from GeekText_Team2.blog_posts.forms import BlogPostForm
 import datetime
 
 users = Blueprint('users', __name__, template_folder='templates/')
@@ -78,7 +80,6 @@ def register():
 @login_required
 def shipping_info():
     form = UpdateShippingForm()
-    addr = 0;
     addresses = current_user.address
     if form.validate_on_submit():
         new_address = Address(user_id=current_user.id,
@@ -268,6 +269,8 @@ def account():
 def wishlist():
 
     #add logic here
+
+    render_template('Wishlist.html')'''
 
     render_template('Wishlist.html')'''
 

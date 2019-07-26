@@ -91,18 +91,22 @@
       </div>
 
       <!--PRICE COLUMN-->
-      <div class="col-md-3" style="font-size:32px">
+      <div class="col-md-3" style="font-size:24px">
 
         <div class="col-md-8 text-center">
             <p style="color: rgb(71, 67, 67)"><strong>${{ book.price }}</strong></p>
         </div>
 
         <div class="col-md-8 text-center">
-          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="/addToCart?ISBN={{book.ISBN}}" class="btn btn-primary">Add to Cart</a>
         </div>
 
         <div class="col-md-8 text-center">
           <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+        </div>
+
+        <div class="col-md-8 text-center">
+            <a href="/addToSaved?ISBN={{book.ISBN}}" class="btn btn-secondary">Save For Later</a>
         </div>
       </div>
 

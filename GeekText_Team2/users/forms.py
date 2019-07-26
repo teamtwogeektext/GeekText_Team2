@@ -51,7 +51,7 @@ class RegistrationForm(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
 
-    email = StringField('Email')
+    email = StringField('Email', validators=[Email()])
     firstname = StringField('FirstName')
     lastname = StringField('FirstName')
     username = StringField('UserName')
