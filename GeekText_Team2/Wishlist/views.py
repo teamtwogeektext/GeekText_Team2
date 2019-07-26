@@ -2,6 +2,7 @@ from flask import Blueprint,flash, request, render_template, redirect, url_for
 from GeekText_Team2 import db
 from GeekText_Team2.models import Wishlist
 from GeekText_Team2.Wishlist.forms import wishlistPostForm
+from GeekText_Team2.users.views import current_user
 
 wishlist_posts = Blueprint('wishlist_posts', __name__,template_folder='templates/wishlist')
 
@@ -12,13 +13,13 @@ def create_wish():
 
 
 	if form.validate_on_submit():
-		 wishlist_post = wishlist(
-		 	title=form.title.data
-		 						)
-		 db.session.add(wishlist_post)
-		 db.session.commit()
-		 flash('Wishlist created')
-		 return redirect(url_for('wishlist_posts.viewallw'))
+		title = form.title.data
+
+		wishlist_post = wishlist(title=form.title.data)
+		db.session.add(wishlist_post)
+		db.session.commit()
+		flash('Wishlist created')
+		return redirect(url_for('wishlist_posts.viewallw'))
 		 #redirect(url_for('Wishlist_posts.list', wishlist_post_id= wishlist_post.id))
 
 

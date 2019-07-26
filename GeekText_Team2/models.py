@@ -38,7 +38,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     address = db.relationship('Address', backref='users')
-    wishlist = db.relationship('Wishlist', backref='users')
+    payment_info = db.relationship('Payment_Info', backref='users')
+    wishlists = db.relationship('Wishlist', backref='users')
     posts = db.relationship('BlogPost', backref='author', lazy=True)
 
     def __init__(self, first_name,last_name, email, username, password):
@@ -61,6 +62,26 @@ class User(db.Model, UserMixin):
 
 ########################################################
 
+################## PAYMENT_INFO MODEL ######################
+class Payment_Info(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    credit_number = db.Column(db.String(16), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    cardholder = db.Column(db.String(30), nullable=False)
+    expiration_date = db.Column(db.DateTime, nullable=False)
+    csv = db.Column(db.Integer, nullable=False)
+    ZIP = db.Column(db.Integer,nullable=False)
+
+    def __init__(self,credit_number,user_id,cardholder,expiration_date,csv,ZIP):
+        self.credit_number = credit_number
+        self.user_id = user_id
+        self.cardholder = cardholder
+        self.expiration_date = expiration_date
+        self.csv = csv
+        self.ZIP = ZIP
+
+########################################################
+
 ################## WISHLIST MODEL ######################
 
 class Wishlist(db.Model):
@@ -69,7 +90,7 @@ class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=False)
+    books = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
 
 
     def __init__(self, title, user_id,books):
@@ -105,42 +126,30 @@ class Address(db.Model):
 class Book(db.Model):
 
     __tablename__ = 'books'
-    ISBN = db.Column(db.String(13), primary_key=True,
-                     unique=True, nullable=True)
-    title = db.Column(db.Text, nullable=False)
     author = db.Column(db.Text, nullable=False)
+    description = db.Column(db.Text,nullable=False)
     genre = db.Column(db.Text,nullable=False)
-    publication_year = db.Column(db.String(4))
-    price = db.Column(db.Numeric(10, 2),nullable=False)
-    stock = db.Column(db.Integer,nullable=False)
-    description = db.Column(db.String(800),nullable=False)
-    average_rating = db.Column(db.Numeric(5,2))
-    ratings_count = db.Column(db.Integer)
-    ratings_1 = db.Column(db.Integer)
-    ratings_2 = db.Column(db.Integer)
-    ratings_3 = db.Column(db.Integer)
-    ratings_4 = db.Column(db.Integer)
-    ratings_5 = db.Column(db.Integer)
+    ISBN = db.Column(db.String(13), primary_key=True,
+                     unique=True, nullable=False)
     image_url = db.Column(db.Text,nullable=False)
-    small_image_url = db.Column(db.Text,nullable=False)
+    price = db.Column(db.Numeric(10, 2),nullable=False)
+    publisher = db.Column(db.Text)
+    rating = db.Column(db.Numeric(5,2))
+    releaseDate = db.Column(db.Text)
+    soldUnits = db.Column(db.Integer)
+    title = db.Column(db.Text, nullable=False)
 
-    def __init__(self, title, author, genre, publication_year, price, stock, description, average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
+    def __init__(self, author, genre, releaseDate, price, description, rating, image_url, soldUnits, title, publisher):
         self.title = title
         self.author = author
         self.genre = genre
-        self.publication_year = publication_year
+        self.releaseDate = releaseDate
         self.price = price
-        self.stock = stock
         self.description = description
-        self.average_rating = average_rating
-        self.ratings_count = ratings_count
-        self.ratings_1 = ratings_1
-        self.ratings_2 = ratings_2
-        self.ratings_3 = ratings_3
-        self.ratings_4 = ratings_4
-        self.ratings_5 = ratings_5
+        self.rating = rating
         self.image_url = image_url
-        self.small_image_url = small_image_url
+        self.soldUnits = soldUnits
+        self.publisher = publisher
 
 
 class BlogPost(db.Model):
