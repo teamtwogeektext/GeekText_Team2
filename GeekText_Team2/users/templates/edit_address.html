@@ -37,7 +37,7 @@
   }
   .parallax {
     /* The image used */
-    background-image: url("static/images/prof_background.jpg");
+    background-image: url("../../../static/images/prof_background.jpg");
 
     /* Set a specific height */
     min-height: 500px;
@@ -70,9 +70,79 @@
     opacity: 0.9;
     background: #fff;
   }
+
+  .sticky-offset {
+      top: 56px;
+  }
+
+  #body-row {
+      margin-left:0;
+      margin-right:0;
+  }
+  #sidebar-container {
+      min-height: 100vh;
+      background-color: #333;
+      padding: 0;
+  }
+
+  /* Sidebar sizes when expanded and expanded */
+  .sidebar-expanded {
+      width: 230px;
+  }
+  .sidebar-collapsed {
+      width: 60px;
+  }
+
+  /* Menu item*/
+  #sidebar-container .list-group a {
+      height: 50px;
+      color: white;
+  }
+
+  /* Submenu item*/
+  #sidebar-container .list-group .sidebar-submenu a {
+      height: 45px;
+      padding-left: 30px;
+  }
+  .sidebar-submenu {
+      font-size: 0.9rem;
+  }
+
+  /* Separators */
+  .sidebar-separator-title {
+      background-color: #333;
+      height: 35px;
+  }
+  .sidebar-separator {
+      background-color: #333;
+      height: 25px;
+  }
+  .logo-separator {
+      background-color: #333;
+      height: 60px;
+  }
+
+  /* Closed submenu icon */
+  #sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+    content: " \f0d7";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
+  }
+  /* Opened submenu icon */
+  #sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+    content: " \f0da";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
+  }
+
+
 </style>
 
-<link rel="stylesheet" type="text/css" href="static/css/account-styles.css" />
+<link rel="stylesheet" type="text/css" href="static/css/edit-address-style.css" />
 <div class="parallax">
   <div class="row" id="body-row">
     <!-- Sidebar -->
@@ -145,7 +215,7 @@
             <span class="menu-collapsed">Payment Info</span>
           </div>
         </a>
-        <a href="{{url_for('core.index')}}" class="bg-dark list-group-item list-group-item-action">
+        <a href="#" class="bg-dark list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-thumbs-up fa-fw mr-3"></span>
             <span class="menu-collapsed">Reviews</span>
@@ -194,17 +264,8 @@
           <div class="row">
             <div class="col-md-12">
               <h4 align="center" class="text-light">
-                {{ current_user.username }}'s Profile
+                Edit address
               </h4>
-              <img
-                id="prof_img"
-                src="{{ url_for('static', filename='profile_pics/' + current_user.profile_image) }}"
-                alt=""
-                class="rounded-circle"
-                width="150,"
-                height="200"
-                class="center"
-              />
               {% for message in get_flashed_messages() %}
               <div class="alert alert-warning">
                 <button type="button" class="close" data-dismiss="alert">
@@ -225,66 +286,36 @@
                     <label
                       for="username"
                       class="col-3 col-form-label text-light"
-                      >User Name</label
+                      >Address</label
                     >
                     <div class="col-5">
-                      {{ form.username(class="form-control here",placeholder=current_user.username) }}
+                      {{ form.address(class="form-control here", required="required", type="text" ,placeholder=address.address)}}
                       <!--<input id="username" name="username" placeholder="{{current_user.username}}" class="form-control here" required="required" type="text">-->
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-3 col-form-label text-light"
-                      >First Name</label
+                      >City</label
                     >
                     <div class="col-5">
-                      {{form.firstname(class="form-control here", placeholder=current_user.first_name)}}
+                      {{form.city(class="form-control here", placeholder=address.city)}}
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-3 col-form-label text-light"
-                      >Last Name</label
+                      >State</label
                     >
                     <div class="col-5">
-                      {{ form.lastname(class='form-control here', placeholder=current_user.last_name) }}
+                      {{ form.state(class='form-control here', type="text", placeholder=address.state) }}
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="email" class="col-3 col-form-label text-light"
-                      >Email</label
+                      >ZIP</label
                     >
                     <div class="col-5">
-                      {{ form.email(class='form-control here', type="text", placeholder=current_user.email) }}
+                      {{ form.zip_code(class='form-control here', required="required",type="text", placeholder=address.postal_code) }}
                       <!--<input id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">-->
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label
-                      for="publicinfo"
-                      class="col-3 col-form-label text-light"
-                      >Public Info</label
-                    >
-                    <div class="col-5">
-                      <textarea
-                        id="publicinfo"
-                        name="publicinfo"
-                        cols="40"
-                        rows="4"
-                        class="form-control"
-                      ></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="newpass" class="col-3 col-form-label text-light"
-                      >Password</label
-                    >
-                    <div class="col-5">
-                      <input
-                        id="newpass"
-                        name="newpass"
-                        placeholder="New Password"
-                        class="form-control here"
-                        type="text"
-                      />
                     </div>
                   </div>
                   <div class="form-group row">
@@ -292,21 +323,7 @@
                       >New Password</label
                     >
                     <div class="col-5">
-                      <input
-                        id="newpass"
-                        name="newpass"
-                        placeholder="New Password"
-                        class="form-control here"
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="newpass" class="col-3 col-form-label text-light"
-                      >Profile Picture</label
-                    >
-                    <div class="col-5">
-                      {{ form.picture(class='form-control-file') }}
+                      {{ form.phone_num(class='form-control here', required="required",type="text", placeholder=address.phone_num) }}
                     </div>
                   </div>
                   <div class="form-group row">
