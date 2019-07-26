@@ -72,7 +72,7 @@
   }
 </style>
 
-<link rel="stylesheet" type="text/css" href="static/css/account-style.css" />
+<link rel="stylesheet" type="text/css" href="static/css/account-styles.css" />
 <div class="parallax">
   <div class="row" id="body-row">
     <!-- Sidebar -->
@@ -139,13 +139,13 @@
             <span class="menu-collapsed">Shipping Info</span>
           </div>
         </a>
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
+        <a href="{{url_for('users.payment_info')}}" class="bg-dark list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-credit-card fa-fw mr-3"></span>
             <span class="menu-collapsed">Payment Info</span>
           </div>
         </a>
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
+        <a href="{{url_for('core.index')}}" class="bg-dark list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-thumbs-up fa-fw mr-3"></span>
             <span class="menu-collapsed">Reviews</span>
@@ -225,37 +225,35 @@
                     <label
                       for="username"
                       class="col-3 col-form-label text-light"
-                      >User Name*</label
+                      >User Name</label
                     >
                     <div class="col-5">
-                      {{ form.username(class="form-control here", required="required", type="text" ,placeholder="{{current_user.username
-                      }}") }}
+                      {{ form.username(class="form-control here",placeholder=current_user.username) }}
                       <!--<input id="username" name="username" placeholder="{{current_user.username}}" class="form-control here" required="required" type="text">-->
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-3 col-form-label text-light"
-                      >First Name*</label
+                      >First Name</label
                     >
                     <div class="col-5">
-                      {{form.firstname(class="form-control here", placeholder=f_name)}}
+                      {{form.firstname(class="form-control here", placeholder=current_user.first_name)}}
                     </div>
                   </div>
                   <div class="form-group row">
                     <label class="col-3 col-form-label text-light"
-                      >Last Name*</label
+                      >Last Name</label
                     >
                     <div class="col-5">
-                      {{ form.lastname(class='form-control here', type="text", placeholder=current_user.last_name) }}
+                      {{ form.lastname(class='form-control here', placeholder=current_user.last_name) }}
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="email" class="col-3 col-form-label text-light"
-                      >Email*</label
+                      >Email</label
                     >
                     <div class="col-5">
-                      {{ form.email(class='form-control here', required="required",type="text", placeholder="{{current_user.email
-                      }}") }}
+                      {{ form.email(class='form-control here', type="text", placeholder=current_user.email) }}
                       <!--<input id="email" name="email" placeholder="Email" class="form-control here" required="required" type="text">-->
                     </div>
                   </div>
@@ -273,6 +271,20 @@
                         rows="4"
                         class="form-control"
                       ></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="newpass" class="col-3 col-form-label text-light"
+                      >Password</label
+                    >
+                    <div class="col-5">
+                      <input
+                        id="newpass"
+                        name="newpass"
+                        placeholder="New Password"
+                        class="form-control here"
+                        type="text"
+                      />
                     </div>
                   </div>
                   <div class="form-group row">
