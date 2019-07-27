@@ -1,11 +1,15 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
-from GeekText_Team2 import db
+from GeekText_Team2 import db, app, mail
+from flask_mail import Message
+from threading import Thread
+from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
 from GeekText_Team2.models import User, Address, Payment_Info
-from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm, UpdateShippingForm, UpdateAddressForm, AddPaymentInfo
+from GeekText_Team2.users.forms import RegistrationForm, LoginForm, UpdateUserForm, UpdateShippingForm, UpdateAddressForm, AddPaymentInfo, ForgotForm, ChangePassword
 from GeekText_Team2.users.picture_handler import add_profile_pic
 from GeekText_Team2.models import BlogPost
+from itsdangerous import URLSafeTimedSerializer
 from GeekText_Team2.blog_posts.forms import BlogPostForm
 import datetime
 
@@ -22,6 +26,7 @@ def logout():
 @users.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    forgot_form = ForgotForm()
     if form.validate_on_submit():
         # Grab the user from our User Models table
         user = User.query.filter_by(email=form.email.data).first()
@@ -39,8 +44,17 @@ def login():
                 if next == None or not next[0] == '/':
                     next = url_for('books.list')
 
-            return redirect(next)
-    return render_template('login.html', form=form)
+                return redirect(next)
+    return render_template('login.html', form=form, forgot_form=forgot_form)
+
+@users.route('/forgot_password?', methods=['GET', 'POST'])
+def forgot_password(form):
+    if form.validate_on_submit():
+        email = form.email.data
+        user = User.query.filter_by(email=email.lower()).first()
+        #if user:
+
+    return render_template("forgot_password.html")
 
 
 @users.route('/register', methods=['GET', 'POST'])
@@ -49,30 +63,34 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
+        try:
+            user = User(first_name=form.first_name.data,
+                        last_name=form.last_name.data,
+                        email=form.email.data,
+                        username=form.username.data,
+                        password=form.password.data)
 
-        user = User(first_name=form.first_name.data,
-                    last_name=form.last_name.data,
-                    email=form.email.data,
-                    username=form.username.data,
-                    password=form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            print("HERE")
+            send_confirmation_email(user.email)
+            flash('Thanks for registering! Please check your email to confirm your email address.', 'success')
 
-        db.session.add(user)
-        db.session.commit()
+            u_address = Address(user_id=user.id,
+                                address=form.address.data,
+                                city=form.city.data,
+                                state=form.state.data,
+                                postal_code=form.zip_code.data,
+                                phone_num=form.phone_num.data)
 
-        u_address = Address(user_id=user.id,
-                            address=form.address.data,
-                            city=form.city.data,
-                            state=form.state.data,
-                            postal_code=form.zip_code.data,
-                            phone_num=form.phone_num.data)
 
-        print(u_address)
-        print(user)
-
-        db.session.add(u_address)
-        db.session.commit()
-        flash('Thanks for registering! Now you can login!')
-        return redirect(url_for('users.login'))
+            db.session.add(u_address)
+            db.session.commit()
+            flash('Thanks for registering! Now you can login!')
+            return redirect(url_for('users.login'))
+        except IntegrityError:
+            db.session.rollback()
+            flash('ERROR! Email ({}) already exists.'.format(form.email.data), 'error')
     return render_template('register.html', form=form)
 
 ########################## SHIPPING INFO METHODS ############################
@@ -199,15 +217,16 @@ def account():
         abort(403)
 
     form = UpdateUserForm()
+    print(form.data)
     c_email = current_user.email
     c_username = current_user.username
     existing_email = None
     existing_username = None
     f_name = current_user.first_name
     l_name = current_user.last_name
-
+    isValid = True
     if form.validate_on_submit():
-
+        print(form.picture.data)
         if form.picture.data:
             username = current_user.username
             pic = add_profile_pic(form.picture.data, username)
@@ -215,17 +234,14 @@ def account():
             flash('Picture updated')
             db.session.commit()
 
-        u_name = form.username.data
-        email = form.email.data
-        fname = form.firstname.data
-        lname = form.lastname.data
 
-        existing_user_name = User.query.filter_by(username=u_name).first()
-        existing_user_email = User.query.filter_by(email=email).first()
 
-        current_user.first_name = form.firstname.data
+        existing_user_name = User.query.filter_by(username=form.username.data).first()
+        existing_user_email = User.query.filter_by(email=form.email.data).first()
+
+        '''current_user.first_name = form.firstname.data
         current_user.last_name = form.lastname.data
-        db.session.commit()
+        db.session.commit()'''
 
         if(existing_user_name is not None):
             existing_username = existing_user_name.username
@@ -233,13 +249,20 @@ def account():
         if(existing_user_email is not None):
             existing_email = existing_user_email.email
 
+        if(len(form.firstname.data) != 0):
+            current_user.first_name = form.firstname.data
+            db.session.commit()
+
+        if(len(form.lastname.data) != 0):
+            current_user.last_name = form.lastname.data
+            db.session.commit()
+
         if existing_email == c_email and existing_username == c_username:
             return redirect(url_for('users.account'))
 
         if existing_email is None:
             current_user.email = form.email.data
         elif existing_email is not None and existing_email != c_email:
-            print(existing_email)
             flash('A user already exists with that email')
             return redirect(url_for('users.account'))
 
@@ -255,26 +278,21 @@ def account():
         flash('User Account Updated')
         return redirect(url_for('users.account'))
 
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
+    profile_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
+    return render_template('account.html', profile_image=profile_image, form=form, isValid=isValid)
 
-    profile_image = url_for(
-        'static', filename='profile_pics/' + current_user.profile_image)
-    return render_template('account.html', profile_image=profile_image, form=form, f_name=f_name, l_name=l_name)
-
-
-#@users.wishlist("account/<username>/wishlist")
-#def wishlist():
-
-    #add logic here
-
-    #render_template('Wishlist.html')'''
-
-    #render_template('Wishlist.html')'''
-
-# This returns a list of all the post done by the same author
-
+@users.route('/change_password', methods=['GET','POST'])
+@login_required
+def change_password():
+    form = ChangePassword()
+    if form.validate_on_submit():
+        print("HERERERE")
+        new_pass = generate_password_hash(form.new_password.data)
+        current_user.password_hash = new_pass
+        flash("Password successfully changed")
+        db.session.commit()
+        return redirect(url_for('users.account'))
+    return render_template('change_password.html', form=form)
 
 @users.route("/<username>")
 def user_posts(username):
@@ -286,3 +304,55 @@ def user_posts(username):
     blog_posts = BlogPost.query.filter_by(author=user).order_by(
         BlogPost.date.desc()).paginate(page=page, per_page=5)
     return render_template('user_blog_posts.html', blog_posts=blog_posts, user=user)
+
+@users.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+        email = confirm_serializer.loads(token, salt='email-confirmation-salt', max_age=3600)
+        print(email + "Here!")
+    except:
+        flash('The confirmation link is invalid or has expired.', 'error')
+        return redirect(url_for('users.login'))
+
+    user = User.query.filter_by(email=email).first()
+
+    if user.email_confirmed:
+        flash('Account already confirmed. Please login.', 'info')
+    else:
+        user.email_confirmed = True
+        user.email_confirmed_on = datetime.now()
+        db.session.add(user)
+        db.session.commit()
+        flash('Thank you for confirming your email address!', 'success')
+
+    return redirect(url_for('books.list'))
+
+
+######### HELPER METHODS ###########
+def send_async_email(msg):
+    with app.app_context():
+        mail.send(msg)
+
+
+def send_email(subject, recipients, html_body):
+    msg = Message(subject, recipients=recipients)
+    msg.html = html_body
+    thr = Thread(target=send_async_email, args=[msg])
+    thr.start()
+
+
+
+def send_confirmation_email(user_email):
+    confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+    confirm_url = url_for(
+        'users.confirm_email',
+        token=confirm_serializer.dumps(user_email, salt='email-confirmation-salt'),
+        _external=True)
+
+    html = render_template(
+        'email_confirmation.html',
+        confirm_url=confirm_url)
+
+    send_email('Confirm Your Email Address', [user_email], html)

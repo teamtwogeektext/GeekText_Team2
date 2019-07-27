@@ -165,12 +165,18 @@
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.first_name( id="inputUserame", class="form-control", placeholder="First Name")}}
+                  {% for error in form.first_name.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.last_name( id="inputUserame", class="form-control", placeholder="Last Name")}}
+                  {% for error in form.last_name.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -181,12 +187,18 @@
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.username( id="inputUserame", class="form-control", placeholder="Username")}}
+                  {% for error in form.username.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.email( id="inputUserame", class="form-control", placeholder="Email")}}
+                  {% for error in form.email.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -197,12 +209,18 @@
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.password( id="inputUserame", class="form-control", placeholder="password")}}
+                  {% for error in form.password.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.pass_confirm( id="inputUserame", class="form-control", placeholder="confirm password")}}
+                  {% for error in form.pass_confirm.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -211,12 +229,18 @@
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.address( id="inputUserame", class="form-control", placeholder="Address")}}
+                  {% for error in form.address.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.city( id="inputUserame", class="form-control", placeholder="City")}}
+                  {% for error in form.city.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -227,12 +251,18 @@
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.state( id="inputUserame", class="form-control", placeholder="State")}}
+                  {% for error in form.state.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
 
               <div class="col-md-5 form-group">
                 <div class="form-label">
                   {{form.zip_code( id="inputUserame", class="form-control", placeholder="ZIP")}}
+                  {% for error in form.zip_code.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
             </div>
@@ -241,6 +271,9 @@
               <div class="col-md-6 form-group">
                 <div class="form-label">
                   {{form.phone_num( id="inputUserame", class="form-control", placeholder="Phone")}}
+                  {% for error in form.phone_num.errors %}
+                  <li style='color:red;'>{{error}}</li>
+                  {% endfor %}
                 </div>
               </div>
             </div>

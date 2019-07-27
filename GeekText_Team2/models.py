@@ -7,7 +7,7 @@ from flask_login import UserMixin
 ##################################
 from numpy import genfromtxt
 from time import time
-from datetime import datetime
+from datetime import datetime, date
 from sqlalchemy import Column, Integer, Float, Date, ForeignKey, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
@@ -41,13 +41,20 @@ class User(db.Model, UserMixin):
     payment_info = db.relationship('Payment_Info', backref='users')
     wishlists = db.relationship('Wishlist', backref='users')
     posts = db.relationship('BlogPost', backref='author', lazy=True)
+    join_date = db.Column(db.String(20), nullable=False, default=date.today().strftime("%B %d, %Y"))
+    email_confirmation_sent_on = db.Column(db.DateTime, nullable=True)
+    email_confirmed = db.Column(db.Boolean, nullable=True, default=False)
+    email_confirmed_on = db.Column(db.DateTime, nullable=True)
 
-    def __init__(self, first_name,last_name, email, username, password):
+    def __init__(self, first_name,last_name, email, username, password, email_confirmation_sent_on=None):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
+        self.email_confirmation_sent_on = email_confirmation_sent_on
+        self.email_confirmed = False
+        self.email_confirmed_on = None
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
