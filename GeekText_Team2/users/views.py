@@ -47,12 +47,13 @@ def login():
                 return redirect(next)
     return render_template('login.html', form=form, forgot_form=forgot_form)
 
+
 @users.route('/forgot_password?', methods=['GET', 'POST'])
 def forgot_password(form):
     if form.validate_on_submit():
         email = form.email.data
         user = User.query.filter_by(email=email.lower()).first()
-        #if user:
+        # if user:
 
     return render_template("forgot_password.html")
 
@@ -74,7 +75,8 @@ def register():
             db.session.commit()
             print("HERE")
             send_confirmation_email(user.email)
-            flash('Thanks for registering! Please check your email to confirm your email address.', 'success')
+            flash(
+                'Thanks for registering! Please check your email to confirm your email address.', 'success')
 
             u_address = Address(user_id=user.id,
                                 address=form.address.data,
@@ -83,14 +85,14 @@ def register():
                                 postal_code=form.zip_code.data,
                                 phone_num=form.phone_num.data)
 
-
             db.session.add(u_address)
             db.session.commit()
             flash('Thanks for registering! Now you can login!')
             return redirect(url_for('users.login'))
         except IntegrityError:
             db.session.rollback()
-            flash('ERROR! Email ({}) already exists.'.format(form.email.data), 'error')
+            flash('ERROR! Email ({}) already exists.'.format(
+                form.email.data), 'error')
     return render_template('register.html', form=form)
 
 ########################## SHIPPING INFO METHODS ############################
@@ -98,7 +100,7 @@ def register():
 @login_required
 def shipping_info():
     form = UpdateShippingForm()
-    addr=0
+    addr = 0
     addresses = current_user.address
     if form.validate_on_submit():
         new_address = Address(user_id=current_user.id,
@@ -118,7 +120,8 @@ def shipping_info():
 
     return render_template('shipping.html', form=form, addresses=addresses, addr=addr)
 
-@users.route('/shipping_info/<int:address_id>/edit', methods=['GET','POST'])
+
+@users.route('/shipping_info/<int:address_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_address(address_id):
     address = Address.query.filter_by(id=address_id).first()
@@ -129,11 +132,11 @@ def edit_address(address_id):
     form = UpdateAddressForm()
 
     if form.validate_on_submit():
-        address.address=form.address.data
-        address.city=form.city.data
-        address.state=form.state.data
-        address.postal_code=form.zip_code.data
-        address.phone_num=form.phone_num.data
+        address.address = form.address.data
+        address.city = form.city.data
+        address.state = form.state.data
+        address.postal_code = form.zip_code.data
+        address.phone_num = form.phone_num.data
 
         db.session.commit()
         flash('Address updated')
@@ -141,7 +144,8 @@ def edit_address(address_id):
 
     return render_template('edit_address.html', form=form, address=address)
 
-@users.route('/shipping_info/<int:address_id>/delete', methods=['GET','POST'])
+
+@users.route('/shipping_info/<int:address_id>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_address(address_id):
     address = Address.query.filter_by(id=address_id).first()
@@ -177,13 +181,14 @@ def add_card():
         print(m_y)
         print(date)
         c_card = Payment_Info(credit_number=form.card_num.data,
-                              user_id= current_user.id,
+                              user_id=current_user.id,
                               cardholder=form.name.data,
                               expiration_date=date_time,
                               csv=form.csv.data,
                               ZIP=form.zip.data)
 
-        ex_card = Payment_Info.query.filter_by(credit_number=form.card_num.data).first()
+        ex_card = Payment_Info.query.filter_by(
+            credit_number=form.card_num.data).first()
         if ex_card is not None and ex_card.credit_number == c_card.credit_number and ex_card.user_id == c_card.user_id:
             flash('That card alredy exists')
             return redirect(url_for('users.add_card', form=form))
@@ -194,6 +199,7 @@ def add_card():
             return redirect(url_for('users.payment_info'))
 
     return render_template("add_card.html", form=form)
+
 
 @users.route('/payment_info/delete/<int:card_id>', methods=['GET', 'POST'])
 @login_required
@@ -209,6 +215,7 @@ def delete_card(card_id):
 
 ##########################################################################
 
+
 @users.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
@@ -217,14 +224,12 @@ def account():
         abort(403)
 
     form = UpdateUserForm()
-    print(form.data)
     c_email = current_user.email
     c_username = current_user.username
     existing_email = None
     existing_username = None
     f_name = current_user.first_name
     l_name = current_user.last_name
-    isValid = True
     if form.validate_on_submit():
         print(form.picture.data)
         if form.picture.data:
@@ -234,10 +239,10 @@ def account():
             flash('Picture updated')
             db.session.commit()
 
-
-
-        existing_user_name = User.query.filter_by(username=form.username.data).first()
-        existing_user_email = User.query.filter_by(email=form.email.data).first()
+        existing_user_name = User.query.filter_by(
+            username=form.username.data).first()
+        existing_user_email = User.query.filter_by(
+            email=form.email.data).first()
 
         '''current_user.first_name = form.firstname.data
         current_user.last_name = form.lastname.data
@@ -260,13 +265,18 @@ def account():
         if existing_email == c_email and existing_username == c_username:
             return redirect(url_for('users.account'))
 
-        if existing_email is None:
+        if not form.email.data:
+            current_user.email = current_user.email
+        elif existing_email is None:
             current_user.email = form.email.data
         elif existing_email is not None and existing_email != c_email:
             flash('A user already exists with that email')
             return redirect(url_for('users.account'))
 
-        if existing_username is None:
+        if not form.username.data:
+            current_user.username = current_user.username
+
+        elif existing_username is None:
             current_user.username = form.username.data
         elif existing_username is not None and existing_username != c_username:
             flash('A user already exists with that username')
@@ -278,10 +288,12 @@ def account():
         flash('User Account Updated')
         return redirect(url_for('users.account'))
 
-    profile_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
-    return render_template('account.html', profile_image=profile_image, form=form, isValid=isValid)
+    profile_image = url_for(
+        'static', filename='profile_pics/' + current_user.profile_image)
+    return render_template('account.html', profile_image=profile_image, form=form)
 
-@users.route('/change_password', methods=['GET','POST'])
+
+@users.route('/change_password', methods=['GET', 'POST'])
 @login_required
 def change_password():
     form = ChangePassword()
@@ -294,6 +306,7 @@ def change_password():
         return redirect(url_for('users.account'))
     return render_template('change_password.html', form=form)
 
+
 @users.route("/<username>")
 def user_posts(username):
     # Limits the number of post that appears initially
@@ -305,11 +318,13 @@ def user_posts(username):
         BlogPost.date.desc()).paginate(page=page, per_page=5)
     return render_template('user_blog_posts.html', blog_posts=blog_posts, user=user)
 
+
 @users.route('/confirm/<token>')
 def confirm_email(token):
     try:
         confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
-        email = confirm_serializer.loads(token, salt='email-confirmation-salt', max_age=3600)
+        email = confirm_serializer.loads(
+            token, salt='email-confirmation-salt', max_age=3600)
         print(email + "Here!")
     except:
         flash('The confirmation link is invalid or has expired.', 'error')
@@ -342,13 +357,13 @@ def send_email(subject, recipients, html_body):
     thr.start()
 
 
-
 def send_confirmation_email(user_email):
     confirm_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
     confirm_url = url_for(
         'users.confirm_email',
-        token=confirm_serializer.dumps(user_email, salt='email-confirmation-salt'),
+        token=confirm_serializer.dumps(
+            user_email, salt='email-confirmation-salt'),
         _external=True)
 
     html = render_template(

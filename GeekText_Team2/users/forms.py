@@ -1,6 +1,6 @@
 from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField,TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from wtforms import ValidationError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -12,6 +12,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import current_user
 from GeekText_Team2.models import User
 from pygeocoder import Geocoder
+import re
 
 
 class LoginForm(FlaskForm):
@@ -25,16 +26,19 @@ class LoginForm(FlaskForm):
         if User.query.filter_by(email=email.data).first() is None:
             raise ValidationError("That email doesn't exist")
 
-    '''def validate_password(self, password):
-        user = User.query.filter_by(password=email.data).first()
-        if user.check_password(password) is False:
-            ValidationError("Wrong password")'''
+    def validate_password(self, password):
+        user = User.query.filter_by(email=self.email.data).first()
+        if user is not None:
+            checked = user.check_password(password.data)
+            if checked == False:
+                raise ValidationError("Wrong password")
 
 
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired(), Length(min=6, max=15, message="Must be between 6 and 10 characters and unique")])
+    username = StringField('Username', validators=[DataRequired(), Length(
+        min=6, max=15, message="Must be between 6 and 10 characters and unique")])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo(
         'pass_confirm', message='Passwords do not match!'), Length(min=6, max=15, message="Must be between 6 and 10 characters")])
@@ -55,12 +59,17 @@ class RegistrationForm(FlaskForm):
         if User.query.filter_by(email=email.data).first():
             raise ValidationError("That email is already registerd")
 
-    #def validate_address(self, address):
-        #addr = Geocoder.geocode(address)
-        #print(addr)
-        #if addr == False:
-            #raise ValidationError("Address not valid")
+    def validate_phone_num(self, phone_num):
+        Pattern = re.compile("^\d{3}-\d{3}-\d{4}$")
+        if Pattern.match(phone_num) == False:
+            raise ValidationError(
+                "Invalid phone number: 10 digits, with dashes or no dashes")
 
+        # def validate_address(self, address):
+        #addr = Geocoder.geocode(address)
+        # print(addr)
+        # if addr == False:
+        #raise ValidationError("Address not valid")
 
 
 class UpdateUserForm(FlaskForm):
@@ -74,6 +83,25 @@ class UpdateUserForm(FlaskForm):
     submit = SubmitField("Update")
 
 ### CHECK TO SEE IF USERNAME AND EMAIL ARE ALREADY TAKEN ###
+
+    def validate_username(self, username):
+        if username is not None:
+            existing_user = User.query.filter_by(
+                username=username.data).first()
+            current_username = current_user.username
+            if existing_user is not None:
+                if existing_user.username != current_username:
+                    raise ValidationError("That username is taken!")
+
+    def validate_email(self, email):
+        if email is not None:
+            existing_user = User.query.filter_by(
+                email=email.data).first()
+            current_email = current_user.email
+            if existing_user is not None:
+                if existing_user.email != current_email:
+                    raise ValidationError("That email is taken!")
+
     def check_email(self, field):
         if current_user.query.filter_by(email=field.data).first():
             raise ValidationError('Your email has been registered already!')
@@ -87,22 +115,29 @@ class ForgotForm(FlaskForm):
     email = EmailField('Email', validators=[Email(), DataRequired()])
     submit = SubmitField("Send")
 
+
 class PasswordResetForm(FlaskForm):
-    current_password = PasswordField("Current Password", validators=[DataRequired(), Length(min=6, max=15)])
+    current_password = PasswordField("Current Password", validators=[
+                                     DataRequired(), Length(min=6, max=15)])
+
 
 class ChangePassword(FlaskForm):
-    password = PasswordField("Current Password", validators=[DataRequired(), Length(min=6, max=15)])
-    new_password = PasswordField("New Password", validators=[DataRequired(), EqualTo('new_password_confirm', message='Passwords do not match!'), Length(min=6, max=15, message="Must be between 6 and 10 characters")])
-    new_password_confirm = PasswordField('Confirm password', validators=[DataRequired()])
+    password = PasswordField("Current Password", validators=[
+                             DataRequired(), Length(min=6, max=15)])
+    new_password = PasswordField("New Password", validators=[DataRequired(), EqualTo(
+        'new_password_confirm', message='Passwords do not match!'), Length(min=6, max=15, message="Must be between 6 and 10 characters")])
+    new_password_confirm = PasswordField(
+        'Confirm password', validators=[DataRequired()])
     submit = SubmitField("Submit")
 
     def validate_password(self, password):
-        if  current_user.check_password(password.data) is False:
+        if current_user.check_password(password.data) is False:
             raise ValidationError("Incorrect Password. Try Again")
 
     def validate_new_password(self, new_password):
         if current_user.check_password(new_password.data):
             raise ValidationError("Please use a new password")
+
 
 class AddPaymentInfo(FlaskForm):
     card_num = StringField('Card Number', validators=[DataRequired()])
@@ -121,6 +156,7 @@ class UpdateShippingForm(FlaskForm):
     phone_num = IntegerField('Phone', validators=[DataRequired()])
     submit = SubmitField('Update')
 
+
 class UpdateAddressForm(FlaskForm):
     address = StringField('Address')
     city = StringField('City')
@@ -131,5 +167,5 @@ class UpdateAddressForm(FlaskForm):
 
 
 class wishlistPostForm(FlaskForm):
-	title = StringField('title', validators=[DataRequired()])
-	submit = SubmitField('Wishlist')
+    title = StringField('title', validators=[DataRequired()])
+    submit = SubmitField('Wishlist')
