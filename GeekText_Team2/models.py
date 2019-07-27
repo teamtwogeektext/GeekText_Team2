@@ -7,8 +7,8 @@ from flask_login import UserMixin
 ##################################
 from numpy import genfromtxt
 from time import time
-from datetime import datetime
-from sqlalchemy import Column, Integer, Float, Date
+from datetime import datetime, date
+from sqlalchemy import Column, Integer, Float, Date, ForeignKey, Numeric
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -38,19 +38,65 @@ class User(db.Model, UserMixin):
     payment_info = db.relationship('Payment_Info', backref='users')
     wishlists = db.relationship('Wishlist', backref='users')
     posts = db.relationship('BlogPost', backref='author', lazy=True)
+    join_date = db.Column(db.String(20), nullable=False, default=date.today().strftime("%B %d, %Y"))
+    email_confirmation_sent_on = db.Column(db.DateTime, nullable=True)
+    email_confirmed = db.Column(db.Boolean, nullable=True, default=False)
+    email_confirmed_on = db.Column(db.DateTime, nullable=True)
 
-    def __init__(self, first_name,last_name, email, username, password):
+    def __init__(self, first_name,last_name, email, username, password, email_confirmation_sent_on=None):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
+        self.email_confirmation_sent_on = email_confirmation_sent_on
+        self.email_confirmed = False
+        self.email_confirmed_on = None
 
     def check_password(self,password):
         return check_password_hash(self.password_hash,password)
 
     def __repr__(self):
         return f"This is {self.name} with email -> {self.email}"
+
+########################################################
+
+################## PAYMENT_INFO MODEL ######################
+class Payment_Info(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    credit_number = db.Column(db.String(16), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    cardholder = db.Column(db.String(30), nullable=False)
+    expiration_date = db.Column(db.DateTime, nullable=False)
+    csv = db.Column(db.Integer, nullable=False)
+    ZIP = db.Column(db.Integer,nullable=False)
+
+    def __init__(self,credit_number,user_id,cardholder,expiration_date,csv,ZIP):
+        self.credit_number = credit_number
+        self.user_id = user_id
+        self.cardholder = cardholder
+        self.expiration_date = expiration_date
+        self.csv = csv
+        self.ZIP = ZIP
+
+########################################################
+
+################## WISHLIST MODEL ######################
+
+class Wishlist(db.Model):
+
+    __tablename__ = 'wishlists'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    books = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
+
+
+    def __init__(self, title, user_id,books):
+        self.title = title
+        self.user_id = user_id
+        self.title = title
+        self.books = books
 
 ########################################################
 
@@ -119,8 +165,7 @@ class Book(db.Model):
     author = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text,nullable=False)
     genre = db.Column(db.Text,nullable=False)
-    ISBN = db.Column(db.String(13), primary_key=True,
-                     unique=True, nullable=False)
+    ISBN = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
     image_url = db.Column(db.Text,nullable=False)
     price = db.Column(db.Numeric(10, 2),nullable=False)
     publisher = db.Column(db.Text)
@@ -129,7 +174,7 @@ class Book(db.Model):
     soldUnits = db.Column(db.Integer)
     title = db.Column(db.Text, nullable=False)
 
-    def __init__(self, author, genre, releaseDate, price, description, rating, image_url, soldUnits, title, publisher):
+    def __init__(self, author, description, genre, ISBN, releaseDate, price,  rating, image_url, soldUnits, title, publisher):
         self.title = title
         self.author = author
         self.genre = genre
@@ -196,7 +241,6 @@ class SavedItems(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
     ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
     id = db.Column(db.Integer, primary_key=True)
-
 
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):

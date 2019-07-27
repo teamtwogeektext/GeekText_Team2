@@ -8,11 +8,12 @@ from GeekText_Team2 import db
 from sqlalchemy import func
 from GeekText_Team2.models import User
 
-core = Blueprint('core',__name__)
+core = Blueprint('core', __name__)
+
 
 @core.route('/')
 def home():
-    bestsellers = Book.query.filter(Book.rating <= 4.0).limit(4).all()
+    bestsellers = Book.query.filter(Book.rating <= 4).limit(4).all()
     b1 = bestsellers[0]
     b2 = bestsellers[1]
     b3 = bestsellers[2]

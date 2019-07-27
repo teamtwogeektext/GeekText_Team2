@@ -58,6 +58,7 @@
 </style>
 
 <div class="parallax">
+<<<<<<< HEAD
   <link rel="stylesheet" type="text/css" href="static/css/account-styles.css" />
   <div class="row" id="body-row">
     <!-- Sidebar -->
@@ -158,6 +159,99 @@
       <!-- List Group END-->
     </div>
     <!-- Bootstrap row -->
+||||||| merged common ancestors
+=======
+  <link rel="stylesheet" type="text/css" href="static/css/account-styles.css" />
+  <div class="row" id="body-row">
+    <!-- Sidebar -->
+    <div
+      id="sidebar-container"
+      class="sidebar-expanded nav-light bg-dark d-none d-md-block col-2"
+    >
+      <!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
+      <!-- Bootstrap List Group -->
+      <ul class="list-group sticky-top sticky-offset">
+        <!-- Separator with title -->
+        <li
+          class="list-group-item sidebar-separator-title text-light d-flex align-items-center menu-collapsed"
+        >
+          <small>{{ current_user.username }}</small>
+        </li>
+        <!-- /END Separator -->
+        <!-- Menu with submenu -->
+        <a
+          href="{{ url_for('users.account') }}"
+          class="bg-dark list-group-item list-group-item-action"
+        >
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-user fa-fw mr-3"></span>
+            <span class="menu-collapsed">Profile</span>
+          </div>
+        </a>
+        <!-- Submenu content -->
+        <a href="#" class="bg-dark list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-list fa-fw mr-3"></span>
+            <span class="menu-collapsed">Wishlist</span>
+          </div>
+        </a>
+        <!-- /END Separator -->
+        <a href="#" class="bg-dark list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-shopping-cart fa-fw mr-3"></span>
+            <span class="menu-collapsed"
+              >Shopping Cart
+              <span class="badge badge-pill badge-primary ml-2">5</span></span
+            >
+          </div>
+        </a>
+        <a
+          href="{{ url_for('users.shipping_info') }}"
+          class="bg-dark list-group-item list-group-item-action"
+        >
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-truck fa-fw mr-3"></span>
+            <span class="menu-collapsed">Shipping Info</span>
+          </div>
+        </a>
+        <a href="{{url_for('users.payment_info')}}" class="bg-dark list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-credit-card fa-fw mr-3"></span>
+            <span class="menu-collapsed">Payment Info</span>
+          </div>
+        </a>
+        <a href="#" class="bg-dark list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-thumbs-up fa-fw mr-3"></span>
+            <span class="menu-collapsed">Reviews</span>
+          </div>
+        </a>
+        <a href="#" class="bg-dark list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-star fa-fw mr-3"></span>
+            <span class="menu-collapsed">Favorites</span>
+          </div>
+        </a>
+        <!-- Separator without title -->
+        <li class="list-group-item sidebar-separator menu-collapsed"></li>
+        <!-- /END Separator -->
+        <a href="#" class="bg-dark list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-start align-items-center">
+            <span class="fa fa-question fa-fw mr-3"></span>
+            <span class="menu-collapsed">Help</span>
+          </div>
+        </a>
+        <!-- Logo -->
+        <li
+          class="list-group-item logo-separator d-flex justify-content-center"
+        >
+          <img src="static/images/logo_white.png" width="50" height="50" />
+        </li>
+      </ul>
+      <!-- List Group END-->
+    </div>
+    <!-- Bootstrap row -->
+>>>>>>> guille
 
     <div id="ship-cont" class="container py-5" style="width: 100%;">
       <div class="col-md-9" style="width: 100%;">

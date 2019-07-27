@@ -2,44 +2,69 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, IntegerField,TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from wtforms import ValidationError
-#FOR IMAGE VALIDATION
+from werkzeug.security import generate_password_hash, check_password_hash
+from wtforms.fields.html5 import EmailField
+# FOR IMAGE VALIDATION
 from flask_wtf.file import FileField, FileAllowed
-
-#User Based Imports
+from flask_bootstrap import Bootstrap
+# User Based Imports
 from flask_login import current_user
 from GeekText_Team2.models import User
+from pygeocoder import Geocoder
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
 
+    def validate_email(self, email):
+        if User.query.filter_by(email=email.data).first() is None:
+            raise ValidationError("That email doesn't exist")
+
+    '''def validate_password(self, password):
+        user = User.query.filter_by(password=email.data).first()
+        if user.check_password(password) is False:
+            ValidationError("Wrong password")'''
+
 
 class RegistrationForm(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(),Email()])
-    password = PasswordField('Password', validators=[DataRequired(), EqualTo('pass_confirm', message='Passwords Must Match!')])
-    pass_confirm = PasswordField('Confirm password', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(), Length(min=6, max=15, message="Must be between 6 and 10 characters and unique")])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired(), EqualTo(
+        'pass_confirm', message='Passwords do not match!'), Length(min=6, max=15, message="Must be between 6 and 10 characters")])
+    pass_confirm = PasswordField(
+        'Confirm password', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = IntegerField('ZIP', validators=[DataRequired()])
+    phone_num = IntegerField('Phone', validators=[DataRequired()])
     submit = SubmitField('Register!')
 
-    def check_email(self, field):
-        # Check if not None for that user email!
-        if User.query.filter_by(email=field.data).first():
-            raise ValidationError('Your email has been registered already!')
+    def validate_username(self, username):
+        if User.query.filter_by(username=username.data).first():
+            raise ValidationError("That username is taken!")
 
-    def check_username(self, field):
-        # Check if not None for that username!
-        if User.query.filter_by(username=field.data).first():
-            raise ValidationError('Sorry, that username is taken!')
+    def validate_email(self, email):
+        if User.query.filter_by(email=email.data).first():
+            raise ValidationError("That email is already registerd")
+
+    #def validate_address(self, address):
+        #addr = Geocoder.geocode(address)
+        #print(addr)
+        #if addr == False:
+            #raise ValidationError("Address not valid")
+
+
 
 class UpdateUserForm(FlaskForm):
 
-    email = StringField('Email', validators=[Email()])
+    email = StringField('Email')
     firstname = StringField('FirstName')
     lastname = StringField('FirstName')
     username = StringField('UserName')
-    #new_password = StringField('NewPassword', validators=[DataRequired()])
     picture = FileField('Update Profile Picture', validators=[
                         FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Update")
@@ -52,6 +77,28 @@ class UpdateUserForm(FlaskForm):
     def check_username(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
+
+
+class ForgotForm(FlaskForm):
+    email = EmailField('Email', validators=[Email(), DataRequired()])
+    submit = SubmitField("Send")
+
+class PasswordResetForm(FlaskForm):
+    current_password = PasswordField("Current Password", validators=[DataRequired(), Length(min=6, max=15)])
+
+class ChangePassword(FlaskForm):
+    password = PasswordField("Current Password", validators=[DataRequired(), Length(min=6, max=15)])
+    new_password = PasswordField("New Password", validators=[DataRequired(), EqualTo('new_password_confirm', message='Passwords do not match!'), Length(min=6, max=15, message="Must be between 6 and 10 characters")])
+    new_password_confirm = PasswordField('Confirm password', validators=[DataRequired()])
+    submit = SubmitField("Submit")
+
+    def validate_password(self, password):
+        if  current_user.check_password(password.data) is False:
+            raise ValidationError("Incorrect Password. Try Again")
+
+    def validate_new_password(self, new_password):
+        if current_user.check_password(new_password.data):
+            raise ValidationError("Please use a new password")
 
 class AddPaymentInfo(FlaskForm):
     card_num = StringField('Card Number', validators=[DataRequired()])
