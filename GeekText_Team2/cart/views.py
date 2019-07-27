@@ -20,6 +20,9 @@ def cart():
 @login_required
 def addToCart():
     bookId = request.args.get('ISBN')
+    check = Cart.query.filter_by(userId=current_user.id, ISBN=bookId).first()
+    if check is not None:
+        return redirect(url_for('cart.cart'))
     item = Cart(userId=current_user.id,ISBN=bookId, quantity=1)
     db.session.add(item)
     db.session.commit()
@@ -30,6 +33,9 @@ def addToCart():
 @login_required
 def addToSaved():
     bookId = request.args.get('ISBN')
+    check = SavedItems.query.filter_by(userId=current_user.id, ISBN=bookId).first()
+    if check is not None:
+        return redirect(url_for('cart.cart'))
     item = SavedItems(userId=current_user.id,ISBN=bookId)
     db.session.add(item)
     db.session.commit()
