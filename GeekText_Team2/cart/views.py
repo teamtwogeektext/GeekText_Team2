@@ -9,11 +9,10 @@ cart_blueprint = Blueprint('cart', __name__)
 @cart_blueprint.route('/cart')
 @login_required
 def cart():
-    items = Book.query.join(Cart).filter_by(userId=current_user.id)
+    items = Book.query.join(Cart).add_columns(Cart.userId, Cart.ISBN, Cart.quantity, Book.price, Book.title, Book.image_url).filter_by(userId=current_user.id)
     totalPrice = 0
     for row in items:
-        item = Cart.query.filter_by(ISBN=row.ISBN).first()
-        totalPrice += row.price*item.quantity
+        totalPrice += row.price*row.quantity
     savedItems = Book.query.join(SavedItems).filter_by(userId=current_user.id)
     return render_template('cart.html',totalPrice=totalPrice, items=items, savedItems=savedItems)
 
@@ -88,12 +87,12 @@ def checkout():
 
 
 
-@cart_blueprint.route('/clearOrders')
-@login_required
-def orderErase():
-    orders = Orders.query.filter_by(userId=current_user.id)
-    for row in orders:
-        order = Orders.query.filter_by(userId=current_user.id, ISBN=row.ISBN).first()
-        db.session.delete(order)
-    db.session.commit()
-    return redirect(url_for('cart.cart'))
+#@cart_blueprint.route('/clearOrders')
+#@login_required
+#def orderErase():
+#    orders = Orders.query.filter_by(userId=current_user.id)
+#    for row in orders:
+#        order = Orders.query.filter_by(userId=current_user.id, ISBN=row.ISBN).first()
+#        db.session.delete(order)
+#    db.session.commit()
+#    return redirect(url_for('cart.cart'))
