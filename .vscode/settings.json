@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "GeekText_Team2/bin/python"
+    "python.pythonPath": "/miniconda3/envs/condaenv/bin/python",
+    "python.linting.enabled": false
 }

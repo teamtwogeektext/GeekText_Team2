@@ -4,7 +4,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-import mysql.connector
 
 login_manager = LoginManager()
 
@@ -35,8 +34,11 @@ from GeekText_Team2 import models
 from GeekText_Team2.core.views import core
 from GeekText_Team2.users.views import users
 from GeekText_Team2.books.views import books_blueprint
+from GeekText_Team2.blog_posts.views import blog_posts
+from GeekText_Team2.Wishlist.views import wishlist_posts
 #from GeekText_Team2.blog_posts.views import blog_posts
 #from GeekText_Team2.error_pages.handlers import error_pages
+from GeekText_Team2.cart.views import cart_blueprint
 
 # Register the apps
 app.register_blueprint(users)
@@ -45,6 +47,9 @@ app.register_blueprint(core)
 #app.register_blueprint(error_pages)
 
 app.register_blueprint(books_blueprint)
+app.register_blueprint(blog_posts)
+app.register_blueprint(wishlist_posts)
+app.register_blueprint(cart_blueprint)
 
 
 # from myproject.puppies.views import puppies_blueprint
