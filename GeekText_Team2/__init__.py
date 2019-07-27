@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
+
 login_manager = LoginManager()
 
 app=Flask(__name__)
@@ -20,7 +21,7 @@ Migrate(app, db)
 
 login_manager.init_app(app)
 
-login_manager.login_view = "login"
+login_manager.login_view = "users.login"
 
 from GeekText_Team2 import models
 

@@ -2,9 +2,16 @@ from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from GeekText_Team2 import db
 from GeekText_Team2.models import Cart, User, Book, Orders, SavedItems
+import stripe
+
+
 
 
 cart_blueprint = Blueprint('cart', __name__)
+
+public_key = "pk_test_TYooMQauvdEDq54NiTphI7jx"
+stripe.api_key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
+
 
 @cart_blueprint.route('/cart')
 @login_required
@@ -111,6 +118,38 @@ def lowerQuantity():
     db.session.commit()
     return redirect(url_for('cart.cart'))
 
+@cart_blueprint.route('/confirmPayment')
+@login_required
+def confirmPayment():
+    items = Book.query.join(Cart).filter_by(userId=current_user.id)
+    totalPrice = 0
+    for row in items:
+        item = Cart.query.filter_by(userId=current_user.id, ISBN=row.ISBN).first()
+        totalPrice += row.price*item.quantity
+    return render_template('confirmPayment.html',totalPrice=totalPrice, items=items, public_key=public_key)
+
+
+@cart_blueprint.route('/payment', methods=['POST'])
+@login_required
+def charge():
+    items = Book.query.join(Cart).filter_by(userId=current_user.id)
+    totalPrice = 0
+    for row in items:
+        item = Cart.query.filter_by(userId=current_user.id, ISBN=row.ISBN).first()
+        totalPrice += row.price*item.quantity
+
+    amount = int(totalPrice*100)
+
+    customer=stripe.Customer.create(
+        email=request.form['stripeEmail'],
+        source=request.form['stripeToken'])
+
+    charge = stripe.Charge.create(
+        customer = customer.id,
+        amount = amount,
+        currency='usd')
+
+    return redirect(url_for('cart.checkout'))
 
 #@cart_blueprint.route('/clearOrders')
 #@login_required
