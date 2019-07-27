@@ -201,7 +201,7 @@ label.star:before {
               <a href="{{ url_for('users.user_posts', username=post.author.username) }}">Written By: {{ post.author.username }}</a>
               <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
               <p class="card-text">{{ post.text[:70] }}...</p>
-              <p class="card-text">{{ post.rating }}...</p>
+              <p class="card-text">{{ post.rating }} Stars</p>
               <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
               </div>
               </div>
@@ -210,7 +210,7 @@ label.star:before {
 <p>Written By: anonymous...</p>
  <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
  <p class="card-text">{{ post.text[:70] }}...</p>
- <p class="card-text">{{ post.rating }}...</p>
+ <p class="card-text">{{ post.rating }} Stars</p>
  <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
  </div>
  </div>

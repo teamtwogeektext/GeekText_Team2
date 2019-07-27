@@ -43,7 +43,8 @@ def index():
     This is the home page view. Notice how it uses pagination to show a limited
     number of posts by limiting its query size and then calling paginate.
     '''
+    books = Book.query.all()
     page = request.args.get('page', 1, type=int)
     blog_posts = BlogPost.query.order_by(BlogPost.date.desc()).paginate(page=page, per_page=10)
     # Returns an instance of the main page
-    return render_template('index.html',blog_posts=blog_posts)      # Links to the index template
+    return render_template('index.html',blog_posts=blog_posts, books = books)      # Links to the index template
