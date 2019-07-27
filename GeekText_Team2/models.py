@@ -17,34 +17,30 @@ from sqlalchemy.orm import sessionmaker
 ############ DATABASE MODELS ################
 #############################################
 
-
 @login_manager.user_loader
 def load_user(user_id):
 
     return User.query.get(user_id)
 
 ############### USER MODEL #############################
-
-
 class User(db.Model, UserMixin):
 
-    __tablename__ = 'users'  # override tablename
+    __tablename__ = 'users' #override tablename
     id = db.Column(db.Integer, primary_key=True)
-    profile_image = db.Column(
-        db.String(25), nullable=False, default='level_one_geeker.png')
+    profile_image = db.Column(db.String(25), nullable=False,default='default_profile.png')
     name = db.Column(db.Text)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
 
-    def __init__(self, name, email, username, password):
+    def __init__(self,name,email,username,password):
         self.name = name
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    def check_password(self,password):
+        return check_password_hash(self.password_hash,password)
 
     def __repr__(self):
         return f"This is {self.name} with email -> {self.email}"
@@ -52,22 +48,19 @@ class User(db.Model, UserMixin):
 ########################################################
 
 ############### BOOK MODEL #############################
-
-
 class Book(db.Model):
 
     __tablename__ = 'books'
-    ISBN = db.Column(db.String(13), primary_key=True,
-                     unique=True, nullable=True)
+    ISBN = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
     title = db.Column(db.Text, nullable=False)
     author = db.Column(db.Text)
     genre = db.Column(db.Text)
     publication_year = db.Column(db.String(4))
-    price = db.Column(db.Numeric(10, 2))
+    price = db.Column(db.Numeric(10,2))
     stock = db.Column(db.Integer)
-    description = db.Column(db.String(500))
-    average_rating = db.Column(db.Float, nullable=False)
-    ratings_count = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.Text)
+    average_rating = db.Column(db.Numeric(5,2))
+    ratings_count = db.Column(db.Integer)
     ratings_1 = db.Column(db.Integer)
     ratings_2 = db.Column(db.Integer)
     ratings_3 = db.Column(db.Integer)
@@ -75,8 +68,13 @@ class Book(db.Model):
     ratings_5 = db.Column(db.Integer)
     image_url = db.Column(db.Text)
     small_image_url = db.Column(db.Text)
+    # publisher_id = db.Column(db.Integer, db.ForeignKey('publisher.publisher_id'))
+    # # author_id = db.relationship(db.Integer,'Author', backref='Book', lazy=True)
+    # author_id = db.Column(db.Integer, db.ForeignKey('author.author_id'))
 
-    def __init__(self, title, author, genre, publication_year, price, stock, description, average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
+    def __init__(self,ISBN,title,author,genre,publication_year,price,stock,description,
+                average_rating, ratings_count, ratings_1, ratings_2, ratings_3, ratings_4, ratings_5, image_url, small_image_url):
+        self.ISBN = ISBN
         self.title = title
         self.author = author
         self.genre = genre
@@ -95,16 +93,17 @@ class Book(db.Model):
         self.small_image_url = small_image_url
 
 
+
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):
-#
+
 #     __tablename__ = 'publisher'
-#
+
 #     publisher_id = db.Column(db.Integer, primary_key=True)
 #     name = db.Column(db.Text, nullable=False)
 #     address = db.Column(db.Text)
 #     books = db.relationship('Book', backref='publisher', lazy=True)
-#
+
 #     def __init__(self, name, address):
 #         self.name = name
 #         self.address = address
@@ -115,12 +114,12 @@ class Book(db.Model):
 ############### AUTHOR MODEL #############################
 # class Author(db.Model):
 
- #   __tablename__ = 'author'
+#     __tablename__ = 'author'
 
-  #  author_id = db.Column(db.Integer, primary_key=True)
-   # name = db.Column(db.Text, nullable=False)
-    #books = db.relationship('Book', backref='author', lazy=True)
+#     author_id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.Text, nullable=False)
+#     books = db.relationship('Book', backref='author', lazy=True)
 
-    # def __init__(self, name):
-     #   self.name = name
+#     def __init__(self, name):
+#         self.name = name
 ############################################################
