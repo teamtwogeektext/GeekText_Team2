@@ -99,45 +99,8 @@ class Wishlist(db.Model):
         self.books = books
 
 ########################################################
-
-################## PAYMENT_INFO MODEL ######################
-class Payment_Info(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    credit_number = db.Column(db.String(16), nullable=False)
-    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    cardholder = db.Column(db.String(30), nullable=False)
-    expiration_date = db.Column(db.DateTime, nullable=False)
-    csv = db.Column(db.Integer, nullable=False)
-    ZIP = db.Column(db.Integer,nullable=False)
-
-    def __init__(self,credit_number,user_id,cardholder,expiration_date,csv,ZIP):
-        self.credit_number = credit_number
-        self.user_id = user_id
-        self.cardholder = cardholder
-        self.expiration_date = expiration_date
-        self.csv = csv
-        self.ZIP = ZIP
-
 ########################################################
 
-################## WISHLIST MODEL ######################
-
-class Wishlist(db.Model):
-
-    __tablename__ = 'wishlists'
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    books = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
-
-
-    def __init__(self, title, user_id,books):
-        self.title = title
-        self.user_id = user_id
-        self.title = title
-        self.books = books
-
-########################################################
 
 ############### ADDRESS MODEL #############################
 class Address(db.Model):

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     {% block head %}
@@ -15,23 +15,18 @@
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/stylez.css') }}">
 
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+      .container span {
+        color: #1cb9a4 !important;
+      }
+    </style>
 
+    <title>GeekText</title>
   </head>
   {% endblock %}
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="{{url_for('core.home')}}">
-    <img src="static/images/logo.png" class="img-responsive" width="30" height="30" alt="">
-    Geek Text
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <!-- START HERE -->
 
     <nav
       class="navbar navbar-expand-md nav-light bg-dark fixed-top py-2"
@@ -118,37 +113,53 @@
             </li>
           </ul>
         </div>
-      </li>
-      {% else %}
-      <li class="nav-item">
-        <a class="nav-link active" href="{{url_for('users.login')}}" tabindex="-1" aria-disabled="false">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="{{url_for('users.register')}}" tabindex="-1" aria-disabled="false">Register</a>
-      </li>
-      {% endif %}
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-  </div>
-</nav>
-</nav>
+      </div>
+    </nav>
+    {% block sidenav %}
+    {% endblock %}
 
-<!-- CLASS EXTENDERS CODE GOES HERE -->
+    {% block content%} {% endblock %}
 
-<header>
-  {% block header %}
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+      integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+      crossorigin="anonymous"
+    ></script>
 
-  {% endblock %}
-</header>
+    <script>
+      // Get the current year for the copyright
+      $("#year").text(new Date().getFullYear());
 
-<div>
-  {% block content %}
+      $("body").scrollspy({ target: "#main-nav" });
 
-  {% endblock %}
-</div>
+      $("#main-nav a").on("click", function(event) {
+        if (this.hash !== "") {
+          event.preventDefault();
+          const hash = this.hash;
 
+          $("html, body").animate(
+            {
+              scrollTop: $(hash).offset().top
+            },
+            800,
+            function() {
+              window.location.hash = hash;
+            }
+          );
+        }
+      });
+    </script>
   </body>
+  {% block footer %}
+  {% endblock  %}
 </html>

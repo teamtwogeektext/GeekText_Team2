@@ -72,14 +72,20 @@ def best_rated():
 
     return render_template('new_browse.html', books=books, genres=genres)
 
-@books_blueprint.route('/browse/authors/<author>')
-def author(author):
+#@books_blueprint.route('/browse/authors/<author>')
+#def author(author):
     #grab list of books based on author from db
+    #books = Book.query.filter_by(author=author)
+    #print(type(books))
+    #return render_template('new_browse.html', author=author, books=books)
+@books_blueprint.route('/browse/authors')
+def author():
+    author= request.args.get('author')
     books = Book.query.filter_by(author=author)
-    return render_template('list.html', author=author, books=books)
+    print(type(books))
+    return render_template('new_browse.html', author=author, books=books)
 
 @books_blueprint.route('/browse/<ISBN>', methods=['GET','POST'])
-@login_required
 def browse(ISBN):       #was named details
     #grab book details
     books = Book.query.filter_by(ISBN=ISBN).first()

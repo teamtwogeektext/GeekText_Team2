@@ -100,7 +100,7 @@ label.star:before {
           <p style="font-size:32px">{{books.title}}</p>
           <p style="font-size:32px">{{books.price}}</p>
           <p style="font-size:14px">{{books.genre}}</p>
-          <a style="font-size:14px" href="/browse/authors/{{books.author}}">by {{books.author}}</a>
+          <a style="font-size:14px" href="{{ url_for('books.author',author=books.author)}}">by {{books.author}}</a>
           <p class="text-left">{{ books.description }}</p>
           <p class="card-text"><small class="text-muted">Published in {{ books.publication_year }}</small></p>
           <a href="#" class="btn btn-primary">Add to Cart</a>
