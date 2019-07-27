@@ -14,28 +14,69 @@ books_blueprint = Blueprint('books', __name__, template_folder='templates/books'
 
 @books_blueprint.route('/books/all')
 def list():
+    stop_pagination = False
+    page = request.args.get('page', 1, type=int) 
     sort_by = request.args.get('sort_by')
+    books = Book.query.order_by(sort_by).paginate(page=page, per_page=12)
+    raw_genres = Book.query.with_entities(Book.genre).group_by(Book.genre).all()
+    genres = []
 
-    books = Book.query.order_by(sort_by)
+    for word in raw_genres:
+        word = str(word)
+        word = (word).replace('(', '').replace(')', '').replace('\'', '').replace(',', '')
+        genres.append(word)
 
-    return render_template('list.html', books=books)
+    return render_template('new_browse.html', books=books, genres=genres, stop_pagination=stop_pagination)
 
 @books_blueprint.route('/books/genre')
 def genre():
+    page = request.args.get('page', 1, type=int)
     genre = request.args.get('genre')
     sort_by = request.args.get('sort_by')
+    books = Book.query.filter_by(genre=genre).order_by(sort_by).paginate(page=page, per_page=12)
+    raw_genres = Book.query.with_entities(Book.genre).group_by(Book.genre).all()
+    genres = []
 
-    books = Book.query.filter_by(genre=genre).order_by(sort_by)
+    for word in raw_genres:
+        word = str(word)
+        word = (word).replace('(', '').replace(')', '').replace('\'', '').replace(',', '')
+        genres.append(word)
 
-    return render_template(genre + '.html', books=books)
+    return render_template('new_genre.html', genre=genre, books=books, genres=genres)
+
+@books_blueprint.route('/books/best_sellers')
+def best_sellers():
+    stop_pagination = True
+    books = Book.query.order_by(desc('soldUnits')).paginate(per_page=6)     # .limit(6).all()
+    raw_genres = Book.query.with_entities(Book.genre).group_by(Book.genre).all()
+    genres = []
+
+    for word in raw_genres:
+        word = str(word)
+        word = (word).replace('(', '').replace(')', '').replace('\'', '').replace(',', '')
+        genres.append(word)
+
+    return render_template('new_browse.html', books=books, genres=genres)
 
 @books_blueprint.route('/books/best_rated')
 def best_rated():
+    stop_pagination = True
+    books = Book.query.order_by(desc('rating')).paginate(per_page=6)
+    raw_genres = Book.query.with_entities(Book.genre).group_by(Book.genre).all()
+    genres = []
 
-    books = Book.query.order_by(desc('average_rating')).limit(6).all()
+    for word in raw_genres:
+        word = str(word)
+        word = (word).replace('(', '').replace(')', '').replace('\'', '').replace(',', '')
+        genres.append(word)
 
-    return render_template('best_rated.html', books=books)
+    return render_template('new_browse.html', books=books, genres=genres)
 
+@books_blueprint.route('/browse/authors/<author>')
+def author(author):
+    #grab list of books based on author from db
+    books = Book.query.filter_by(author=author)
+    return render_template('list.html', author=author, books=books)
 
 @books_blueprint.route('/browse/<ISBN>', methods=['GET','POST'])
 @login_required
@@ -84,9 +125,3 @@ def browse(ISBN):       #was named details
 
 
     return render_template('bookentry.html', ISBN=ISBN, books=books,blog_posts=blog_posts,book_isbn = ISBN, form = form, store_isbn = ISBN, order = order, orders = orders)
-
-@books_blueprint.route('/browse/authors/<author>')
-def author(author):
-    #grab list of books based on author from db
-    books = Book.query.filter_by(author=author)
-    return render_template('list.html', author=author, books=books)
