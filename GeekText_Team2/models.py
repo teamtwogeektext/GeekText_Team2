@@ -136,8 +136,7 @@ class Book(db.Model):
     author = db.Column(db.Text, nullable=False)
     description = db.Column(db.Text,nullable=False)
     genre = db.Column(db.Text,nullable=False)
-    ISBN = db.Column(db.String(13), primary_key=True,
-                     unique=True, nullable=False)
+    ISBN = db.Column(db.String(13), primary_key=True, unique=True, nullable=False)
     image_url = db.Column(db.Text,nullable=False)
     price = db.Column(db.Numeric(10, 2),nullable=False)
     publisher = db.Column(db.Text)
@@ -146,7 +145,7 @@ class Book(db.Model):
     soldUnits = db.Column(db.Integer)
     title = db.Column(db.Text, nullable=False)
 
-    def __init__(self, author, genre, releaseDate, price, description, rating, image_url, soldUnits, title, publisher):
+    def __init__(self, author, description, genre, ISBN, releaseDate, price,  rating, image_url, soldUnits, title, publisher):
         self.title = title
         self.author = author
         self.genre = genre
