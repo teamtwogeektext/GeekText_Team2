@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired,Email,EqualTo
+from wtforms import StringField, PasswordField, SubmitField, IntegerField,TextAreaField
+from wtforms.validators import DataRequired, Email, EqualTo, Length
 from wtforms import ValidationError
 #FOR IMAGE VALIDATION
 from flask_wtf.file import FileField, FileAllowed
@@ -35,9 +35,13 @@ class RegistrationForm(FlaskForm):
 
 class UpdateUserForm(FlaskForm):
 
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    username = StringField('UserName', validators=[DataRequired()])
-    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg','png'])])
+    email = StringField('Email', validators=[Email()])
+    firstname = StringField('FirstName')
+    lastname = StringField('FirstName')
+    username = StringField('UserName')
+    #new_password = StringField('NewPassword', validators=[DataRequired()])
+    picture = FileField('Update Profile Picture', validators=[
+                        FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Update")
 
 ### CHECK TO SEE IF USERNAME AND EMAIL ARE ALREADY TAKEN ###
@@ -48,3 +52,33 @@ class UpdateUserForm(FlaskForm):
     def check_username(self, field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('Your username has been registered already!')
+
+class AddPaymentInfo(FlaskForm):
+    card_num = StringField('Card Number', validators=[DataRequired()])
+    name = StringField('Card Holder', validators=[DataRequired()])
+    exp_date = StringField('Expiration', validators=[DataRequired()])
+    csv = IntegerField('CSV', validators=[DataRequired()])
+    zip = IntegerField('ZIP', validators=[DataRequired()])
+    submit = SubmitField('Add Card')
+
+
+class UpdateShippingForm(FlaskForm):
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired()])
+    zip_code = IntegerField('ZIP', validators=[DataRequired()])
+    phone_num = IntegerField('Phone', validators=[DataRequired()])
+    submit = SubmitField('Update')
+
+class UpdateAddressForm(FlaskForm):
+    address = StringField('Address')
+    city = StringField('City')
+    state = StringField('State')
+    zip_code = IntegerField('ZIP')
+    phone_num = IntegerField('Phone')
+    submit = SubmitField('Update')
+
+
+class wishlistPostForm(FlaskForm):
+	title = StringField('title', validators=[DataRequired()])
+	submit = SubmitField('Wishlist')
