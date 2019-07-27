@@ -92,6 +92,25 @@ def checkout():
     return render_template('checkout.html',totalPrice=totalPrice, items=items)
 
 
+@cart_blueprint.route('/addQuantity')
+@login_required
+def addQuantity():
+    bookId = request.args.get('ISBN')
+    item = Cart.query.filter_by(userId=current_user.id, ISBN=bookId).first()
+    item.quantity += 1
+    db.session.commit()
+    return redirect(url_for('cart.cart'))
+
+
+@cart_blueprint.route('/lowerQuantity')
+@login_required
+def lowerQuantity():
+    bookId = request.args.get('ISBN')
+    item = Cart.query.filter_by(userId=current_user.id, ISBN=bookId).first()
+    item.quantity -= 1
+    db.session.commit()
+    return redirect(url_for('cart.cart'))
+
 
 #@cart_blueprint.route('/clearOrders')
 #@login_required
