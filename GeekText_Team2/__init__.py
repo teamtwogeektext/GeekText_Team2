@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_dance.contrib.google import make_google_blueprint,google
 
 
 login_manager = LoginManager()
@@ -25,6 +26,8 @@ login_manager.init_app(app)
 
 login_manager.login_view = "users.login"
 
+blueprint = make_google_blueprint(client_id="",client_secret='',offline=True, scope=['profile','email'])
+
 
 ###########################
 #### BLUEPRINT CONFIGS #######
@@ -41,6 +44,7 @@ from GeekText_Team2 import models
 #from GeekText_Team2.error_pages.handlers import error_pages
 
 # Register the apps
+app.register_blueprint(blueprint,url_prefix='/login')
 app.register_blueprint(users)
 # app.register_blueprint(blog_posts)
 app.register_blueprint(core)

@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
-from GeekText_Team2 import db, app, mail
+from GeekText_Team2 import db, app, mail, google
 from flask_mail import Message
 from threading import Thread
 from sqlalchemy.exc import IntegrityError
@@ -184,7 +184,7 @@ def add_card():
         c_card = Payment_Info(credit_number=form.card_num.data,
                               user_id=current_user.id,
                               cardholder=form.name.data,
-                              expiration_date=form.exp_date,
+                              expiration_date=form.exp_date.data,
                               csv=form.csv.data,
                               ZIP=form.zip.data)
 

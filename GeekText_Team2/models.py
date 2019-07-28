@@ -78,7 +78,7 @@ class Payment_Info(db.Model):
     credit_number = db.Column(db.String(16), nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     cardholder = db.Column(db.String(30), nullable=False)
-    expiration_date = db.Column(db.String(16), nullable=False)
+    expiration_date = db.Column(db.String(5), nullable=False)
     csv = db.Column(db.Integer, nullable=False)
     ZIP = db.Column(db.Integer, nullable=False)
 

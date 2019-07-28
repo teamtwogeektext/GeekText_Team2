@@ -86,14 +86,14 @@
           </div>
         </a>
         <!-- Submenu content -->
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
+        <a href="{{ url_for('wishlist_posts.create_wish') }}" class="bg-dark list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-list fa-fw mr-3"></span>
             <span class="menu-collapsed">Wishlist</span>
           </div>
         </a>
         <!-- /END Separator -->
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
+        <a href="{{ url_for('cart.cart') }}" class="bg-dark list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-shopping-cart fa-fw mr-3"></span>
             <span class="menu-collapsed"
@@ -117,16 +117,10 @@
             <span class="menu-collapsed">Payment Info</span>
           </div>
         </a>
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
+        <a href="{{ url_for('core.index') }}" class="bg-dark list-group-item list-group-item-action">
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-thumbs-up fa-fw mr-3"></span>
             <span class="menu-collapsed">Reviews</span>
-          </div>
-        </a>
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
-          <div class="d-flex w-100 justify-content-start align-items-center">
-            <span class="fa fa-star fa-fw mr-3"></span>
-            <span class="menu-collapsed">Favorites</span>
           </div>
         </a>
         <!-- Separator without title -->

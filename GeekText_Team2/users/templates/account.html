@@ -195,14 +195,20 @@
           </div>
         </a>
         <!-- Submenu content -->
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
+        <a
+          href="{{ url_for('wishlist_posts.create_wish') }}"
+          class="bg-dark list-group-item list-group-item-action"
+        >
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-list fa-fw mr-3"></span>
             <span class="menu-collapsed">Wishlist</span>
           </div>
         </a>
         <!-- /END Separator -->
-        <a href="#" class="bg-dark list-group-item list-group-item-action">
+        <a
+          href="{{ url_for('cart.cart') }}"
+          class="bg-dark list-group-item list-group-item-action"
+        >
           <div class="d-flex w-100 justify-content-start align-items-center">
             <span class="fa fa-shopping-cart fa-fw mr-3"></span>
             <span class="menu-collapsed"
