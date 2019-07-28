@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
+<link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+
   <div class="container-fluid" style="background: lightgray">
       <!-- Page Content -->
     <div class="container" style="background: white">
@@ -9,10 +11,10 @@
     
           <div class="col-lg-3">
     
-            <h4 class="my-4" style="text-align: center">Genres</h4>
+            <h2 class="my-4" style="text-align: center">Genres</h2>
     
             <!--GENRE MENU-->
-            <div class="list-group">
+            <div class="list-group" style="font-size: 20px">
                 <a href="{{ url_for('books.list') }}" class="list-group-item">All</a>
                 {% for genre in genres %}
                 <a href="{{ url_for('books.genre', genre=genre) }}" class="list-group-item">{{ genre }}</a>
@@ -25,10 +27,12 @@
                 Sort By
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre, sort_by='price') }}">Price Low-High</a>
-              <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre, sort_by='author') }}">Author Name A-Z</a>
-              <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre, sort_by='title') }}">Book Title A-Z</a>
-              <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre, sort_by='rating') }}">Ratings Low-High</a>
+                <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre,sort_by='price') }}">Price Low-High</a>
+                <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre,sort_by='price', desc=True) }}">Price High-Low</a>
+                <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre,sort_by='author') }}">Author Name A-Z</a>
+                <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre,sort_by='title') }}">Book Title A-Z</a>
+                <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre,sort_by='rating') }}">Ratings Low-High</a>
+                <a class="dropdown-item" href="{{ url_for('books.genre', genre=genre,sort_by='rating', desc=True) }}">Ratings High-Low</a>
               </div>
             </div>
     
@@ -37,8 +41,8 @@
     
           <div class="col-lg-9">
 
-            <div class="jumbotron">
-                <h1 class="my-0" style="text-align: center">Browse {{ genre }} Titles</h1>
+            <div class="jumbotron" style="background-image: url(../../../static/images/color-background.png)">
+                <h1 class="my-0" style="text-align: center; font-family: 'Vollkorn', serif; color: white">BROWSE {{ genre|upper }} TITLES</h1>
     
             </div>
     
@@ -53,13 +57,13 @@
                   <a href="#"><img class="card-img-top" src="{{ book.image_url }}" alt=""></a>
                   <div class="card-body">
     
-                    <h4 class="card-title">
-                      <a href="#">{{ book.title }}</a>
-                    </h4>
-                    
-                    <h5>
-                        <a href="#" style="color: darkblue">By {{ book.author }}</a>
+                    <h5 class="card-title" style="text-align: center">
+                        <a href="#">{{ book.title }}</a>
                     </h5>
+                    
+                    <div class="text-muted" style="text-align: center">
+                            <a href="#" style="color: darkblue">By {{ book.author }}</a>
+                          </div>
     
                     <h5><p style="text-align: center">${{ book.price }}</p></h5>
     
@@ -71,9 +75,9 @@
                     </div>
                   </div>
     
-                  <div class="card-footer">
-                    <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                  </div>
+                    <div class="card-footer">
+                        <small class="text-muted">{{ book.rating }}&#9733;</small>
+                    </div>
     
                 </div>
               </div>
