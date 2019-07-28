@@ -160,6 +160,7 @@ def charge():
 
     return redirect(url_for('cart.checkout'))
 
+    
 # @cart_blueprint.route('/clearOrders')
 # @login_required
 # def orderErase():

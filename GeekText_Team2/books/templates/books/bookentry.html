@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block content %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
@@ -103,8 +103,9 @@ label.star:before {
           <a style="font-size:14px" href="/browse/authors/{{books.author}}">by {{books.author}}</a>
           <p class="text-left">{{ books.description }}</p>
           <p class="card-text"><small class="text-muted">Published in {{ books.publication_year }}</small></p>
-          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="/addToCart?ISBN={{book.ISBN}}" class="btn btn-primary">Add to Cart</a>
           <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+          <a href="/addToSaved?ISBN={{book.ISBN}}" class="btn btn-secondary">Save For Later</a>
         </div>
       </div>
     </div>
