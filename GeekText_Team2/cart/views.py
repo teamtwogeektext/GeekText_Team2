@@ -102,7 +102,7 @@ def checkout():
         db.session.add(order)
         db.session.delete(item)
     db.session.commit()
-    return render_template('checkout.html', totalPrice=totalPrice, items=items)
+    return render_template('checkout.html', totalPrice=totalPrice)
 
 
 @cart_blueprint.route('/addQuantity')

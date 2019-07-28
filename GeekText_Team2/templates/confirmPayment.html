@@ -16,9 +16,8 @@
         {% for row in items %}
         <div>
             <hr id="seperator">
-            <div id="itemImage">
-            </div>
-            <div id="itemName">
+            <div id="item">
+                <img src="{{row.image_url}}" alt="..." class="img-responsive" style="width: 72px; height: 100px;" />
                 <a style="font-size:24px" href="#">{{row.title}}</a>
                 <a style="font-size:24px" href="#">Price: ${{row.price}}</a>
             </div>

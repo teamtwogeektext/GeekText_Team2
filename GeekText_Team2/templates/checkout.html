@@ -13,20 +13,9 @@
 <div id="cartItems">
     <h2>Your order has been placed successfully</h2>
     <div id="tableItems">
-        {% for row in items %}
-        <div>
-            <hr id="seperator">
-            <div id="itemImage">
-            </div>
-            <div id="itemName">
-                <a style="font-size:24px" href="#">{{row.title}}</a>
-                <a style="font-size:24px" href="#">Price: ${{row.price}}</a>
-            </div>
-        </div>
-        {% endfor %}
         <hr id="seperator">
         <div id="total">
-            <a style="font-size:24px"><span id="subtotal">Subtotal</span> : ${{totalPrice}}</a>
+            <a style="font-size:24px"><span id="subtotal">Total</span> : ${{totalPrice}}</a>
 </div>
     </div>
 </div>
