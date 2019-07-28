@@ -81,7 +81,7 @@ def best_rated():
 @books_blueprint.route('/browse/authors')
 def author():
     author= request.args.get('author')
-    books = Book.query.filter_by(author=author).paginate(per_page=10)
+    books = Book.query.filter_by(author=author)
     print(type(books))
     return render_template('new_browse.html', author=author, books=books)
 
