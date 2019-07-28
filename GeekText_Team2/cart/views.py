@@ -48,7 +48,7 @@ def addToSaved():
     item = SavedItems(userId=current_user.id, ISBN=bookId)
     db.session.add(item)
     db.session.commit()
-    flash('Book saved')
+    flash('Book saved. Look in your cart')
     return redirect(url_for('books.list'))
 
 
@@ -102,7 +102,7 @@ def checkout():
         db.session.add(order)
         db.session.delete(item)
     db.session.commit()
-    return render_template('checkout.html', totalPrice=totalPrice, items=items)
+    return render_template('checkout.html', totalPrice=totalPrice)
 
 
 @cart_blueprint.route('/addQuantity')
@@ -128,7 +128,8 @@ def lowerQuantity():
 @cart_blueprint.route('/confirmPayment')
 @login_required
 def confirmPayment():
-    items = Book.query.join(Cart).filter_by(userId=current_user.id)
+    items = Book.query.join(Cart).add_columns(Cart.userId, Cart.ISBN, Cart.quantity,
+                                              Book.price, Book.title, Book.image_url).filter_by(userId=current_user.id)
     totalPrice = 0
     for row in items:
         item = Cart.query.filter_by(
@@ -159,6 +160,7 @@ def charge():
         currency='usd')
 
     return redirect(url_for('cart.checkout'))
+
 
 # @cart_blueprint.route('/clearOrders')
 # @login_required

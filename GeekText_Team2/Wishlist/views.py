@@ -4,7 +4,6 @@ from GeekText_Team2.models import Wishlist
 from GeekText_Team2.Wishlist.forms import wishlistPostForm
 from GeekText_Team2.users.views import current_user
 
-
 wishlist_posts = Blueprint('wishlist_posts', __name__,
                            template_folder='templates/wishlist')
 
