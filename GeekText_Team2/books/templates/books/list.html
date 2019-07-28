@@ -7,7 +7,11 @@
     opacity: 0.9;
     background: #fff;
   }
-</style>
+ .modal-backdrop {
+  z-index: -3;
+
+}
+  </style>
 
 <div class="container-full" style="margin: 0% auto; width: 100%; background-image: url(../../../static/images/bookshelf.jpg); background-size: 50%">
 <!-- SORT BY DROPDOWN LIST -->
@@ -91,24 +95,53 @@
       </div>
 
       <!--PRICE COLUMN-->
-      <div class="col-md-3" style="font-size:32px">
+      <div class="col-md-3" style="font-size:24px">
 
         <div class="col-md-8 text-center">
             <p style="color: rgb(71, 67, 67)"><strong>${{ book.price }}</strong></p>
         </div>
 
         <div class="col-md-8 text-center">
-          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="/addToCart?ISBN={{book.ISBN}}" class="btn btn-primary">Add to Cart</a>
         </div>
 
+      <div class="col-md-8 text-center">
+         <a href="/addtowhichlist?ISBN={{book.ISBN}}" class="btn btn-secondary">Add to Wishlist</a>
+       </div>
+     
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Add to wishlist</button>
+        </div>
+
+        <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    
+
+    <a href="/addtowishlist1?ISBN={{book.ISBN}}" class="card-link">Add to wishlist 1</a>
+
+    <a href="{{ url_for('wishlist_posts.addtowishlist2', ISBN=book.ISBN) }}" class="card-link">Add to wishlist 2</a>
+
+   
+
+    <a href="/addtowishlist3?ISBN={{book.ISBN}}" class="card-link">Add to wishlist 3</a>
+
+
+    </div>
+
+  </div>
+
+</div>-->
+
         <div class="col-md-8 text-center">
-          <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+            <a href="/addToSaved?ISBN={{book.ISBN}}" class="btn btn-secondary">Save For Later</a>
         </div>
       </div>
 
       {% endfor %}
+      
     </div>
   </div>
 </div>
+
 
 {% endblock %}

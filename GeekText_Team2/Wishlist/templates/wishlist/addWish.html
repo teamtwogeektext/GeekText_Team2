@@ -1,11 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 <div class = "jumbotron">
 	<div class="btn-group" role="group" aria-label="Basic example">
-<button type = "button" class= "btn btn-secondary">Add Wishlist</button>
-<button type = "button" class= "btn btn-secondary">View Wishlist</button>
-<button type = "button" class= "btn btn-secondary">Delete Wishlist</button>
+<a href= ><button type = "button" class= "btn btn-secondary">Add Wishlist</button></a>
+<a href="{{ url_for('wishlist_posts.viewallw')}}"><button   type = "button" class= "btn btn-secondary">View Wishlist</button></a>
 </div>
-<h1>You currently have no wishlist</h1>
+
 <form method = "POST"> 
 
 {{form.hidden_tag()}}

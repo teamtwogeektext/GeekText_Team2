@@ -69,15 +69,65 @@ class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=False)
     #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
 
 
-    def __init__(self, title, user_id):
+    def __init__(self, title, user_id, ISBN):
         self.title = title
         self.user_id = user_id
+        self.ISBN = ISBN
+        #self.books = books
+
+
+class Wishlist1(db.Model):
+
+    __tablename__ = 'wishlists1'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
+
+
+    def __init__(self, title, user_id, ISBN):
+        self.title = title
+        self.user_id = user_id
+        self.ISBN = ISBN
         #self.books = books
 
 ########################################################
+class Wishlist2(db.Model):
+
+    __tablename__ = 'wishlists2'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
+
+
+    def __init__(self, title, user_id, ISBN):
+        self.title = title
+        self.user_id = user_id
+        self.ISBN = ISBN
+        #self.books = books
+
+class Wishlist3(db.Model):
+
+    __tablename__ = 'wishlists3'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
+
+
+    def __init__(self, title, user_id, ISBN):
+        self.title = title
+        self.user_id = user_id
+        self.ISBN = ISBN
+        #self.books = books
 
 ############### ADDRESS MODEL #############################
 class Address(db.Model):
@@ -168,6 +218,32 @@ class BlogPost(db.Model):
     def __repr__(self):                             # representation of each blog post
         return f"Post Id: {self.id} --- Date: {self.date} --- Title: {self.title} --- Rating: {self.rating}"
 
+
+############### CART MODEL ##################################
+class Cart(db.Model):
+
+    __tablename__ = 'cart'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer)
+
+################## ORDERS MODEL ################################
+class Orders(db.Model):
+    
+    __tablename__ = 'orders'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    quantity = db.Column(db.Integer)
+
+############### SAVEDITEMS MODEL ##################################
+class SavedItems(db.Model):
+
+    __tablename__ = 'saved_items'
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
 
 ############### PUBLISHER MODEL #############################
 # class Publisher(db.Model):
