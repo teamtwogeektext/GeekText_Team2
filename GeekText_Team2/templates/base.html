@@ -13,7 +13,8 @@
     />
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/stylez.css') }}">
-    {% endblock %}
+    <link rel="icon" href="static/images/white_logo.ico">
+
 
     <style>
       .container span {
@@ -23,7 +24,8 @@
 
     <title>GeekText</title>
   </head>
-
+  {% endblock %}
+  
   <body>
     <!-- START HERE -->
 
@@ -104,7 +106,7 @@
             <li class="nav-item">
               <a
                 class="nav-link active text-light"
-                href="{{ url_for('users.register') }}"
+                href="{{ url_for('cart.cart') }}"
                 tabindex="-1"
                 aria-disabled="false"
                 >Cart</a

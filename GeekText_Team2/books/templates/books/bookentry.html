@@ -13,6 +13,12 @@
 <style>
 @import url(http://fonts.googleapis.com/css?family=Roboto:500,100,300,700,400);
 
+.jumbotron {
+  background-image: url("../../../static/images/reviewPage.jpg");
+  background-size: cover;
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -92,7 +98,7 @@ label.star:before {
     <div class="row no-gutters">
       <div class="col-md-1">
         <a data-fancybox="gallery" href="{{books.image_url}}">
-          <img  src="{{books.small_image_url}}" class="card-img-overlay" width=auto height=auto alt="...">
+          <img  src="{{books.image_url}}" class="w3-image" width=150 height=auto alt="...">
         </a>
       </div>
       <div class="col-md-8">
@@ -103,7 +109,7 @@ label.star:before {
           <a style="font-size:14px" href="/browse/authors/{{books.author}}">by {{books.author}}</a>
           <p class="text-left">{{ books.description }}</p>
           <p class="card-text"><small class="text-muted">Published in {{ books.publication_year }}</small></p>
-          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="/addToCart?ISBN={{books.ISBN}}" class="btn btn-primary">Add to Cart</a>
           <a href="#" class="btn btn-secondary">Add to Wishlist</a>
         </div>
       </div>
@@ -201,7 +207,7 @@ label.star:before {
               <a href="{{ url_for('users.user_posts', username=post.author.username) }}">Written By: {{ post.author.username }}</a>
               <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
               <p class="card-text">{{ post.text[:70] }}...</p>
-              <p class="card-text">{{ post.rating }} Stars</p>
+              <p class="card-text">{{ post.rating }} &#9733;</p>
               <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
               </div>
               </div>
@@ -209,8 +215,8 @@ label.star:before {
  <h2><a class="card-title" href="  {{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></h2>
 <p>Written By: anonymous...</p>
  <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
- <p class="card-text">{{ post.text[:70] }}...</p>
- <p class="card-text">{{ post.rating }} Stars</p>
+ <p class="card-text">{{ post.text[:100] }}...</p>
+ <p class="card-text">{{ post.rating }} &#9733;</p>
  <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
  </div>
  </div>
