@@ -35,8 +35,10 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[
+                             DataRequired(), Length(min=3, max=25)])
+    last_name = StringField('Last Name', validators=[
+                            DataRequired(), Length(min=3, max=25)])
     username = StringField('Username', validators=[DataRequired(), Length(
         min=6, max=15, message="Must be between 6 and 10 characters and unique")])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -46,9 +48,11 @@ class RegistrationForm(FlaskForm):
         'Confirm password', validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
-    state = StringField('State', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired(), Length(
+        min=2, max=2, message="Enter your state: two letters")])
     zip_code = IntegerField('ZIP', validators=[DataRequired()])
-    phone_num = IntegerField('Phone', validators=[DataRequired()])
+    phone_num = StringField('Phone', validators=[
+        DataRequired(), Length(min=10, max=10, message="Must be 10 numbers without separation")])
     submit = SubmitField('Register!')
 
     def validate_username(self, username):
@@ -60,16 +64,16 @@ class RegistrationForm(FlaskForm):
             raise ValidationError("That email is already registerd")
 
     def validate_phone_num(self, phone_num):
-        Pattern = re.compile("^\d{3}-\d{3}-\d{4}$")
-        if Pattern.match(phone_num) == False:
+        Pattern = re.compile("^[2-9]{2}[0-9]{8}$")
+        if Pattern.match(phone_num.data) == False:
             raise ValidationError(
                 "Invalid phone number: 10 digits, with dashes or no dashes")
 
         # def validate_address(self, address):
-        #addr = Geocoder.geocode(address)
+        # addr = Geocoder.geocode(address)
         # print(addr)
         # if addr == False:
-        #raise ValidationError("Address not valid")
+        # raise ValidationError("Address not valid")
 
 
 class UpdateUserForm(FlaskForm):
@@ -79,7 +83,7 @@ class UpdateUserForm(FlaskForm):
     lastname = StringField('FirstName')
     username = StringField('UserName')
     picture = FileField('Update Profile Picture', validators=[
-                        FileAllowed(['jpg', 'png'])])
+        FileAllowed(['jpg', 'png'])])
     submit = SubmitField("Update")
 
 ### CHECK TO SEE IF USERNAME AND EMAIL ARE ALREADY TAKEN ###
@@ -118,12 +122,12 @@ class ForgotForm(FlaskForm):
 
 class PasswordResetForm(FlaskForm):
     current_password = PasswordField("Current Password", validators=[
-                                     DataRequired(), Length(min=6, max=15)])
+        DataRequired(), Length(min=6, max=15)])
 
 
 class ChangePassword(FlaskForm):
     password = PasswordField("Current Password", validators=[
-                             DataRequired(), Length(min=6, max=15)])
+        DataRequired(), Length(min=6, max=15)])
     new_password = PasswordField("New Password", validators=[DataRequired(), EqualTo(
         'new_password_confirm', message='Passwords do not match!'), Length(min=6, max=15, message="Must be between 6 and 10 characters")])
     new_password_confirm = PasswordField(
@@ -140,30 +144,68 @@ class ChangePassword(FlaskForm):
 
 
 class AddPaymentInfo(FlaskForm):
-    card_num = StringField('Card Number', validators=[DataRequired()])
-    name = StringField('Card Holder', validators=[DataRequired()])
-    exp_date = StringField('Expiration', validators=[DataRequired()])
+    card_num = StringField('Card Number', validators=[DataRequired(), Length(
+        min=16, max=16, message="Invalid credit card number")])
+    name = StringField('Card Holder', validators=[
+                       DataRequired(), Length(min=3, max=25)])
+    exp_date = StringField('Expiration', validators=[
+                           DataRequired(), Length(min=5, max=5, message="Please enter in the format MM/YY")])
     csv = IntegerField('CSV', validators=[DataRequired()])
     zip = IntegerField('ZIP', validators=[DataRequired()])
     submit = SubmitField('Add Card')
+
+    def validate_exp_date(self, exp_date):
+        Pattern = re.compile("^\d{2}\/\d{2}$")
+        if Pattern.search(exp_date.data) == False:
+            raise ValidationError(
+                "Please enter in the format MM/YY!")
+        if len(exp_date.data) > 5:
+            raise ValidationError(
+                "Please enter in the format MM/YY!")
 
 
 class UpdateShippingForm(FlaskForm):
     address = StringField('Address', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
-    state = StringField('State', validators=[DataRequired()])
-    zip_code = IntegerField('ZIP', validators=[DataRequired()])
-    phone_num = IntegerField('Phone', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired(), Length(
+        min=2, max=2, message="Enter your state: two letters")])
+    zip_code = IntegerField(
+        'ZIP', validators=[DataRequired()])
+    phone_num = StringField('Phone', validators=[
+        DataRequired(), Length(min=10, max=10, message="Must be 10 numbers without separation")])
     submit = SubmitField('Update')
+
+    def validate_phone_num(self, phone_num):
+        Pattern = re.compile("^[2-9]{2}[0-9]{8}$")
+        if Pattern.match(phone_num.data) == False:
+            raise ValidationError(
+                "Invalid phone number: 10 digits, with dashes or no dashes")
+
+    def validate_zip_code(self, zip_code):
+        if len(str(zip_code.data)) != 5:
+            raise ValidationError("Please enter a 5 digit zip code")
 
 
 class UpdateAddressForm(FlaskForm):
-    address = StringField('Address')
-    city = StringField('City')
-    state = StringField('State')
-    zip_code = IntegerField('ZIP')
-    phone_num = IntegerField('Phone')
+    address = StringField('Address', validators=[DataRequired()])
+    city = StringField('City', validators=[DataRequired()])
+    state = StringField('State', validators=[DataRequired(), Length(
+        min=2, max=2, message="Enter your state: two letters")])
+    zip_code = IntegerField(
+        'ZIP', validators=[DataRequired(message='Enter a 5 digit zip code')])
+    phone_num = StringField('Phone', validators=[
+        DataRequired(), Length(min=10, max=10, message="Must be 10 numbers without separation")])
     submit = SubmitField('Update')
+
+    def validate_phone_num(self, phone_num):
+        Pattern = re.compile("^[2-9]{2}[0-9]{8}$")
+        if Pattern.match(phone_num.data) == False:
+            raise ValidationError(
+                "Invalid phone number: 10 digits, with dashes or no dashes")
+
+    def validate_zip_code(self, zip_code):
+        if len(str(zip_code.data)) != 5:
+            raise ValidationError("Please enter a 5 digit zip code")
 
 
 class wishlistPostForm(FlaskForm):

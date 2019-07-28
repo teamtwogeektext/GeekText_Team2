@@ -253,7 +253,7 @@
                                   {{form.name(class="form-control cc-name",id="cc-name",autocomplete="cc-name")}}
                                   <span class="invalid-feedback">Enter the name as shown on credit card</span>
                                   {% for error in form.name.errors %}
-                                  <li style='color:red;'>{{error}}</li>
+                                  <a style='color:red;'>{{error}}</a>
                                   {% endfor %}
                               </div>
                               <div class="form-group">
@@ -262,7 +262,7 @@
                                   {{form.card_num(class="form-control cc-number identified visa",id="cc-name",autocomplete="cc-name",pattern="[0-9]{16}")}}
                                   <span class="invalid-feedback">Enter a valid 16 digit card number</span>
                                   {% for error in form.card_num.errors %}
-                                  <li style='color:red;'>{{error}}</li>
+                                  <a style='color:red;'>{{error}}</a>
                                   {% endfor %}
                               </div>
                               <div class="row">
@@ -270,10 +270,10 @@
                                       <div class="form-group">
                                           <label for="cc-exp" class="control-label mb-1">Expiration</label>
                                           <!--<input id="cc-exp" name="cc-exp" type="tel" class="form-control cc-exp" required placeholder="MM / YY" autocomplete="cc-exp">-->
-                                          {{form.exp_date(id="cc-exp",type="tel", class="form-control cc-exp", placeholder="MM / YY", autocomplete="cc-exp")}}
+                                          {{form.exp_date(id="cc-exp", class="form-control cc-exp", placeholder="MM / YY", autocomplete="cc-exp")}}
                                           <span class="invalid-feedback">Enter the expiration date</span>
                                           {% for error in form.exp_date.errors %}
-                                          <li style='color:red;'>{{error}}</li>
+                                          <a style='color:red;'>{{error}}</a>
                                           {% endfor %}
                                       </div>
                                   </div>
@@ -284,7 +284,7 @@
                                           {{form.csv(id="x_card_code", type="tel", class="form-control cc-cvc", autocomplete="off")}}
                                           <span class="invalid-feedback order-last">Enter the 3-digit code on back</span>
                                           {% for error in form.csv.errors %}
-                                          <li style='color:red;'>{{error}}</li>
+                                          <a style='color:red;'>{{error}}</a>
                                           {% endfor %}
                                           <div class="input-group-append">
                                               <div class="input-group-text">
@@ -304,7 +304,7 @@
                                   {{form.zip(id="x_zip",class="form-control", autocomplete="postal-code")}}
                                   <span class="help-block" data-valmsg-for="x_zip" data-valmsg-replace="true"></span>
                                   {% for error in form.zip.errors %}
-                                  <li style='color:red;'>{{error}}</li>
+                                  <a style='color:red;'>{{error}}</a>
                                   {% endfor %}
                               </div>
                               <div>
@@ -334,6 +334,15 @@
       integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
       crossorigin="anonymous"
     ></script>
+
+    <style>
+      $("#datepicker").datepicker( {
+    format: "mm-yyyy",
+    viewMode: "months", 
+    minViewMode: "months"
+    });
+    </style>
+    
 
     <script>
       // Get the current year for the copyright

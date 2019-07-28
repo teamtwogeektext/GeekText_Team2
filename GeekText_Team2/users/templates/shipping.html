@@ -170,42 +170,44 @@
               </div>
             </div>
             <div class="container">
-              <h1 class="text-light" align="center">Main Address</h1>
+              <h1 class="text-light" align="center">Main <span>Address</span></h1>
               <div class="row">
                 <div class="col-md-5">
-                  <span class="label label-default"
+                  <span class="label label-default" 
                     >Address
-                    <h3>{{ current_user.address[0].address }}</h3></span
+                    <h3 style="color:#fff">{{ current_user.address[0].address }}</h3></span
                   >
                   <span class="label label-default"
                     >City
-                    <h3>{{ current_user.address[0].city }}</h3></span
+                    <h3 style="color:#fff">{{ current_user.address[0].city }}</h3></span
                   >
                 </div>
-                <div class="col-mid-7">
+                <div class="col-mid-5">
                   <span class="label label-default"
                     >State
-                    <h3>{{ current_user.address[0].state }}</h3></span
+                    <h3 style="color:#fff">{{ current_user.address[0].state }}</h3></span
                   >
                   <span class="label label-default"
                     >ZIP
-                    <h3>{{ current_user.address[0].postal_code }}</h3></span
+                    <h3 style="color:#fff">{{ current_user.address[0].postal_code }}</h3></span
                   >
                 </div>
                 <div class="col-md-5">
                   <span class="label label-default"
                     >Phone
-                    <h3>{{ current_user.address[0].phone_num }}</h3></span
+                    <h3 style="color:#fff">{{ current_user.address[0].phone_num }}</h3></span
                   >
                 </div>
-              </div>
+                
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-success btn-block" id="myBtn">
+                    Add Address
+                  </button>
             </div>
 
             <hr style="border-top: solid white;" />
-            <div class="container">
-              <button type="button" class="btn btn-success btn-lg" id="myBtn">
-                Add Address
-              </button>
+            <div class="container">              
               <div class="row">
                 <div class="col-md-12">
                   <div class="card-columns">
@@ -232,7 +234,6 @@
                           Phone
                           <h5 class="card-title">{{ad.phone_num}}</h5>
                         </a>
-                        <a href="#" class="card-link">Main</a>
                         <a href="{{url_for('users.edit_address', address_id=ad.id)}}" id="updateAdd" class="card-link">Edit</a>
                         {% set addr = ad.id %}
                         <a class="card-link" data-toggle='modal' data-target="#del_address">Delete</a>
@@ -294,6 +295,9 @@
               Address</label
             >
             {{form.address( id="inputUserame", class="form-control", placeholder="Address")}}
+            {% for error in form.address.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
           </div>
           <div class="form-group">
             <label
@@ -301,12 +305,18 @@
               City</label
             >
             {{form.city( id="inputUserame", class="form-control", placeholder="City")}}
+            {% for error in form.city.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
           <div class="form-group">
             <label
               ><span class="glyphicon glyphicon-eye-open"></span>
               State</label
             >
             {{form.state( id="inputUserame", class="form-control", placeholder="State")}}
+            {% for error in form.state.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
           </div>
           <div class="form-group">
             <label
@@ -314,6 +324,9 @@
               ZIP</label
             >
             {{form.zip_code( id="inputUserame", class="form-control", placeholder="ZIP")}}
+            {% for error in form.zip_code.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
           </div>
           <div class="form-group">
             <label
@@ -321,6 +334,9 @@
               Phone Number</label
             >
             {{form.phone_num( id="inputUserame", class="form-control", placeholder="Phone #")}}
+            {% for error in form.phone_num.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
           </div>
           <hr>
           {{form.submit( class="btn btn-lg btn-secondary bg-dark btn-block text-uppercase")}}
@@ -346,6 +362,15 @@
       });
     });
   </script>
+  <script>
+      var formErrors = {% if form.errors %}true{% else %}false{% endif %};
+
+  $(document).ready(function() {
+      if (formErrors) {
+          $('#myModal').modal('show');
+      }
+  });
+</script>
 </div>
 </div>
 {% endblock %}

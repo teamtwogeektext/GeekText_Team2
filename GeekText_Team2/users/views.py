@@ -77,11 +77,11 @@ def register():
             send_confirmation_email(user.email)
             flash(
                 'Thanks for registering! Please check your email to confirm your email address.', 'success')
-
+            st8 = form.state.data.capitalize()
             u_address = Address(user_id=user.id,
                                 address=form.address.data,
                                 city=form.city.data,
-                                state=form.state.data,
+                                state=st8,
                                 postal_code=form.zip_code.data,
                                 phone_num=form.phone_num.data)
 
@@ -165,6 +165,7 @@ def delete_address(address_id):
 def payment_info():
     if current_user.payment_info is not None:
         cards = current_user.payment_info
+
         redirect(url_for('users.payment_info', cards=cards))
 
     return render_template('payment_info.html', cards=cards)
@@ -175,15 +176,15 @@ def payment_info():
 def add_card():
     form = AddPaymentInfo()
     if form.validate_on_submit():
-        m_y = form.exp_date.data
-        date_time = datetime.datetime.strptime(m_y, '%m/%y').date()
-        date = date_time.strftime("%m/%Y")
-        print(m_y)
-        print(date)
+        # m_y = form.exp_date.data
+        # date_time = datetime.datetime.strptime(m_y, '%m/%y').date()
+        # date = date_time.strftime("%m/%Y")
+        # print(m_y)
+        # print(date)
         c_card = Payment_Info(credit_number=form.card_num.data,
                               user_id=current_user.id,
                               cardholder=form.name.data,
-                              expiration_date=date_time,
+                              expiration_date=form.exp_date,
                               csv=form.csv.data,
                               ZIP=form.zip.data)
 
