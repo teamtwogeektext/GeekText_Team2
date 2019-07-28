@@ -15,7 +15,7 @@ books_blueprint = Blueprint('books', __name__, template_folder='templates/books'
 @books_blueprint.route('/books/all')
 def list():
     stop_pagination = False
-    page = request.args.get('page', 1, type=int) 
+    page = request.args.get('page', 1, type=int)
     sort_by = request.args.get('sort_by')
     descending = request.args.get('desc')
 
@@ -112,7 +112,9 @@ def browse(ISBN):       #was named details
     books = Book.query.filter_by(ISBN=ISBN).first()
     orders = Orders.query.filter_by(userId=current_user.id)
     order = Orders.query.filter_by(userId=current_user.id, ISBN=ISBN).first()
+    user = User.query.filter_by(id=User.id).first_or_404()
     form = BlogPostForm()
+
 
     page = request.args.get('page', 1, type=int)
     #blog_posts = BlogPost.query.order_by(BlogPost.date.desc()).paginate(page=page, per_page=10)
@@ -151,4 +153,4 @@ def browse(ISBN):       #was named details
         # Returns an instance of the main page
 
 
-    return render_template('bookentry.html', ISBN=ISBN, books=books,blog_posts=blog_posts,book_isbn = ISBN, form = form, store_isbn = ISBN, order = order, orders = orders)
+    return render_template('bookentry.html', ISBN=ISBN, books=books,blog_posts=blog_posts,book_isbn = ISBN, form = form, store_isbn = ISBN, order = order, orders = orders, user=user)
