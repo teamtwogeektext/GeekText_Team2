@@ -66,6 +66,20 @@ def moveToCart():
     return redirect(url_for('cart.cart'))
 
 
+@cart_blueprint.route('/moveToSaved')
+@login_required
+def moveToSaved():
+    bookId = request.args.get('ISBN')
+    item = SavedItems(userId=current_user.id, ISBN=bookId)
+    cartItem = Cart.query.filter_by(
+        userId=current_user.id, ISBN=bookId).first()
+    db.session.add(item)
+    db.session.delete(cartItem)
+    db.session.commit()
+    flash('Book moved to cart')
+    return redirect(url_for('cart.cart'))
+
+
 @cart_blueprint.route('/removeFromCart')
 @login_required
 def removeFromCart():
