@@ -99,11 +99,19 @@ def new_releases():
 
     return render_template('new_releases.html', books=books, genres=genres)
 
-@books_blueprint.route('/browse/authors/<author>')
-def author(author):
-    #grab list of books based on author from db
-    books = Book.query.filter_by(author=author)
-    return render_template('list.html', author=author, books=books)
+@books_blueprint.route('/browse/authors')
+def author():
+    author= request.args.get('author')
+    books = Book.query.filter_by(author=author).paginate(per_page=10)
+    print(type(books))
+    return render_template('new_browse.html', author=author, books=books)
+
+
+# @books_blueprint.route('/browse/authors/<author>')
+# def author(author):
+#     #grab list of books based on author from db
+#     books = Book.query.filter_by(author=author)
+#     return render_template('list.html', author=author, books=books)
 
 @books_blueprint.route('/browse/<ISBN>', methods=['GET','POST'])
 @login_required
