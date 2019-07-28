@@ -92,17 +92,17 @@ label.star:before {
     <div class="row no-gutters">
       <div class="col-md-1">
         <a data-fancybox="gallery" href="{{books.image_url}}">
-          <img  src="{{books.small_image_url}}" class="card-img-overlay" width=auto height=auto alt="...">
+          <img  src="{{books.image_url}}" class="card-img-overlay" width=150px height=auto alt="...">
         </a>
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <p style="font-size:32px">{{books.title}}</p>
+          <p style="font-size:32px;background-color: #999999; color: #FCFCFC"  >{{books.title}}</p>
+          <a style="font-size:14px" href="{{ url_for('books.author',author=books.author)}}">by {{books.author}}</a>
           <p style="font-size:32px">{{books.price}}</p>
           <p style="font-size:14px">{{books.genre}}</p>
-          <a style="font-size:14px" href="{{ url_for('books.author',author=books.author)}}">by {{books.author}}</a>
           <p class="text-left">{{ books.description }}</p>
-          <p class="card-text"><small class="text-muted">Published in {{ books.publication_year }}</small></p>
+          <p class="card-text"><small class="text-muted">Published by {{ books.publisher }}</small></p>
           <a href="#" class="btn btn-primary">Add to Cart</a>
           <a href="#" class="btn btn-secondary">Add to Wishlist</a>
         </div>
