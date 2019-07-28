@@ -3,35 +3,22 @@
 <link rel="stylesheet" href="static/css/style.css" />
 
 <div id="title">
-    <a href="/">
-        <img id="logo" src={{ url_for('static', filename='images/logo.png') }} />
-    </a>
-
-
-
+  <a href="/">
+    <img id="logo" src={{ url_for('static', filename='images/logo.png') }} />
+  </a>
 </div>
 <div id="cartItems">
-    <h2>Your order has been placed successfully</h2>
-    <div id="tableItems">
-        {% for row in items %}
-        <div>
-            <hr id="seperator">
-            <div id="itemImage">
-            </div>
-            <div id="itemName">
-                <a style="font-size:24px" href="#">{{row.title}}</a>
-                <a style="font-size:24px" href="#">Price: ${{row.price}}</a>
-            </div>
-        </div>
-        {% endfor %}
-        <hr id="seperator">
-        <div id="total">
-            <a style="font-size:24px"><span id="subtotal">Subtotal</span> : ${{totalPrice}}</a>
-</div>
+  <h2>Your order has been placed successfully</h2>
+  <div id="tableItems">
+    <hr id="seperator" />
+    <div id="total">
+      <a style="font-size:24px"
+        ><span id="subtotal">Total</span> : ${{ totalPrice }}</a
+      >
     </div>
+  </div>
 </div>
 
-<a href="{{ url_for('cart.cart')}}" class="btn btn-primary">Return</a>
+<a href="{{ url_for('cart.cart') }}" class="btn btn-primary">Return to Cart</a>
 
 {% endblock %}
-

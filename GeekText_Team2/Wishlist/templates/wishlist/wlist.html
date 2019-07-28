@@ -1,79 +1,84 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
-<div class = "jumbotron">
-  <div class="btn-group" role="group" aria-label="Basic example">
-<a href= "{{ url_for('wishlist_posts.create_wish') }}"><button type = "button" class= "btn btn-secondary">Add Wishlist</button></a>
-<a href="{{ url_for('wishlist_posts.viewallw')}}"><button   type = "button" class= "btn btn-secondary">View Wishlist</button></a>
-</div>
 <div class="jumbotron">
-  <h1>Here is a list of all your wishlists</h1>
-  <ul>
-
-    <div class="card-body">
-    <h5 class="card-title"></h5>
-    <h6 class="card-subtitle mb-2 text-muted">wishlist 1 </h6>
-    {% for row in items1 %}
-    <div id="itemImage">
-                <img src={{row.image_url}} id="image" />
-            </div>
-    <div class="col-md-8 text-center">
-            <p style="color: rgb(71, 67, 67)"><strong>${{ row.price }}</strong></p>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <a href="{{ url_for('wishlist_posts.viewallw') }}"
+      ><button type="button" class="btn btn-secondary">View Wishlist</button></a
+    >
+  </div>
+  <div class="jumbotron">
+    <h1>Here is a list of all your wishlists</h1>
+    <ul>
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <h6 class="card-subtitle mb-2 text-muted">wishlist 1</h6>
+        {% for row in items1 %}
+        <div id="itemImage">
+          <img src="{{ row.image_url }}" id="image" />
+        </div>
+        <div class="col-md-8 text-center">
+          <p style="color: rgb(71, 67, 67)">
+            <strong>${{ row.price }}</strong>
+          </p>
         </div>
 
-    <div class="col-md-8 text-center">
-          <a href="/addToCart?ISBN={{row.ISBN}}" class="btn btn-primary">Add to Cart</a>
+        <div class="col-md-8 text-center">
+          <a href="/addToCart?ISBN={{ row.ISBN }}" class="btn btn-primary"
+            >Add to Cart</a
+          >
         </div>
 
+        <a href="/delete1?ISBN={{ row.ISBN }}" class="card-link">Delete</a>
+      </div>
+      {% endfor %}
 
-    <a href="/delete1?ISBN={{row.ISBN}}" class="card-link">Delete</a>
-    
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <h6 class="card-subtitle mb-2 text-muted">wishlist 2</h6>
+        {% for row in items2 %}
+        <div id="itemImage">
+          <img src="{{ row.image_url }}" id="image" />
+        </div>
+
+        <div class="col-md-8 text-center">
+          <p style="color: rgb(71, 67, 67)">
+            <strong>${{ row.price }}</strong>
+          </p>
+        </div>
+
+        <div class="col-md-8 text-center">
+          <a href="/addToCart?ISBN={{ row.ISBN }}" class="btn btn-primary"
+            >Add to Cart</a
+          >
+        </div>
+
+        <a href="/delete2?ISBN={{ row.ISBN }}" class="card-link">Delete</a>
+      </div>
+      {% endfor %}
+
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <h6 class="card-subtitle mb-2 text-muted">wishlist 3</h6>
+        {% for row in items3 %}
+        <div id="itemImage">
+          <img src="{{ row.image_url }}" id="image" />
+        </div>
+        <div class="col-md-8 text-center">
+          <p style="color: rgb(71, 67, 67)">
+            <strong>${{ row.price }}</strong>
+          </p>
+        </div>
+
+        <div class="col-md-8 text-center">
+          <a href="/addToCart?ISBN={{ row.ISBN }}" class="btn btn-primary"
+            >Add to Cart</a
+          >
+        </div>
+
+        <a href="/delete3?ISBN={{ row.ISBN }}" class="card-link">Delete</a>
+      </div>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endblock %}
 </div>
-   {% endfor %}
-
-    <div class="card-body">
-    <h5 class="card-title"></h5>
-    <h6 class="card-subtitle mb-2 text-muted">wishlist 2 </h6>
-    {% for row in items2 %}
-    <div id="itemImage">
-                <img src={{row.image_url}} id="image" />
-            </div>
-
-      <div class="col-md-8 text-center">
-            <p style="color: rgb(71, 67, 67)"><strong>${{ row.price }}</strong></p>
-        </div>
-
-    <div class="col-md-8 text-center">
-          <a href="/addToCart?ISBN={{row.ISBN}}" class="btn btn-primary">Add to Cart</a>
-        </div>
-
-    
-    <a href="/delete2?ISBN={{row.ISBN}}" class="card-link">Delete</a>
-    
-</div>
-   {% endfor %}
-
-
-   <div class="card-body">
-    <h5 class="card-title"></h5>
-    <h6 class="card-subtitle mb-2 text-muted">wishlist 3 </h6>
-    {% for row in items3 %}
-    <div id="itemImage">
-                <img src={{row.image_url}} id="image" />
-            </div>
-      <div class="col-md-8 text-center">
-            <p style="color: rgb(71, 67, 67)"><strong>${{ row.price }}</strong></p>
-        </div>
-
-    <div class="col-md-8 text-center">
-          <a href="/addToCart?ISBN={{row.ISBN}}" class="btn btn-primary">Add to Cart</a>
-        </div>
-
-    <a href="/delete3?ISBN={{row.ISBN}}" class="card-link">Delete</a>
-    
-</div>
-   {% endfor %}
-  </ul>
-
-</div>
-{% endblock %}

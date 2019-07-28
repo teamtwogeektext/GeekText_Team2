@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block content %}
 
-
 <style>
   #page1 {
     position: absolute;
@@ -50,11 +49,11 @@
     color: #1cb9a4 !important;
   }
 
-  .span{
+  .span {
     color: #1cb9a4 !important;
   }
 
-  .div .col-md-4{
+  .div .col-md-4 {
     color: #1cb9a4 !important;
   }
 
@@ -66,19 +65,41 @@
     margin: auto;
   }
 
-  #newsletter{
+  #newsletter {
     box-shadow: 4px 6px 5px #1cb9a4;
     opacity: 0.9;
     background: #fff;
   }
 
-  .card-body{
-    height: 350px
+  #bs-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    font-family: arial;
   }
 
+  .price {
+    color: grey;
+    font-size: 22px;
+  }
+
+  .card button {
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #1cb9a4;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .card button:hover {
+    opacity: 0.7;
+  }
 </style>
-
-
 
 <body id="home" data-spy="scroll" data-target="#main-nav">
   <section id="showcase">
@@ -263,58 +284,62 @@
   <!-- BESTSELLERS HEADER -->
 
   <section>
-    <h1 class="py-5 text-center bg-light text-primary">Bestsellers</h1>
+    <h1 class="py-5 text-center bg-light text-success">Bestsellers</h1>
   </section>
 
   <section id="boxes" class="py-5">
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-          <div class="card text-center border-primary mb-resp">
-            <div class="card-body">
-              <img src="{{ b1.image_url }}" alt="" />
-              <h3 class="text-primary">{{ b1.title }}</h3>
-              <h5 Class="text-secondary">{{ b1.author }}</h5>
-              <p class="text-muted">
-                ${{ b1.price }}
-              </p>
-            </div>
+          <div id="bs-card" class="card">
+            <img
+              src="{{ b1.image_url }}"
+              alt="Denim Jeans"
+              style="width:100%; max-height:300px;"
+            />
+            <h5>{{ b1.title }}</h5>
+            <h6>{{ b1.author }}</h6>
+            <p class="price">${{ b1.price }}</p>
+            <p><button>Add to Cart</button></p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="card text-center border-primary text-white mb-resp">
-            <div class="card-body">
-              <img src="{{ b2.image_url }}" alt="" />
-              <h3 class="text-primary">{{ b2.title }}</h3>
-              <h5 Class="text-secondary">{{ b2.author }}</h5>
-              <p class="text-muted">
-                ${{ b2.price }}
-              </p>
-            </div>
+          <div id="bs-card" class="card">
+            <img
+              src="{{ b2.image_url }}"
+              alt="Denim Jeans"
+              style="width:100%; max-height:300px;"
+            />
+            <h5>{{ b2.title }}</h5>
+            <h6>{{ b2.author }}</h6>
+            <p class="price">${{ b2.price }}</p>
+            <p><button>Add to Cart</button></p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="card text-center border-primary mb-resp">
-            <div class="card-body">
-              <img src="{{ b3.image_url }}" alt="" />
-              <h3 class="text-primary">{{ b3.title }}</h3>
-              <h5 Class="text-secondary">{{ b3.author }}</h5>
-              <p class="text-muted">
-                ${{ b3.price }}
-              </p>
-            </div>
+          <div id="bs-card" class="card">
+            <img
+              src="{{ b3.image_url }}"
+              alt="Denim Jeans"
+              style="width:100%; max-height:300px;"
+            />
+            <h5>{{ b3.title }}</h5>
+            <h6>{{ b3.author }}</h6>
+            <p class="price">${{ b3.price }}</p>
+            <p><button>Add to Cart</button></p>
           </div>
         </div>
         <div class="col-md-3">
-          <div class="card text-center border-primary text-white">
-            <div class="card-body">
-              <img src="{{ b4.image_url }}" alt="" />
-              <h3 class="text-primary">{{ b4.title }}</h3>
-              <h5 Class="text-secondary">{{ b4.author }}</h5>
-              <p class="text-muted">
-                ${{ b4.price }}
-              </p>
-            </div>
+          <div id="bs-card" class="card">
+            <img
+              src="{{ b4.image_url }}"
+              alt="Denim Jeans"
+              style="width:100%; max-height:300px;"
+            />
+            <h5>{{ b4.title }}</h5>
+            <h6>{{ b4.author }}</h6>
+            <p class="price">${{ b4.price }}</p>
+            <p><button>Add to Cart</button></p>
           </div>
         </div>
       </div>
@@ -332,10 +357,10 @@
               Geek<span>Text</span>?
             </h1>
             <p class="lead pb-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-              ut at optio architecto porro nisi similique adipisci. Ipsum
-              adipisci aliquam minus id beatae dicta iure placeat voluptate, sed
-              ea accusamus?
+              Geek<span>Text</span> is a online book store for finding your
+              favorites for reading and sharing opinions on books with other
+              readers. After you read it, get on to update and discuss it with
+              your fellow Geek<span>Text</span> community!.
             </p>
           </div>
         </div>
@@ -358,10 +383,10 @@
         <div id="collapse1" class="collapse show">
           <div class="card-body">
             Reading is one of the best hobbies to boost your creativity and
-            expand your knowledge. GeekText gives you the chance to do just
-            that. You can search books by author, genre, publication, title, you
-            name it. Just hit browse and delve into our library and start your
-            quest for knowledge now!
+            expand your knowledge. Geek<span>Text</span> gives you the chance to
+            do just that. You can search books by author, genre, publication,
+            title, you name it. Just hit browse and delve into our library and
+            start your quest for knowledge now!
           </div>
         </div>
         <div class="card">
@@ -378,10 +403,12 @@
           </div>
           <div id="collapse2" class="collapse">
             <div class="card-body">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-              dolores, optio impedit debitis aliquid minima et hic adipisci!
-              Sequi eveniet libero voluptate ratione ad ipsum reiciendis itaque
-              repudiandae nostrum excepturi?
+              We offer some of the highest rated self help, technical skills,
+              and education books on the market. Wether you want to be the
+              worlds best programmer or you just want to improve on some
+              technical skills, Geek<span>Text</span> has the right book for
+              you. Sign up today to start adding to your library of vast
+              knowledge!.
             </div>
           </div>
         </div>

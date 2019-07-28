@@ -101,7 +101,7 @@ class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    books = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
+    ISBN = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
 
     def __init__(self, title, user_id, books):
         self.title = title
@@ -109,15 +109,16 @@ class Wishlist(db.Model):
         self.title = title
         self.books = books
 
+
 class Wishlist1(db.Model):
 
     __tablename__ = 'wishlists1'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey(
+        'books.ISBN'), nullable=False)
     #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
-
 
     def __init__(self, title, user_id, ISBN):
         self.title = title
@@ -126,15 +127,17 @@ class Wishlist1(db.Model):
         #self.books = books
 
 ########################################################
+
+
 class Wishlist2(db.Model):
 
     __tablename__ = 'wishlists2'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey(
+        'books.ISBN'), nullable=False)
     #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
-
 
     def __init__(self, title, user_id, ISBN):
         self.title = title
@@ -142,15 +145,16 @@ class Wishlist2(db.Model):
         self.ISBN = ISBN
         #self.books = books
 
+
 class Wishlist3(db.Model):
 
     __tablename__ = 'wishlists3'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    ISBN = db.Column(db.String(13), db.ForeignKey('books.ISBN'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey(
+        'books.ISBN'), nullable=False)
     #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
-
 
     def __init__(self, title, user_id, ISBN):
         self.title = title

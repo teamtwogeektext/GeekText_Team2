@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "GeekText_Team2/bin/python3.7"
+    "python.pythonPath": "C:\\Users\\guill\\Anaconda3\\envs\\myflaskenv\\python.exe",
+    "python.linting.enabled": false
 }
