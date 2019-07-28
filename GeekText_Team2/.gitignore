@@ -7,3 +7,5 @@
 /__pycache__
 *.json
 *.Python
+*.py[cod]
+*.csv
