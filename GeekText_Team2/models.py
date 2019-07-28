@@ -103,11 +103,11 @@ class Wishlist(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     ISBN = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
 
-    def __init__(self, title, user_id, books):
+    def __init__(self, title, user_id, ISBN):
         self.title = title
         self.user_id = user_id
         self.title = title
-        self.books = books
+        self.ISBN = ISBN
 
 
 class Wishlist1(db.Model):
