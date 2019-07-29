@@ -14,13 +14,9 @@ app = Flask(__name__)
 
 app.config['SECRET_KEY'] = 'mysecretkey'
 basedir = os.path.abspath(os.path.dirname(__file__))
-<<<<<<< HEAD
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:flaskteam2@localhost/geektext'
-=======
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:flaskteam2@localhost/geektext'
 
->>>>>>> guille
 # '''app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'geektext.sqlite')'''
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
