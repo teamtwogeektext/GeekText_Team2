@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired
 
 
 class wishlistPostForm(FlaskForm):
-	title = StringField('title', validators=[DataRequired()])
-	submit = SubmitField('Wishlist')
+	title = StringField('Add a title', validators=[DataRequired()])
+	submit = SubmitField('Submit')
 
 

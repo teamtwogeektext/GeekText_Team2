@@ -30,7 +30,7 @@
             <tr>
                 <td data-th="Product">
                     <div class="row">
-                        <div class="col-sm-2 hidden-xs"><img src="{{row.image_url}}" alt="..." class="img-responsive" style="width: 72px; height: 100px;"  /></div>
+                        <div class="col-sm-2 hidden-xs"><img src="{{row.image_url}}" alt="..." class="img-responsive" style="width: 72px; height: 100px;" /></div>
                         <div class="col-sm-10">
                             <h4 class="nomargin">{{row.title}}</h4>
                         </div>
@@ -45,6 +45,9 @@
                 <td data-th="Subtotal" class="text-center">{{row.price*row.quantity}}</td>
                 <td class="actions" data-th="">
                     <a href="/removeFromCart?ISBN={{row.ISBN}}" class="btn btn-primary">Remove</a>
+                </td>
+                <td class="actions" data-th="Move to Cart">
+                    <a href="/moveToSaved?ISBN={{row.ISBN}}" class="btn btn-primary">Move to Saved</a>
                 </td>
             </tr>
         </tbody>
