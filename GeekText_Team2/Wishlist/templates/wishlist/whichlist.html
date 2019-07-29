@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="jumbotron">
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <a href="{{ url_for('wishlist_posts.viewallw') }}"
+      ><button type="button" class="btn btn-secondary">View Wishlist</button></a
+    >
+  </div>
+  <div class="jumbotron">
+    <h1>Here is a list of all your wishlists</h1>
+    <ul>
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+          which list do you want to add it to?
+        </h6>
+        {% for row in items %}
+        <div id="itemImage">
+          <img src="{{ row.image_url }}" id="image" />
+        </div>
+        <a href="/addtowishlist1?ISBN={{ row.ISBN }}" class="card-link"
+          >Add to wishlist 1</a
+        >
+
+        <a href="/addtowishlist2?ISBN={{ row.ISBN }}" class="card-link"
+          >Add to wishlist 2</a
+        >
+
+        <a href="/addtowishlist3?ISBN={{ row.ISBN }}" class="card-link"
+          >Add to wishlist 3</a
+        >
+
+        <a href="/delete?ISBN={{ row.ISBN }}" class="card-link">Delete</a>
+      </div>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endblock %}
+</div>

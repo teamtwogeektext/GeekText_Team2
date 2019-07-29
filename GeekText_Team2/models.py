@@ -101,13 +101,66 @@ class Wishlist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    books = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
+    ISBN = db.Column(db.String(13), ForeignKey('books.ISBN'), nullable=True)
 
-    def __init__(self, title, user_id, books):
+    def __init__(self, title, user_id, ISBN):
         self.title = title
         self.user_id = user_id
         self.title = title
-        self.books = books
+        self.ISBN = ISBN
+
+
+class Wishlist1(db.Model):
+
+    __tablename__ = 'wishlists1'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey(
+        'books.ISBN'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
+
+    def __init__(self, title, user_id, ISBN):
+        self.title = title
+        self.user_id = user_id
+        self.ISBN = ISBN
+        #self.books = books
+
+########################################################
+
+
+class Wishlist2(db.Model):
+
+    __tablename__ = 'wishlists2'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey(
+        'books.ISBN'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
+
+    def __init__(self, title, user_id, ISBN):
+        self.title = title
+        self.user_id = user_id
+        self.ISBN = ISBN
+        #self.books = books
+
+
+class Wishlist3(db.Model):
+
+    __tablename__ = 'wishlists3'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    ISBN = db.Column(db.String(13), db.ForeignKey(
+        'books.ISBN'), nullable=False)
+    #books = db.Column(db.String, ForeignKey('books.ISBN'), nullable=True)
+
+    def __init__(self, title, user_id, ISBN):
+        self.title = title
+        self.user_id = user_id
+        self.ISBN = ISBN
+        #self.books = books
 
 ########################################################
 

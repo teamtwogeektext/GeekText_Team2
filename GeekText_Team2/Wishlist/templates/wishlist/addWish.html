@@ -1,12 +1,14 @@
 {% extends 'base.html' %} {% block content %}
 <div class = "jumbotron">
-<h1>Add a new wishlist </h1>
-<p>Give your list a title: </p>
-<form method = "POST">
+	<div class="btn-group" role="group" aria-label="Basic example">
+<a href= ><button type = "button" class= "btn btn-secondary">Add Wishlist</button></a>
+<a href="{{ url_for('wishlist_posts.viewallw')}}"><button   type = "button" class= "btn btn-secondary">View Wishlist</button></a>
+</div>
 
-<h1>THIS IS WISHLIST</h1>
+<form method = "POST"> 
+
 {{form.hidden_tag()}}
-{{form.title.label}} {{form.title() }}
+ <span class="input-group-text" id="basic-addon1">{{form.title.label}}{{form.title() }}</span>
 {{form.submit()}}
 </form>
 
