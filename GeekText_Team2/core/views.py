@@ -10,6 +10,7 @@ from GeekText_Team2.models import User
 
 core = Blueprint('core', __name__)
 
+
 @core.route('/')
 def home():
     bestsellers = Book.query.filter(Book.rating <= 4).limit(4).all()
@@ -27,8 +28,8 @@ def home():
 #     b4 = bestsellers[3]
 #     return render_template('home.html', b1=b1, b2=b2, b3=b3, b4=b4)
 
-#@core.route('/')
-#def home():
+# @core.route('/')
+# def home():
 #    bestsellers = Book.query.filter(Book.soldUnits >= 8).limit(4).all()
 #    b1 = bestsellers[0]
 #    b2 = bestsellers[1]
