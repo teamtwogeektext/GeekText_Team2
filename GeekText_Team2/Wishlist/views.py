@@ -139,7 +139,6 @@ def addtowishlist3():
 def addtowhichlist():
 
     bookId = request.args.get('ISBN')
-    print(bookId, "THIS IS ISBN")
     item = Wishlist(title="h", user_id=current_user.id, ISBN=bookId)
     db.session.add(item)
     db.session.commit()
