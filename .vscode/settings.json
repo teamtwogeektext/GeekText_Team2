@@ -1,6 +1,6 @@
 {
     "python.pythonPath": "/miniconda3/envs/condaenv/bin/python",
-    "python.linting.enabled": true,
+    "python.linting.enabled": false,
     "C_Cpp.errorSquiggles": "Disabled",
     "python.linting.pylintEnabled": true
 }
