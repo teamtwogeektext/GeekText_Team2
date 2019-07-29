@@ -18,6 +18,14 @@ def home():
     b3 = bestsellers[2]
     b4 = bestsellers[3]
     return render_template('home.html', b1=b1, b2=b2, b3=b3, b4=b4)
+# @core.route('/')
+# def home():
+#     bestsellers = Book.query.filter(Book.soldUnits >= 8).limit(4).all()
+#     b1 = bestsellers[0]
+#     b2 = bestsellers[1]
+#     b3 = bestsellers[2]
+#     b4 = bestsellers[3]
+#     return render_template('home.html', b1=b1, b2=b2, b3=b3, b4=b4)
 
 #@core.route('/')
 #def home():
@@ -50,6 +58,7 @@ def index():
     This is the home page view. Notice how it uses pagination to show a limited
     number of posts by limiting its query size and then calling paginate.
     '''
+
     page = request.args.get('page', 1, type=int)
     blog_posts = BlogPost.query.order_by(
         BlogPost.date.desc()).paginate(page=page, per_page=10)

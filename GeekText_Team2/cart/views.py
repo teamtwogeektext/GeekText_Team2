@@ -48,7 +48,7 @@ def addToSaved():
     item = SavedItems(userId=current_user.id, ISBN=bookId)
     db.session.add(item)
     db.session.commit()
-    flash('Book saved')
+    flash('Book saved. Look in your cart')
     return redirect(url_for('books.list'))
 
 
@@ -61,6 +61,20 @@ def moveToCart():
         userId=current_user.id, ISBN=bookId).first()
     db.session.add(item)
     db.session.delete(savedItem)
+    db.session.commit()
+    flash('Book moved to cart')
+    return redirect(url_for('cart.cart'))
+
+
+@cart_blueprint.route('/moveToSaved')
+@login_required
+def moveToSaved():
+    bookId = request.args.get('ISBN')
+    item = SavedItems(userId=current_user.id, ISBN=bookId)
+    cartItem = Cart.query.filter_by(
+        userId=current_user.id, ISBN=bookId).first()
+    db.session.add(item)
+    db.session.delete(cartItem)
     db.session.commit()
     flash('Book moved to cart')
     return redirect(url_for('cart.cart'))
@@ -128,7 +142,8 @@ def lowerQuantity():
 @cart_blueprint.route('/confirmPayment')
 @login_required
 def confirmPayment():
-    items = Book.query.join(Cart).filter_by(userId=current_user.id)
+    items = Book.query.join(Cart).add_columns(Cart.userId, Cart.ISBN, Cart.quantity,
+                                              Book.price, Book.title, Book.image_url).filter_by(userId=current_user.id)
     totalPrice = 0
     for row in items:
         item = Cart.query.filter_by(
@@ -160,7 +175,7 @@ def charge():
 
     return redirect(url_for('cart.checkout'))
 
-    
+
 # @cart_blueprint.route('/clearOrders')
 # @login_required
 # def orderErase():
