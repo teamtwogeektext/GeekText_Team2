@@ -13,6 +13,14 @@ from sqlalchemy import desc
 books_blueprint = Blueprint(
     'books', __name__, template_folder='templates/books')
 
+raw_genres = Book.query.with_entities(
+    Book.genre).group_by(Book.genre).all()
+genres = []
+
+for word in raw_genres:
+    word = str(word)
+    word = (word).replace('(', '').replace(')', '').replace('\'', '').replace(',', '')
+    genres.append(word)
 
 @books_blueprint.route('/books/all')
 def list():
@@ -27,20 +35,7 @@ def list():
     else:
         books = Book.query.order_by(sort_by).paginate(page=page, per_page=12)
 
-    raw_genres = Book.query.with_entities(
-        Book.genre).group_by(Book.genre).all()
-    genres = []
-
-    for word in raw_genres:
-        word = str(word)
-        word = (word).replace('(', '').replace(')',
-                                               '').replace('\'', '').replace(',', '')
-        genres.append(word)
-
     return render_template('new_browse.html', books=books, genres=genres, stop_pagination=stop_pagination)
-
-    return render_template('new_browse.html', books=books, genres=genres, stop_pagination=stop_pagination)
-
 
 @books_blueprint.route('/books/genre')
 def genre():
@@ -56,16 +51,6 @@ def genre():
         books = Book.query.filter_by(genre=genre).order_by(
             sort_by).paginate(page=page, per_page=12)
 
-    raw_genres = Book.query.with_entities(
-        Book.genre).group_by(Book.genre).all()
-    genres = []
-
-    for word in raw_genres:
-        word = str(word)
-        word = (word).replace('(', '').replace(')',
-                                               '').replace('\'', '').replace(',', '')
-        genres.append(word)
-
     return render_template('new_genre.html', genre=genre, books=books, genres=genres)
 
 
@@ -73,15 +58,6 @@ def genre():
 def best_sellers():
     stop_pagination = True
     books = Book.query.order_by(desc('soldUnits')).paginate(per_page=6)
-    raw_genres = Book.query.with_entities(
-        Book.genre).group_by(Book.genre).all()
-    genres = []
-
-    for word in raw_genres:
-        word = str(word)
-        word = (word).replace('(', '').replace(')',
-                                               '').replace('\'', '').replace(',', '')
-        genres.append(word)
 
     return render_template('best_sellers.html', books=books, genres=genres)
 
@@ -90,15 +66,6 @@ def best_sellers():
 def best_rated():
     stop_pagination = True
     books = Book.query.order_by(desc('rating')).paginate(per_page=6)
-    raw_genres = Book.query.with_entities(
-        Book.genre).group_by(Book.genre).all()
-    genres = []
-
-    for word in raw_genres:
-        word = str(word)
-        word = (word).replace('(', '').replace(')',
-                                               '').replace('\'', '').replace(',', '')
-        genres.append(word)
 
     return render_template('best_rated.html', books=books, genres=genres)
 
@@ -107,18 +74,17 @@ def best_rated():
 def new_releases():
     stop_pagination = True
     books = Book.query.order_by(desc('releaseDate')).paginate(per_page=6)
-    raw_genres = Book.query.with_entities(
-        Book.genre).group_by(Book.genre).all()
-    genres = []
-
-    for word in raw_genres:
-        word = str(word)
-        word = (word).replace('(', '').replace(')',
-                                               '').replace('\'', '').replace(',', '')
-        genres.append(word)
 
     return render_template('new_releases.html', books=books, genres=genres)
 
+@books_blueprint.route('/browse/rated_above')
+def rated_above():
+    stop_pagination = False
+    page = request.args.get('page', 1, type=int)
+    rating = request.args.get('stars', type=int)
+    books = Book.query.filter(Book.rating >= rating).paginate(page=page, per_page=12)
+
+    return render_template('best_rated.html', books=books, genres=genres, stop_pagination=stop_pagination, rating=rating)
 
 @books_blueprint.route('/browse/authors')
 def author():

@@ -9,18 +9,14 @@
   <div class="container py-5" style="background: white">
     <div class="row">
       <div class="col-lg-3">
-        <h2 class="my-4" style="text-align: center">Genres</h2>
+        <h2 class="my-4" style="text-align: center">Browse By Ratings</h2>
 
         <!--GENRE MENU-->
-        <div class="list-group" style="font-size: 20px">
+        <div class="list-group" style="font-size: 19px">
           <a href="{{ url_for('books.list') }}" class="list-group-item">All</a>
-          {% for genre in genres %}
-          <a
-            href="{{ url_for('books.genre', genre=genre) }}"
-            class="list-group-item"
-            >{{ genre }}</a
-          >
-          {% endfor %}
+          <a href="{{ url_for('books.rated_above', stars=4) }}" class="list-group-item">Rated 4 Stars and Above</a>
+          <a href="{{ url_for('books.rated_above', stars=3) }}" class="list-group-item">Rated 3 Stars and Above</a>
+          <a href="{{ url_for('books.rated_above', stars=2) }}" class="list-group-item">Rated 2 Stars and Above</a>
         </div>
 
         <!--SORT DROPDOWN-->
@@ -78,23 +74,24 @@
             </div>
           </div>
 
-          {% endfor %} {% if stop_pagination == False %} {% for page_num in
-          books.iter_pages(left_edge=1, right_edge=1, left_current=1,
-          right_current=2) %} {% if page_num %} {% if books.page == page_num %}
-          <a
-            class="btn btn-info mb-4"
-            href="{{ url_for('books.list', page=page_num) }}"
-            >{{ page_num }}</a
-          >
-          {% else %}
-          <a
-            class="btn btn-outline-info mb-4"
-            href="{{ url_for('books.list', page=page_num) }}"
-            >{{ page_num }}</a
-          >
-          {% endif %} {% else %} ... {% endif %} {% endfor %} {% endif %}
+          {% endfor %} 
+          
+
         </div>
         <!-- /.row -->
+        {% if stop_pagination == False %} 
+          {% for page_num in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %} 
+            {% if page_num %} 
+              {% if books.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{ url_for('books.rated_above', page=page_num, stars=rating) }}">{{ page_num }}</a>
+              {% else %}
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('books.rated_above', page=page_num, stars=rating) }}">{{ page_num }}</a>
+              {% endif %} 
+            {% else %} 
+              ... 
+            {% endif %} 
+          {% endfor %} 
+        {% endif %}
       </div>
       <!-- /.col-lg-9 -->
     </div>
