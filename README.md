@@ -14,32 +14,32 @@ This website was built using the python microframework called Flask. We utilized
 
 ## Homepage
 
-<img src="images/home.PNG>
+![](images/home.PNG)
 
 ## Bestsellers
 
-<img src="images/bestsellers.PNG>
+![](images/bestsellers.PNG)
 
 ## About
 
-<img src="images/about.PNG>
+![](images/about.PNG)
 
 ## Login
 
-<img src="images/login.PNG>
+![](images/login.PNG)
 
 ## Registration
 
-<img src="images/registration.PNG>
+![](images/registration.PNG)
 
 ## Profile
 
-<img src="images/profile.PNG>
+![](images/profile.PNG)
 
 ## Payment
 
-<img src="images/payment.PNG>
+![](images/payment.PNG)
 
 ## Browse
 
-<img src="images/browse.PNG>
+![](images/browse.PNG)
