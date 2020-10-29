@@ -26,11 +26,11 @@ This website was built using the python microframework called Flask. We utilized
 
 ## Login
 
-![](images/login.PNG)
+![](images/loginPNG.PNG)
 
 ## Registration
 
-![](images/registration.PNG)
+![](images/register.PNG)
 
 ## Profile
 
