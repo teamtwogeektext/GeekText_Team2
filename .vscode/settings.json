@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "/miniconda3/envs/condaenv/bin/python",
+    "python.pythonPath": "C:\\Users\\guill\\Anaconda3\\envs\\myflaskenv\\python.exe",
     "python.linting.enabled": false,
     "C_Cpp.errorSquiggles": "Disabled",
     "python.linting.pylintEnabled": true
