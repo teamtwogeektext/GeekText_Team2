@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 {% block content %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
 <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
@@ -12,6 +12,12 @@
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <style>
 @import url(http://fonts.googleapis.com/css?family=Roboto:500,100,300,700,400);
+
+.jumbotron {
+  background-image: url("../../../static/images/reviewPage.jpg");
+  background-size: cover;
+}
+
 
 * {
   margin: 0;
@@ -92,7 +98,7 @@ label.star:before {
     <div class="row no-gutters">
       <div class="col-md-1">
         <a data-fancybox="gallery" href="{{books.image_url}}">
-          <img  src="{{books.small_image_url}}" class="card-img-overlay" width=auto height=auto alt="...">
+          <img  src="{{books.image_url}}" class="w3-image" width=150 height=auto alt="...">
         </a>
       </div>
       <div class="col-md-8">
@@ -100,11 +106,12 @@ label.star:before {
           <p style="font-size:32px">{{books.title}}</p>
           <p style="font-size:32px">{{books.price}}</p>
           <p style="font-size:14px">{{books.genre}}</p>
-          <a style="font-size:14px" href="/browse/authors/{{books.author}}">by {{books.author}}</a>
+          <a style="font-size:14px" href="{{ url_for('books.author',author=books.author)}}">by {{books.author}}</a>
           <p class="text-left">{{ books.description }}</p>
           <p class="card-text"><small class="text-muted">Published in {{ books.publication_year }}</small></p>
-          <a href="#" class="btn btn-primary">Add to Cart</a>
+          <a href="/addToCart?ISBN={{books.ISBN}}" class="btn btn-primary">Add to Cart</a>
           <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+          <a href="/addToSaved?ISBN={{books.ISBN}}" class="btn btn-secondary">Save For Later</a>
         </div>
       </div>
     </div>
@@ -197,11 +204,12 @@ label.star:before {
               <p class="card-text">{{ current_user }} is the current_user</p>
               <p class="card-text">{{ current_user.id }} is the current_user using .id</p>
               <p class="card-text">{{ current_user.username }} is the current_user using .username</p> -->
+              <!-- <img align='center' src="{{ url_for('static', filename='profile_pics/' + user.profile_image) }}"> -->
               <h2><a class="card-title" href="  {{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></h2>
               <a href="{{ url_for('users.user_posts', username=post.author.username) }}">Written By: {{ post.author.username }}</a>
               <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
-              <p class="card-text">{{ post.text[:100] }}...</p>
-              <p class="card-text">{{ post.rating }}...</p>
+              <p class="card-text">{{ post.text[:70] }}...</p>
+              <p class="card-text">{{ post.rating }} &#9733;</p>
               <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
               </div>
               </div>
@@ -210,7 +218,7 @@ label.star:before {
 <p>Written By: anonymous...</p>
  <p>Published on: {{ post.date.strftime('%Y-%m-%d') }}</p>
  <p class="card-text">{{ post.text[:100] }}...</p>
- <p class="card-text">{{ post.rating }}...</p>
+ <p class="card-text">{{ post.rating }} &#9733;</p>
  <a href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}" class="btn btn-primary">Read consumer review</a>
  </div>
  </div>

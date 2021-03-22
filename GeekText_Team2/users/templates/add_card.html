@@ -1,5 +1,3 @@
-{%extends 'base.html'%}
-{% block content %}
 <style>
   .input-group-addon {
       background-color: transparent;
@@ -52,6 +50,31 @@
       background-image:url(data:image/png;base64,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);
 
   }
+
+  .parallax {
+    /* The image used */
+    background-image: url("static/images/ccard-bg.jpg");
+
+    /* Set a specific height */
+    width: 100%;
+    height: 100%;
+
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  #pay-invoice{
+    margin-top: 8%;
+    border-radius: 0.5rem;
+    color: #fff;
+    background-color: #343a40;
+    box-shadow: 4px 6px 5px #1cb9a4;
+    opacity: 0.9;
+  }
+
 </style>
 
 <script>
@@ -78,86 +101,273 @@
   });
 </script>
 
-<div class="container-fluid py-3">
-    <div class="row">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto">
-            <div id="pay-invoice" class="card">
-                <div class="card-body">
-                    <div class="card-title">
-                        <h3 class="text-center">Add Credit Card</h3>
-                    </div>
-                    {% for message in get_flashed_messages() %}
-                    <div class="alert alert-warning">
-                      <button type="button" class="close" data-dismiss="alert">
-                        &times;
-                      </button>
-                      {{ message }}
-                    </div>
-                    {% endfor %}
-                    <hr>
-                    <form action=" " method="POST" novalidate="novalidate" class="needs-validation">
-                      {{ form.hidden_tag() }}
-                        <div class="form-group text-center">
-                            <ul class="list-inline">
-                                <li class="list-inline-item"><i class="text-muted fa fa-cc-visa fa-2x"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-cc-mastercard fa-2x"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-cc-amex fa-2x"></i></li>
-                                <li class="list-inline-item"><i class="fa fa-cc-discover fa-2x"></i></li>
-                            </ul>
-                        </div>
-                        <div class="form-group has-success">
-                            <label for="cc-name" class="control-label mb-1">Name on card</label>
-                            <!--<input  name="cc-name" type="text"  required autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">-->
-                            {{form.name(class="form-control cc-name",id="cc-name",autocomplete="cc-name")}}
-                            <span class="invalid-feedback">Enter the name as shown on credit card</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="cc-number" class="control-label mb-1">Card number</label>
-                            <!--<input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" required="" pattern="[0-9]{16}">-->
-                            {{form.card_num(class="form-control cc-number identified visa",id="cc-name",autocomplete="cc-name",pattern="[0-9]{16}")}}
-                            <span class="invalid-feedback">Enter a valid 16 digit card number</span>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="cc-exp" class="control-label mb-1">Expiration</label>
-                                    <!--<input id="cc-exp" name="cc-exp" type="tel" class="form-control cc-exp" required placeholder="MM / YY" autocomplete="cc-exp">-->
-                                    {{form.exp_date(id="cc-exp",type="tel", class="form-control cc-exp", placeholder="MM / YY", autocomplete="cc-exp")}}
-                                    <span class="invalid-feedback">Enter the expiration date</span>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <label for="x_card_code" class="control-label mb-1">Security code</label>
-                                <div class="input-group">
-                                    <!--<input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" required autocomplete="off">-->
-                                    {{form.csv(id="x_card_code", type="tel", class="form-control cc-cvc", autocomplete="off")}}
-                                    <span class="invalid-feedback order-last">Enter the 3-digit code on back</span>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
 
-                                        <span class="fa fa-question-circle fa-lg" data-toggle="popover" data-container="body" data-html="true" data-title="Security Code"
-                                        data-content="<div class='text-center one-card'>The 3 digit code on back of the card..<div class='visa-mc-cvc-preview'></div></div>"
-                                        data-trigger="hover"></span>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    {% block head %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+      integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+      crossorigin="anonymous"
+    />
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/stylez.css') }}">
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="x_zip" class="control-label mb-1">Postal code</label>
-                            <!--<input id="x_zip" name="x_zip" type="text" class="form-control" value="" data-val="true" data-val-required="Please enter the ZIP/Postal code" autocomplete="postal-code">-->
-                            {{form.zip(id="x_zip",class="form-control", autocomplete="postal-code")}}
-                            <span class="help-block" data-valmsg-for="x_zip" data-valmsg-replace="true"></span>
-                        </div>
-                        <div>
-                                <i class="fa fa-lock fa-lg"></i>&nbsp;
-                                {{ form.submit(class="btn btn-success btn-block", type="submit") }}
-                        </div>
-                    </form>
-                </div>
-            </div>
+
+    <style>
+      .container span {
+        color: #1cb9a4 !important;
+      }
+    </style>
+
+    <title>GeekText</title>
+  </head>
+  {% endblock %}
+
+  <body>
+    <!-- START HERE -->
+
+    <nav
+      class="navbar navbar-expand-md nav-light bg-dark fixed-top py-2"
+      id="main-nav"
+    >
+      <div class="container">
+        <a href="{{ url_for('core.home') }}" class="navbar-brand">
+          <img src="{{ url_for('static', filename='images/logo.png') }}" width="50" height="50" alt="" />
+          <h3 class="d-inline align-middle text-light">Geek<span>Text<span></h3>
+        </a>
+        <button
+          class="navbar-toggler"
+          data-toggle="collapse"
+          data-target="#navbarCollapse"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a href="{{ url_for('core.home') }}" class="nav-link text-light"
+                >Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url_for('books.list') }}" class="nav-link text-light"
+                >Browse</a>
+            </li>
+            <li class="nav-item">
+              <a href="#about" class="nav-link text-light">About</a>
+            </li>
+            {% if current_user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle active text-light"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Account
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{{ url_for('wishlist_posts.create_wish') }}">Wishlist</a>
+                <a class="dropdown-item" href="{{ url_for('cart.cart') }}">Shopping Cart</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_for('users.account', username=current_user.username) }}"
+                  >{{current_user.username}}</a
+                >
+                <a class="dropdown-item" href="{{ url_for('users.logout') }}"
+                  >Logout</a
+                >
+              </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a
+                class="nav-link active text-light"
+                href="{{ url_for('users.login') }}"
+                tabindex="-1"
+                aria-disabled="false"
+                >Login</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link active text-light"
+                href="{{ url_for('users.register') }}"
+                tabindex="-1"
+                aria-disabled="false"
+                >Register</a
+              >
+            </li>
+            {% endif %}
+            <li class="nav-item">
+              <a
+                class="nav-link active text-light"
+                href="{{ url_for('users.register') }}"
+                tabindex="-1"
+                aria-disabled="false"
+                >Cart</a
+              >
+            </li>
+          </ul>
         </div>
+      </div>
+    </nav>
+    <div class="parallax">
+      <div class="container-fluid py-3">
+          <div class="row">
+              <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto">
+                  <div id="pay-invoice" class="card">
+                      <div class="card-body">
+                          <div class="card-title">
+                              <h3 class="text-center">Add Credit Card</h3>
+                          </div>
+                          {% for message in get_flashed_messages() %}
+                          <div class="alert alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">
+                              &times;
+                            </button>
+                            {{ message }}
+                          </div>
+                          {% endfor %}
+                          <hr>
+                          <form action=" " method="POST" novalidate="novalidate" class="needs-validation">
+                            {{ form.hidden_tag() }}
+                              <div class="form-group text-center">
+                                  <ul class="list-inline">
+                                      <li class="list-inline-item"><i class="text-muted fa fa-cc-visa fa-2x"></i></li>
+                                      <li class="list-inline-item"><i class="fa fa-cc-mastercard fa-2x"></i></li>
+                                      <li class="list-inline-item"><i class="fa fa-cc-amex fa-2x"></i></li>
+                                      <li class="list-inline-item"><i class="fa fa-cc-discover fa-2x"></i></li>
+                                  </ul>
+                              </div>
+                              <div class="form-group has-success">
+                                  <label for="cc-name" class="control-label mb-1">Cardholder</label>
+                                  <!--<input  name="cc-name" type="text"  required autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">-->
+                                  {{form.name(class="form-control cc-name",id="cc-name",autocomplete="cc-name")}}
+                                  <span class="invalid-feedback">Enter the name as shown on credit card</span>
+                                  {% for error in form.name.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
+                              </div>
+                              <div class="form-group">
+                                  <label for="cc-number" class="control-label mb-1">Card number</label>
+                                  <!--<input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" required="" pattern="[0-9]{16}">-->
+                                  {{form.card_num(class="form-control cc-number identified visa",id="cc-name",autocomplete="cc-name",pattern="[0-9]{16}")}}
+                                  <span class="invalid-feedback">Enter a valid 16 digit card number</span>
+                                  {% for error in form.card_num.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
+                              </div>
+                              <div class="row">
+                                  <div class="col-6">
+                                      <div class="form-group">
+                                          <label for="cc-exp" class="control-label mb-1">Expiration</label>
+                                          <!--<input id="cc-exp" name="cc-exp" type="tel" class="form-control cc-exp" required placeholder="MM / YY" autocomplete="cc-exp">-->
+                                          {{form.exp_date(id="cc-exp", class="form-control cc-exp", placeholder="MM / YY", autocomplete="cc-exp")}}
+                                          <span class="invalid-feedback">Enter the expiration date</span>
+                                          {% for error in form.exp_date.errors %}
+                                          <a style='color:red;'>{{error}}</a>
+                                          {% endfor %}
+                                      </div>
+                                  </div>
+                                  <div class="col-6">
+                                      <label for="x_card_code" class="control-label mb-1">Security code</label>
+                                      <div class="input-group">
+                                          <!--<input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" required autocomplete="off">-->
+                                          {{form.csv(id="x_card_code", type="tel", class="form-control cc-cvc", autocomplete="off")}}
+                                          <span class="invalid-feedback order-last">Enter the 3-digit code on back</span>
+                                          {% for error in form.csv.errors %}
+                                          <a style='color:red;'>{{error}}</a>
+                                          {% endfor %}
+                                          <div class="input-group-append">
+                                              <div class="input-group-text">
+
+                                              <span class="fa fa-question-circle fa-lg" data-toggle="popover" data-container="body" data-html="true" data-title="Security Code"
+                                              data-content="<div class='text-center one-card'>The 3 digit code on back of the card..<div class='visa-mc-cvc-preview'></div></div>"
+                                              data-trigger="hover"></span>
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="form-group">
+                                  <label for="x_zip" class="control-label mb-1">Postal code</label>
+                                  <!--<input id="x_zip" name="x_zip" type="text" class="form-control" value="" data-val="true" data-val-required="Please enter the ZIP/Postal code" autocomplete="postal-code">-->
+                                  {{form.zip(id="x_zip",class="form-control", autocomplete="postal-code")}}
+                                  <span class="help-block" data-valmsg-for="x_zip" data-valmsg-replace="true"></span>
+                                  {% for error in form.zip.errors %}
+                                  <a style='color:red;'>{{error}}</a>
+                                  {% endfor %}
+                              </div>
+                              <div>
+                                      <i class="fa fa-lock fa-lg"></i>&nbsp;
+                                      {{ form.submit(class="btn btn-success btn-block", type="submit") }}
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
-</div>
-{% endblock %}
+
+    <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+      integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+      crossorigin="anonymous"
+    ></script>
+
+    <style>
+      $("#datepicker").datepicker( {
+    format: "mm-yyyy",
+    viewMode: "months", 
+    minViewMode: "months"
+    });
+    </style>
+    
+
+    <script>
+      // Get the current year for the copyright
+      $("#year").text(new Date().getFullYear());
+
+      $("body").scrollspy({ target: "#main-nav" });
+
+      $("#main-nav a").on("click", function(event) {
+        if (this.hash !== "") {
+          event.preventDefault();
+          const hash = this.hash;
+
+          $("html, body").animate(
+            {
+              scrollTop: $(hash).offset().top
+            },
+            800,
+            function() {
+              window.location.hash = hash;
+            }
+          );
+        }
+      });
+    </script>
+  </body>
+  {% block footer %}
+  {% endblock  %}
+</html>
